@@ -1,120 +1,319 @@
-% refs.bib -- IN PROGRESS. Core anchors below; grow to ~50-70 per-section, each verified (DOI or arXiv ID)
-% with check_refs --online before submission. No "full list at camera-ready" placeholders.
+% refs.bib -- all entries verified online (arXiv/DOI/DBLP) 2026-06.
+% Keys that are \cite'd in the .tex are stable; do not rename without updating the sources.
 
-% ---- the anchor ----
+% ============================================================
+% THE ANCHOR (the two-color sparse-i.i.d. online threshold we extend)
+% ============================================================
 @article{AT2025,
-  author = {Altschuler, Dylan J. and Tikhomirov, Konstantin},
-  title  = {A threshold for online balancing of sparse i.i.d.\ vectors},
+  author  = {Altschuler, Dylan J. and Tikhomirov, Konstantin},
+  title   = {A threshold for online balancing of sparse i.i.d.\ vectors},
   journal = {arXiv preprint arXiv:2509.02432},
-  year   = {2025},
-  note   = {arXiv:2509.02432}
+  year    = {2025},
+  eprint  = {2509.02432}, archivePrefix = {arXiv}, primaryClass = {math.PR}
 }
 
-% ---- offline random set-system discrepancy (the fixed-k Theta(sqrt d) we cite for the separation) ----
+% ============================================================
+% OFFLINE RANDOM SET-SYSTEM DISCREPANCY (the fixed-k Theta(sqrt d))
+% ============================================================
 @inproceedings{BansalMeka2019,
-  author = {Bansal, Nikhil and Meka, Raghu},
-  title  = {On the discrepancy of random low degree set systems},
+  author    = {Bansal, Nikhil and Meka, Raghu},
+  title     = {On the discrepancy of random low degree set systems},
   booktitle = {Proc.\ 30th ACM-SIAM Symposium on Discrete Algorithms (SODA)},
-  year   = {2019},
-  note   = {arXiv:1810.03374}
+  pages     = {2557--2564}, year = {2019},
+  eprint    = {1810.03374}, archivePrefix = {arXiv}
 }
 @inproceedings{EzraLovett2016,
-  author = {Ezra, Esther and Lovett, Shachar},
-  title  = {On the {Beck--Fiala} conjecture for random set systems},
-  booktitle = {Proc.\ APPROX/RANDOM},
-  year   = {2016}
+  author    = {Ezra, Esther and Lovett, Shachar},
+  title     = {On the {Beck--Fiala} conjecture for random set systems},
+  booktitle = {Approximation, Randomization, and Combinatorial Optimization (APPROX/RANDOM)},
+  series    = {LIPIcs}, volume = {60}, pages = {29:1--29:10}, year = {2016},
+  doi       = {10.4230/LIPIcs.APPROX-RANDOM.2016.29},
+  eprint    = {1511.00583}, archivePrefix = {arXiv}
 }
 @inproceedings{HobergRothvoss2019,
-  author = {Hoberg, Rebecca and Rothvoss, Thomas},
-  title  = {A {Fourier}-analytic approach for the discrepancy of random set systems},
+  author    = {Hoberg, Rebecca and Rothvoss, Thomas},
+  title     = {A {Fourier}-analytic approach for the discrepancy of random set systems},
   booktitle = {Proc.\ 30th ACM-SIAM Symposium on Discrete Algorithms (SODA)},
-  year   = {2019}
+  pages     = {2547--2556}, year = {2019},
+  eprint    = {1806.04484}, archivePrefix = {arXiv}
 }
 
-% ---- discrepancy classics ----
+% ============================================================
+% DISCREPANCY CLASSICS
+% ============================================================
 @article{BeckFiala1981,
-  author = {Beck, J{\'o}zsef and Fiala, Tibor},
-  title  = {``Integer-making'' theorems},
-  journal = {Discrete Applied Mathematics},
-  volume = {3}, number = {1}, pages = {1--8}, year = {1981}
+  author  = {Beck, J{\'o}zsef and Fiala, Tibor},
+  title   = {``Integer-making'' theorems},
+  journal = {Discrete Applied Mathematics}, volume = {3}, number = {1}, pages = {1--8}, year = {1981},
+  doi     = {10.1016/0166-218X(81)90022-6}
 }
 @article{Spencer1985,
-  author = {Spencer, Joel},
-  title  = {Six standard deviations suffice},
+  author  = {Spencer, Joel},
+  title   = {Six standard deviations suffice},
   journal = {Transactions of the American Mathematical Society},
-  volume = {289}, number = {2}, pages = {679--706}, year = {1985}
+  volume  = {289}, number = {2}, pages = {679--706}, year = {1985},
+  doi     = {10.1090/S0002-9947-1985-0784009-0}
+}
+@article{Spencer1977,
+  author  = {Spencer, Joel},
+  title   = {Balancing games},
+  journal = {Journal of Combinatorial Theory, Series B},
+  volume  = {23}, number = {1}, pages = {68--74}, year = {1977},
+  doi     = {10.1016/0095-8956(77)90057-0}
+}
+@article{Banaszczyk1998,
+  author  = {Banaszczyk, Wojciech},
+  title   = {Balancing vectors and {G}aussian measures of $n$-dimensional convex bodies},
+  journal = {Random Structures \& Algorithms},
+  volume  = {12}, number = {4}, pages = {351--360}, year = {1998},
+  doi     = {10.1002/(SICI)1098-2418(199807)12:4<351::AID-RSA3>3.0.CO;2-S}
+}
+@article{BaranyGrinberg1981,
+  author  = {B{\'a}r{\'a}ny, Imre and Grinberg, Victor S.},
+  title   = {On some combinatorial questions in finite-dimensional spaces},
+  journal = {Linear Algebra and its Applications}, volume = {41}, pages = {1--9}, year = {1981},
+  doi     = {10.1016/0024-3795(81)90085-9}
+}
+@incollection{BeckSos1995,
+  author    = {Beck, J{\'o}zsef and S{\'o}s, Vera T.},
+  title     = {Discrepancy theory},
+  booktitle = {Handbook of Combinatorics, Volume 2},
+  editor    = {Graham, R. L. and Gr{\"o}tschel, M. and Lov{\'a}sz, L.},
+  publisher = {Elsevier (North-Holland)}, pages = {1405--1446}, year = {1995}
+}
+@book{Matousek1999,
+  author    = {Matou{\v s}ek, Ji{\v r}{\'\i}},
+  title     = {Geometric Discrepancy: An Illustrated Guide},
+  series    = {Algorithms and Combinatorics}, volume = {18},
+  publisher = {Springer-Verlag}, year = {1999}, isbn = {978-3-540-65528-2}
+}
+@book{Chazelle2000,
+  author    = {Chazelle, Bernard},
+  title     = {The Discrepancy Method: Randomness and Complexity},
+  publisher = {Cambridge University Press}, year = {2000}, isbn = {978-0-521-77093-4}
 }
 
-% ---- partial coloring ----
+% ============================================================
+% ALGORITHMIC / PARTIAL-COLORING DISCREPANCY
+% ============================================================
+@inproceedings{Bansal2010,
+  author    = {Bansal, Nikhil},
+  title     = {Constructive algorithms for discrepancy minimization},
+  booktitle = {Proc.\ 51st IEEE Symposium on Foundations of Computer Science (FOCS)},
+  pages     = {3--10}, year = {2010},
+  doi       = {10.1109/FOCS.2010.7}, eprint = {1002.2259}, archivePrefix = {arXiv}
+}
 @article{LovettMeka2015,
-  author = {Lovett, Shachar and Meka, Raghu},
-  title  = {Constructive discrepancy minimization by walking on the edges},
-  journal = {SIAM Journal on Computing},
-  volume = {44}, number = {5}, pages = {1573--1582}, year = {2015},
-  note   = {Preliminary version in FOCS 2012; arXiv:1203.5747}
+  author  = {Lovett, Shachar and Meka, Raghu},
+  title   = {Constructive discrepancy minimization by walking on the edges},
+  journal = {SIAM Journal on Computing}, volume = {44}, number = {5}, pages = {1573--1582}, year = {2015},
+  doi     = {10.1137/130929400}, note = {Preliminary version in FOCS 2012},
+  eprint  = {1203.5747}, archivePrefix = {arXiv}
+}
+@inproceedings{BansalGarg2017,
+  author    = {Bansal, Nikhil and Garg, Shashwat},
+  title     = {Algorithmic discrepancy beyond partial coloring},
+  booktitle = {Proc.\ 49th ACM Symposium on Theory of Computing (STOC)},
+  pages     = {914--926}, year = {2017},
+  doi       = {10.1145/3055399.3055490}, eprint = {1611.01805}, archivePrefix = {arXiv}
+}
+@inproceedings{BansalDadushGargLovett2018,
+  author    = {Bansal, Nikhil and Dadush, Daniel and Garg, Shashwat and Lovett, Shachar},
+  title     = {The {Gram--Schmidt} walk: a cure for the {Banaszczyk} blues},
+  booktitle = {Proc.\ 50th ACM Symposium on Theory of Computing (STOC)},
+  pages     = {1269--1282}, year = {2018},
+  doi       = {10.1145/3188745.3188850}, eprint = {1708.01079}, archivePrefix = {arXiv}
+}
+@article{Rothvoss2017,
+  author  = {Rothvo{\ss}, Thomas},
+  title   = {Constructive discrepancy minimization for convex sets},
+  journal = {SIAM Journal on Computing}, volume = {46}, number = {1}, pages = {224--234}, year = {2017},
+  doi     = {10.1137/141000282}, note = {Conference version in FOCS 2014},
+  eprint  = {1404.0339}, archivePrefix = {arXiv}
 }
 
-% ---- negative association / strong Rayleigh ----
-@article{JoagDevProschan1983,
-  author = {Joag-Dev, Kumar and Proschan, Frank},
-  title  = {Negative association of random variables, with applications},
-  journal = {The Annals of Statistics},
-  volume = {11}, number = {1}, pages = {286--295}, year = {1983}
+% ============================================================
+% ONLINE / PREFIX / STOCHASTIC VECTOR BALANCING
+% ============================================================
+@article{DwivediFGGR2019,
+  author  = {Dwivedi, Raaz and Feldheim, Ohad N. and Gurel-Gurevich, Ori and Ramdas, Aaditya},
+  title   = {The power of online thinning in reducing discrepancy},
+  journal = {Probability Theory and Related Fields}, volume = {174}, number = {1--2}, pages = {103--131}, year = {2019},
+  doi     = {10.1007/s00440-018-0860-y}, eprint = {1608.02895}, archivePrefix = {arXiv}
 }
-@article{BorceaBrandenLiggett2009,
-  author = {Borcea, Julius and Br{\"a}nd{\'e}n, Petter and Liggett, Thomas M.},
-  title  = {Negative dependence and the geometry of polynomials},
-  journal = {Journal of the American Mathematical Society},
-  volume = {22}, number = {2}, pages = {521--567}, year = {2009},
-  note   = {arXiv:0707.2340}
+@article{AruNSV2018,
+  author  = {Aru, Juhan and Narayanan, Bhargav and Scott, Alex and Venkatesan, Ramarathnam},
+  title   = {Balancing sums of random vectors},
+  journal = {Discrete Analysis}, year = {2018}, pages = {2018:4},
+  doi     = {10.19086/da.3108}, eprint = {1610.05221}, archivePrefix = {arXiv}
 }
-
-% ---- online discrepancy / multicolor neighbours ----
-@inproceedings{NSW2025,
-  author = {Naor, Joseph (Seffi) and Srinivasan, Aravind and Wajc, David},
-  title  = {Online dependent rounding schemes for bipartite matchings, with applications},
-  booktitle = {Proc.\ 36th ACM-SIAM Symposium on Discrete Algorithms (SODA)},
-  year   = {2025},
-  note   = {arXiv:2301.08680}
+@inproceedings{BansalJSS2020,
+  author    = {Bansal, Nikhil and Jiang, Haotian and Singla, Sahil and Sinha, Makrand},
+  title     = {Online vector balancing and geometric discrepancy},
+  booktitle = {Proc.\ 52nd ACM Symposium on Theory of Computing (STOC)},
+  pages     = {1139--1152}, year = {2020},
+  doi       = {10.1145/3357713.3384280}, eprint = {1912.03350}, archivePrefix = {arXiv}
 }
 @inproceedings{BansalStochastic2021,
-  author = {Bansal, Nikhil and others},
-  title  = {Online discrepancy minimization for stochastic arrivals},
-  booktitle = {Proc.\ ACM-SIAM Symposium on Discrete Algorithms (SODA)},
-  year   = {2021},
-  note   = {arXiv:2007.10622; author list to verify}
+  author    = {Bansal, Nikhil and Jiang, Haotian and Meka, Raghu and Singla, Sahil and Sinha, Makrand},
+  title     = {Online discrepancy minimization for stochastic arrivals},
+  booktitle = {Proc.\ 32nd ACM-SIAM Symposium on Discrete Algorithms (SODA)},
+  pages     = {2842--2861}, year = {2021},
+  doi       = {10.1137/1.9781611976465.169}, eprint = {2007.10622}, archivePrefix = {arXiv}
 }
-@article{HPVX2025,
-  author = {Halpern, Daniel and others},
-  title  = {Online envy minimization and multicolor discrepancy: equivalences and separations},
-  journal = {arXiv preprint arXiv:2502.14624},
-  year   = {2025},
-  note   = {arXiv:2502.14624; author list to verify}
+@inproceedings{AlweissLS2021,
+  author    = {Alweiss, Ryan and Liu, Yang P. and Sawhney, Mehtaab},
+  title     = {Discrepancy minimization via a self-balancing walk},
+  booktitle = {Proc.\ 53rd ACM Symposium on Theory of Computing (STOC)},
+  pages     = {14--20}, year = {2021},
+  doi       = {10.1145/3406325.3450994}, eprint = {2006.14009}, archivePrefix = {arXiv}
 }
-@article{MulticolorLB2025,
-  author = {Author, To Verify},
-  title  = {Tight lower bound for multicolor discrepancy},
-  journal = {arXiv preprint arXiv:2504.18489},
-  year   = {2025},
-  note   = {arXiv:2504.18489; metadata to verify}
+@inproceedings{LiuSahSawhney2022,
+  author    = {Liu, Yang P. and Sah, Ashwin and Sawhney, Mehtaab},
+  title     = {A {Gaussian} fixed point random walk},
+  booktitle = {Proc.\ 13th Innovations in Theoretical Computer Science (ITCS)},
+  series    = {LIPIcs}, volume = {215}, pages = {101:1--101:10}, year = {2022},
+  doi       = {10.4230/LIPIcs.ITCS.2022.101}, eprint = {2104.07009}, archivePrefix = {arXiv}
 }
-@article{DoerrSrivastav2003,
-  author = {Doerr, Benjamin and Srivastav, Anand},
-  title  = {Multicolour discrepancies},
-  journal = {Combinatorics, Probability and Computing},
-  volume = {12}, number = {4}, pages = {365--399}, year = {2003}
+@inproceedings{BansalPrefix2022,
+  author    = {Bansal, Nikhil and Jiang, Haotian and Meka, Raghu and Singla, Sahil and Sinha, Makrand},
+  title     = {Prefix discrepancy, smoothed analysis, and combinatorial vector balancing},
+  booktitle = {Proc.\ 13th Innovations in Theoretical Computer Science (ITCS)},
+  series    = {LIPIcs}, volume = {215}, pages = {13:1--13:22}, year = {2022},
+  doi       = {10.4230/LIPIcs.ITCS.2022.13}, eprint = {2111.07049}, archivePrefix = {arXiv}
+}
+@inproceedings{BansalKomlos2022,
+  author    = {Bansal, Nikhil and Jiang, Haotian and Meka, Raghu and Singla, Sahil and Sinha, Makrand},
+  title     = {Smoothed analysis of the {Koml{\'o}s} conjecture},
+  booktitle = {Proc.\ 49th International Colloquium on Automata, Languages, and Programming (ICALP)},
+  series    = {LIPIcs}, volume = {229}, pages = {14:1--14:12}, year = {2022},
+  doi       = {10.4230/LIPIcs.ICALP.2022.14}, eprint = {2204.11427}, archivePrefix = {arXiv}
+}
+@inproceedings{KulkarniRR2024,
+  author    = {Kulkarni, Janardhan and Reis, Victor and Rothvoss, Thomas},
+  title     = {Optimal online discrepancy minimization},
+  booktitle = {Proc.\ 56th ACM Symposium on Theory of Computing (STOC)},
+  pages     = {1832--1840}, year = {2024},
+  doi       = {10.1145/3618260.3649720}, eprint = {2308.01406}, archivePrefix = {arXiv}
 }
 
-% ---- balls-into-bins / maximum occupancy (the offline floor's mechanism) ----
+% ============================================================
+% MULTICOLOR DISCREPANCY / ONLINE FAIR DIVISION
+% ============================================================
+@inproceedings{NSW2025,
+  author    = {Naor, Joseph (Seffi) and Srinivasan, Aravind and Wajc, David},
+  title     = {Online dependent rounding schemes for bipartite matchings, with applications},
+  booktitle = {Proc.\ 36th ACM-SIAM Symposium on Discrete Algorithms (SODA)},
+  pages     = {3116--3154}, year = {2025},
+  eprint    = {2301.08680}, archivePrefix = {arXiv}
+}
+@article{HPVX2025,
+  author  = {Halpern, Daniel and Psomas, Alexandros and Verma, Paritosh and Xie, Daniel},
+  title   = {Online envy minimization and multicolor discrepancy: equivalences and separations},
+  journal = {arXiv preprint arXiv:2502.14624}, year = {2025},
+  eprint  = {2502.14624}, archivePrefix = {arXiv}
+}
+@article{MulticolorLB2025,
+  author  = {Manurangsi, Pasin and Meka, Raghu},
+  title   = {Tight lower bound for multicolor discrepancy},
+  journal = {arXiv preprint arXiv:2504.18489}, year = {2025},
+  eprint  = {2504.18489}, archivePrefix = {arXiv}
+}
+@article{DoerrSrivastav2003,
+  author  = {Doerr, Benjamin and Srivastav, Anand},
+  title   = {Multicolour discrepancies},
+  journal = {Combinatorics, Probability and Computing}, volume = {12}, number = {4}, pages = {365--399}, year = {2003},
+  doi     = {10.1017/S0963548303005662}
+}
+
+% ============================================================
+% BALLS-INTO-BINS / MAXIMUM OCCUPANCY (the offline-floor mechanism)
+% ============================================================
 @article{ABKU1999,
-  author = {Azar, Yossi and Broder, Andrei Z. and Karlin, Anna R. and Upfal, Eli},
-  title  = {Balanced allocations},
-  journal = {SIAM Journal on Computing},
-  volume = {29}, number = {1}, pages = {180--200}, year = {1999}
+  author  = {Azar, Yossi and Broder, Andrei Z. and Karlin, Anna R. and Upfal, Eli},
+  title   = {Balanced allocations},
+  journal = {SIAM Journal on Computing}, volume = {29}, number = {1}, pages = {180--200}, year = {1999},
+  doi     = {10.1137/S0097539795288490}
 }
 @article{BCSV2006,
-  author = {Berenbrink, Petra and Czumaj, Artur and Steger, Angelika and V{\"o}cking, Berthold},
-  title  = {Balanced allocations: the heavily loaded case},
-  journal = {SIAM Journal on Computing},
-  volume = {35}, number = {6}, pages = {1350--1385}, year = {2006}
+  author  = {Berenbrink, Petra and Czumaj, Artur and Steger, Angelika and V{\"o}cking, Berthold},
+  title   = {Balanced allocations: the heavily loaded case},
+  journal = {SIAM Journal on Computing}, volume = {35}, number = {6}, pages = {1350--1385}, year = {2006},
+  doi     = {10.1137/S009753970444435X}
+}
+@inproceedings{RaabSteger1998,
+  author    = {Raab, Martin and Steger, Angelika},
+  title     = {``Balls into bins'' --- a simple and tight analysis},
+  booktitle = {Randomization and Approximation Techniques in Computer Science (RANDOM)},
+  series    = {LNCS}, volume = {1518}, pages = {159--170}, year = {1998},
+  doi       = {10.1007/3-540-49543-6_13}
+}
+@article{Vocking2003,
+  author  = {V{\"o}cking, Berthold},
+  title   = {How asymmetry helps load balancing},
+  journal = {Journal of the ACM}, volume = {50}, number = {4}, pages = {568--589}, year = {2003},
+  doi     = {10.1145/792538.792546}
+}
+@inproceedings{TalwarWieder2007,
+  author    = {Talwar, Kunal and Wieder, Udi},
+  title     = {Balanced allocations: the weighted case},
+  booktitle = {Proc.\ 39th ACM Symposium on Theory of Computing (STOC)},
+  pages     = {256--265}, year = {2007},
+  doi       = {10.1145/1250790.1250829}
+}
+@book{MitzenmacherUpfal2017,
+  author    = {Mitzenmacher, Michael and Upfal, Eli},
+  title     = {Probability and Computing: Randomization and Probabilistic Techniques in Algorithms and Data Analysis},
+  edition   = {Second}, publisher = {Cambridge University Press}, year = {2017}, isbn = {978-1-107-15488-9}
+}
+
+% ============================================================
+% NEGATIVE ASSOCIATION / STRONG RAYLEIGH / CONCENTRATION
+% ============================================================
+@article{JoagDevProschan1983,
+  author  = {Joag-Dev, Kumar and Proschan, Frank},
+  title   = {Negative association of random variables, with applications},
+  journal = {The Annals of Statistics}, volume = {11}, number = {1}, pages = {286--295}, year = {1983},
+  doi     = {10.1214/aos/1176346079}
+}
+@article{BorceaBrandenLiggett2009,
+  author  = {Borcea, Julius and Br{\"a}nd{\'e}n, Petter and Liggett, Thomas M.},
+  title   = {Negative dependence and the geometry of polynomials},
+  journal = {Journal of the American Mathematical Society}, volume = {22}, number = {2}, pages = {521--567}, year = {2009},
+  doi     = {10.1090/S0894-0347-08-00618-8}, eprint = {0707.2340}, archivePrefix = {arXiv}
+}
+@article{DubhashiRanjan1998,
+  author  = {Dubhashi, Devdatt P. and Ranjan, Desh},
+  title   = {Balls and bins: a study in negative dependence},
+  journal = {Random Structures \& Algorithms}, volume = {13}, number = {2}, pages = {99--124}, year = {1998},
+  doi     = {10.1002/(SICI)1098-2418(199809)13:2<99::AID-RSA1>3.0.CO;2-M}
+}
+@article{Pemantle2000,
+  author  = {Pemantle, Robin},
+  title   = {Towards a theory of negative dependence},
+  journal = {Journal of Mathematical Physics}, volume = {41}, number = {3}, pages = {1371--1390}, year = {2000},
+  doi     = {10.1063/1.533200}, eprint = {math/0404095}, archivePrefix = {arXiv}
+}
+@article{BrandenHuh2020,
+  author  = {Br{\"a}nd{\'e}n, Petter and Huh, June},
+  title   = {Lorentzian polynomials},
+  journal = {Annals of Mathematics}, volume = {192}, number = {3}, pages = {821--891}, year = {2020},
+  doi     = {10.4007/annals.2020.192.3.4}, eprint = {1902.03719}, archivePrefix = {arXiv}
+}
+@book{BoucheronLugosiMassart2013,
+  author    = {Boucheron, St{\'e}phane and Lugosi, G{\'a}bor and Massart, Pascal},
+  title     = {Concentration Inequalities: A Nonasymptotic Theory of Independence},
+  publisher = {Oxford University Press}, year = {2013}, isbn = {978-0-19-953525-5},
+  doi       = {10.1093/acprof:oso/9780199535255.001.0001}
+}
+@article{Bennett1962,
+  author  = {Bennett, George},
+  title   = {Probability inequalities for the sum of independent random variables},
+  journal = {Journal of the American Statistical Association}, volume = {57}, number = {297}, pages = {33--45}, year = {1962},
+  doi     = {10.1080/01621459.1962.10482149}
+}
+@book{AlonSpencer2016,
+  author    = {Alon, Noga and Spencer, Joel H.},
+  title     = {The Probabilistic Method},
+  edition   = {Fourth}, publisher = {John Wiley \& Sons}, year = {2016}, isbn = {978-1-119-06195-3}
 }

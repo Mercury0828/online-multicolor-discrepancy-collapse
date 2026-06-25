@@ -72,17 +72,39 @@ we make precise in \Cref{app:online}.
 
 \subsection{Related work}\label{sec:intro-related}
 
-The online sparse i.i.d.\ model and the two-color value $\Th(\loglog n)$ are due to Altschuler and Tikhomirov~\cite{AT2025};
-the offline value $\Th(\sqrt d)$ of random $d$-regular set systems is due to Bansal--Meka, Ezra--Lovett, and Hoberg--Rothvoss
-\cite{BansalMeka2019,EzraLovett2016,HobergRothvoss2019}, sharpening the worst-case Beck--Fiala and Spencer bounds
-\cite{BeckFiala1981,Spencer1985}. Online stochastic discrepancy for general distributions gives polylogarithmic bounds and
-extends to multiple colors generically \cite{BansalStochastic2021}; online multicolor discrepancy for general unit vectors is
-$\Th(\sqrt{\log T})$ and is studied alongside envy minimization \cite{HPVX2025}; neither gives a sharp sparse threshold.
-Multicolor discrepancy in the worst case is governed by lower bounds of order $\sqrt n$ \cite{MulticolorLB2025}, the opposite
-dependence on $k$ from the average-case behaviour here, and classical multicolor reductions do not produce the $1/\sqrt k$
-gain of \Cref{thm:offline} \cite{DoerrSrivastav2003}. Our occupancy threshold $\Psifn$ is the maximum-load law of
-balls-into-bins allocation \cite{ABKU1999}, and the growing-$k$ obstruction in \Cref{sec:open} is the same staggered-Fibonacci
-mechanism that gives \emph{Always-Go-Left} its $\loglog n/k$ load \cite{BCSV2006}. Our constructive tools are the Lovett--Meka
-partial-coloring lemma \cite{LovettMeka2015} and negative association / strong Rayleigh measures
-\cite{JoagDevProschan1983,BorceaBrandenLiggett2009}; the recursive-rounding structure parallels online dependent rounding for
-matchings \cite{NSW2025}.
+\paragraph{Offline discrepancy.}
+The combinatorial discrepancy of a set system asks for a two-coloring keeping every set balanced; the classical bounds are
+Beck--Fiala's $2t-1$ for degree $t$ \cite{BeckFiala1981}, Spencer's $\Oh(\sqrt n)$ for $n$ sets \cite{Spencer1985}, the
+Bárány--Grinberg vector-balancing bound \cite{BaranyGrinberg1981}, and Banaszczyk's $\Oh(\sqrt{\log n})$ for the Komlós and
+Beck--Fiala settings \cite{Banaszczyk1998}; see the surveys and texts \cite{BeckSos1995,Matousek1999,Chazelle2000,AlonSpencer2016}.
+A line of constructive algorithms now matches these existentially: Bansal's SDP rounding \cite{Bansal2010}, the Lovett--Meka
+partial-coloring walk \cite{LovettMeka2015}, Rothvoss's convex-set method \cite{Rothvoss2017}, and the Gram--Schmidt walk and
+its relatives \cite{BansalGarg2017,BansalDadushGargLovett2018}. For random set systems the picture is sharper than the
+worst case: the discrepancy of a random $d$-regular system is $\Th(\sqrt d)$, due to Bansal--Meka, Ezra--Lovett, and
+Hoberg--Rothvoss \cite{BansalMeka2019,EzraLovett2016,HobergRothvoss2019}. We use \cite{LovettMeka2015} as our splitting
+primitive.
+
+\paragraph{Online and stochastic discrepancy.}
+Online vector balancing dates to Spencer's balancing games \cite{Spencer1977}. The recent worst-case-adversary and
+stochastic theory is extensive: online thinning \cite{DwivediFGGR2019}, the self-balancing walk \cite{AlweissLS2021}, the
+Gaussian fixed-point walk \cite{LiuSahSawhney2022}, online geometric discrepancy \cite{BansalJSS2020}, prefix discrepancy and
+smoothed analysis \cite{BansalPrefix2022,BansalKomlos2022}, optimal online discrepancy \cite{KulkarniRR2024}, and balancing
+sums of random vectors \cite{AruNSV2018}. Online \emph{stochastic} discrepancy for general distributions gives polylogarithmic
+prefix bounds \cite{BansalStochastic2021}. Closest to us, Altschuler and Tikhomirov \cite{AT2025} pinpoint the two-color value
+in the sparse i.i.d.\ model at $\Th(\loglog n)$, independent of $d$, an exponential separation from the offline $\Th(\sqrt d)$;
+our paper is the $k$-color extension of their model.
+
+\paragraph{Multicolor discrepancy and balls-into-bins.}
+Multicolor (or $k$-color) discrepancy was introduced by Doerr and Srivastav \cite{DoerrSrivastav2003}; classical reductions to
+the two-color case lose factors and do not yield the $1/\sqrt k$ average-case gain of \Cref{thm:offline}. In the worst case the
+value is governed by lower bounds of order $\sqrt n$ \cite{MulticolorLB2025}, the opposite dependence on $k$; online multicolor
+discrepancy for general unit vectors is $\Th(\sqrt{\log T})$ and is equivalent to online envy minimization \cite{HPVX2025}.
+Our occupancy threshold $\Psifn$ is exactly the maximum-load law of (weighted) balls-into-bins allocation
+\cite{ABKU1999,BCSV2006,RaabSteger1998,TalwarWieder2007}, and the growing-$k$ obstruction in \Cref{sec:open} is the same
+staggered-Fibonacci mechanism behind \emph{Always-Go-Left} \cite{Vocking2003,MitzenmacherUpfal2017}.
+
+\paragraph{Tools.}
+Beyond \cite{LovettMeka2015}, our offline construction rests on negative association and strong Rayleigh measures
+\cite{JoagDevProschan1983,DubhashiRanjan1998,Pemantle2000,BorceaBrandenLiggett2009,BrandenHuh2020} and on Bennett-type Poisson
+tails \cite{Bennett1962,BoucheronLugosiMassart2013}; the recursive exact-cardinality rounding parallels online dependent
+rounding for matchings \cite{NSW2025}.
