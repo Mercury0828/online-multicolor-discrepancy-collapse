@@ -39,40 +39,33 @@ exponent. Increasing $k$ lowers $V$ and only helps. Thus
   \Pr(\max_t\widetilde R_i\ge 32\Hscale)\ \le\ d^{-28}.
 \end{equation}
 
-\paragraph{Part 2: the exceptional set is sparse (the category recursion).}
-Call coordinate $i$ \emph{category-$0$} if its seed range reaches $32\Hscale$; by \eqref{eq:seed-tail} the expected number is
-$\le n d^{-28}$, so $|\mathcal C_0|\le n d^{-27}$ \whp. For a coordinate to reach actual range $64\Hscale$ while its seed range
-stays below $32\Hscale$, it needs at least $(64\Hscale-32\Hscale)/2=16\Hscale$ modified incidences. Each modified incidence
-$(i,s)$ co-occurs with an already-exceptional coordinate $i^*\in S_s\cap E_{s-1}$ (the repair invariant). Index the
-recursion by depth: a coordinate is \emph{category-$(w{+}1)$} if it becomes exceptional with its causal helpers in category
-$\le w$. For a fixed coordinate $i$ to be promoted at level $w$, it must collect $\ge16\Hscale$ modified incidences whose
-helpers are category-$(w{-}1)$; with $\beta_{w-1}=|\mathcal C_{w-1}|/n$, the probability a given arrival is such an incidence
-for $i$ is $\le\Pr(i\in S_s)\cdot\Pr(S_s\cap\mathcal C_{w-1}\ne\varnothing\mid i\in S_s)\le(d/n)\cdot(d\beta_{w-1})=d^2\beta_{w-1}/n$.
-Over $T=\Th(n)$ arrivals the count of such incidences for $i$ is dominated by $\Bin(T,d^2\beta_{w-1}/n)$ with mean
-$\Th(d^2\beta_{w-1})$, and the factorial-moment (Chernoff) bound for exceeding $16\Hscale$ gives
-\begin{equation}\label{eq:category}
-  \beta_w\ \le\ \Big(\frac{e\,T\,d^2\beta_{w-1}/n}{16\Hscale}\Big)^{16\Hscale}\ \le\ \big(C\,d^2\beta_{w-1}/\Hscale\big)^{16\Hscale}.
-\end{equation}
-With $d^2\le\Hscale^4/(\log\Hscale)^2$, the factor $Cd^2/\Hscale\le d^2$ for large $n$; starting from $\beta_0\le d^{-27}$,
-\eqref{eq:category} gives $\beta_1\le(d^2\cdot d^{-27})^{16\Hscale}=d^{-400\Hscale}$, and once $\beta_{w-1}\le d^{-6}$ it stays
-$\le(d^2\cdot d^{-6})^{16\Hscale}=d^{-64\Hscale}$. The number of nonempty categories is at most $6\Hscale$ (a coordinate's
-$16\Hscale$ modified incidences sort into at most $6\Hscale$ category classes, forcing promotion before depth $6\Hscale$).
-Summing the geometric collapse,
-\[
-  \frac{|E_T|}{n}\ \le\ \beta_0+\sum_{w=1}^{6\Hscale}\beta_w\ \le\ d^{-27}+6\Hscale\,d^{-64\Hscale}\ \le\ d^{-5}\qquad\whp,
-\]
-the conversion to high probability using a per-level Chernoff over the (NA, hence product-bounded) coordinate counts.
-This argument uses only independence of future supports, the sparsity of $\mathcal C_0$, and the repair invariant; it never
-uses that $k=2$, so it transplants to all $k$.
+\paragraph{Parts 2--3: exceptional set and decay, by reduction to the two-color analysis.}
+The remaining two steps are exactly the category and level-set analysis of \cite{AT2025}, which we invoke as a black box.
+Their analysis applies to any online algorithm built from a random seed coloring together with a deterministic repair rule
+satisfying:
+\begin{itemize}
+  \item[(i)] the repair never raises the range of the coordinate it repairs; and
+  \item[(ii)] the assigned color differs from the seed only on arrivals whose support contains a coordinate already at range
+  $\ge 64\Hscale$.
+\end{itemize}
+Under (i)--(ii) and the seed tail \eqref{eq:seed-tail}, \cite[exceptional-set lemma]{AT2025} gives $|E_T|\le n d^{-5}$ \whp,
+and \cite[level-set lemma]{AT2025} gives, for $M(t,r)=\{i:\max_{s\le t}\rangeop_i(s)\ge 65\Hscale+3r\}$,
+$|M(T,r)|\le n(\log n)^{-2\cdot 2^r}$, which is empty by $r=\lceil 2\Hscale\rceil$, whence $\max_{t,i}\rangeop_i<80\Hscale$.
+Both lemmas use only the independence of future supports, the seed tail, and (i)--(ii); the number of colors enters nowhere
+(the category depth is indexed by arrivals, not colors, and the level-set recurrence counts same-arrival exceptional
+helpers).
 
-\paragraph{Part 3: double-exponential decay.}
-Let $M(t,r)=\{i:\max_{s\le t}\rangeop_i(s)\ge 65\Hscale+3r\}$. A coordinate in $M(T,0)$ undergoes $\ge\Hscale$ upcrossings
-after becoming exceptional; at each it was not the unique strict maximum of its support (else the repair would have kept its
-range), so the support contained another exceptional coordinate. On $|E_T|\le n d^{-5}$, the chance a given arrival contains a
-fixed target and another exceptional coordinate is $\le(d/n)(d|E_T|/n)\le C d^{-3}/n$; requiring $\ge\Hscale$ such
-co-incidences and applying Markov over the $n$ coordinates gives $|M(T,0)|\le n/\log^2 n$. For $r\ge1$, a coordinate in
-$M(T,r)$ has $\ge3$ upcrossings while its range is $\ge65\Hscale+3(r-1)$, each supplying a same-arrival helper from
-$M(t-1,r-1)$; the three-hit conditioning yields $|M(T,r)|\le n(\log n)^{-2\cdot2^r}$ except with probability $\Oh(r/\log n)$.
-This drops below $1$ once $2^r\gtrsim\log n/(2\Hscale)$, i.e.\ $r\gtrsim\log_2(\log n/\Hscale)\approx 1.44\,\Hscale$, so at
-$r=\lceil2\Hscale\rceil$ the level set is empty \whp. Hence $\max_{t,i}\rangeop_i\le 65\Hscale+6\Hscale+\Oh(1)<80\Hscale$, and
-the union over the $\le2\Hscale$ levels costs $\sum_r\Oh(r/\log n)=\Oh(\Hscale^2/\log n)=o(1)$. \qed
+It remains to check that our $k$-color algorithm satisfies (i)--(ii). For (i): a minimum-load color of $i^*$ is, by
+definition, a coordinate of $x_{i^*}$ attaining the minimum, and incrementing a minimum coordinate cannot increase
+$\max_c x_{i^*,c}-\min_c x_{i^*,c}$ for any $k$ (when several colors tie for the minimum, any one works). For (ii): the
+assigned color equals the seed $\widetilde\chi_t$ unless the repair branch fires, and that branch fires only when
+$S_t\cap E_{t-1}\ne\varnothing$, i.e.\ when the support contains a coordinate already at range $\ge 64\Hscale$. Both
+properties are statements about the algorithm's control flow and the range function, with no dependence on $k$. Hence the
+two lemmas of \cite{AT2025} apply verbatim, and $\max_{t,i}\rangeop_i<80\Hscale$ \whp. \qed
+
+\begin{remark}
+The reduction is the natural one: the only place the number of colors could matter is the repair, and a minimum-load repair
+is range-non-increasing for every $k$. The modified-incidence count that drives \cite{AT2025}'s category recursion charges
+each deviation of the actual coloring from the seed to a co-present exceptional coordinate, and this charging is unchanged by
+$k$ because it depends only on the binary event ``actual color $\ne$ seed'', not on which color was used.
+\end{remark}

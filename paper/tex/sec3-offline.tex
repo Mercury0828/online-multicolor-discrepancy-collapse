@@ -4,12 +4,16 @@
 This section proves the offline value exactly.
 
 \begin{theorem}[Offline characterization]\label{thm:offline}
-For $k\to\infty$ with $k\le d$ and $d,k=(\log n)^{o(1)}$,
+There is an absolute constant $C_0$ such that for $k\le d$, $d,k=(\log n)^{o(1)}$, and $k\ge C_0\log^2(dk)$,
 \[
   \offdisc_k\ =\ \Th\big(\Psifn(\lam,\log k)\big)\qquad\whp,
 \]
-with $\lam=Td/(nk)$ and $\Psifn$ as in \eqref{eq:Psi}.
+with $\lam=Td/(nk)$ and $\Psifn$ as in \eqref{eq:Psi}. (Here $\offdisc_k$ is the final discrepancy, \Cref{sec:model}.)
 \end{theorem}
+
+The hypothesis $k\ge C_0\log^2(dk)$ is what lets the per-coordinate spread beat the union over the $k^T$ colorings; it holds
+for all but the smallest $k$ in the range, and excludes $k=2$, consistent with the two-color value being $\Th(\sqrt d)$
+rather than $\Th(\Psifn)$.
 
 The matching upper and lower bounds are \Cref{lem:offline-lower,lem:offline-upper}. The value
 $\Psifn(\lam,\log k)$ is the spread of $k$ independent $\Pois(\lam)$ loads at a coordinate: the lower bound says a
@@ -119,9 +123,9 @@ a root-to-leaf path, the error injected at a $q$-leaf node reaches the leaf scal
 The $q$'s decrease geometrically. The square-root summand contributes
 $\sqrt\lam\sum_q\sqrt{(1+\log(k/q))/q}=\Oh(\sqrt{\lam\log k})$, and the Bennett summand contributes
 $\Oh(\sqrt{\lam\log k}+\log k/\log(e+\log k/\lam))$ after splitting the sum at $q=\sqrt{\log k/\lam}$. The two pieces
-reassemble into $\Psifn(\lam,\log k)$, and the ideal terms $(m_c/T)\deg_t(i)$ differ across colors by at most
-$\deg_t(i)/T\le 1$. The bound holds at every prefix because it is a statement about the final loads and the prefix maxima
-are dominated by them. The full calculation is in \Cref{app:tree-full}.
+reassemble into $\Psifn(\lam,\log k)$, and the ideal terms $(m_c/T)\deg(i)$ differ across colors by at most
+$\deg(i)/T\le 1$, where $\deg(i)=\deg_T(i)$ is the final degree. This bounds the final range $\rangeop_i(T)$, which is
+$\offdisc_k$ by definition. The full calculation is in \Cref{app:tree-full}.
 
 \medskip
 \Cref{thm:offline} follows by combining \Cref{lem:offline-lower,lem:offline-upper}.

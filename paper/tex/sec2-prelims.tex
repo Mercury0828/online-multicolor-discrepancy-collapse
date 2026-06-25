@@ -26,16 +26,17 @@ the \emph{profile} is $x_i(t)=(\load_{1,i}(t),\dots,\load_{k,i}(t))$, and the \e
 \[
   \rangeop_i(t)\ :=\ \max_{c\in[k]}\load_{c,i}(t)\ -\ \min_{c\in[k]}\load_{c,i}(t).
 \]
-The discrepancy of a coloring is $\max_{t\le T,\ i\in[n]}\rangeop_i(t)$, the largest pairwise color-load imbalance
-over all prefixes and coordinates. We study its optimal value:
+We use two discrepancy quantities, following the online/offline split of~\cite{AT2025}. The online quantity is the
+\emph{prefix} discrepancy: it must be small at every prefix, since the coloring is irrevocable. The offline quantity is the
+\emph{final} discrepancy of the resulting set system, the standard offline notion. We study their optimal values:
 \[
-  \ondisc_k(\mu_{d,n})\ :=\ \min_{\text{online }\chi}\ \max_{t,i}\rangeop_i(t),
+  \ondisc_k(\mu_{d,n})\ :=\ \min_{\text{online }\chi}\ \max_{t\le T,\,i}\ \rangeop_i(t),
   \qquad
-  \offdisc_k(\mu_{d,n})\ :=\ \min_{\text{offline }\chi}\ \max_{t,i}\rangeop_i(t),
+  \offdisc_k(\mu_{d,n})\ :=\ \min_{\text{offline }\chi}\ \max_{i}\ \rangeop_i(T),
 \]
 each understood \whp\ (and, where stated, in expectation). We abbreviate $\ondisc_k=\ondisc_k(\mu_{d,n})$ and
-$\offdisc_k=\offdisc_k(\mu_{d,n})$. Since every online coloring is also an offline coloring,
-$\ondisc_k\ge\offdisc_k$ always.
+$\offdisc_k=\offdisc_k(\mu_{d,n})$. The online prefix discrepancy dominates the online final discrepancy, which in turn
+dominates the offline final discrepancy, so $\ondisc_k\ge\offdisc_k$ always.
 
 \subsection{Scales and the threshold function}\label{sec:scales}
 

@@ -13,15 +13,12 @@ $h(u)=\Th(u^2)$ for $u\le 1$ and $h(u)=\Th(u\log(1+u))$ for $u\ge 1$, we get \eq
 in the regime $t\lesssim\mu$, $t^2/\mu\asymp\Lscale$ gives $t\asymp\sqrt{\mu\Lscale}$; in the regime $t\gtrsim\mu$, setting
 $t=c\,\Lscale/\log(e+\Lscale/\mu)$ and $z=\Lscale/\mu\ge 1$ gives $t\log(1+t/\mu)\asymp \mu\cdot\frac{z}{\log(e+z)}\cdot\log\!\big(1+\tfrac{z}{\log(e+z)}\big)\asymp\mu z=\Lscale$, because $\log(1+z/\log(e+z))\asymp\log(e+z)$ for $z\ge 1$. Hence the deviation at which a single $\Pois(\mu)$ load reaches rate $\Lscale$ is $t^*(\mu,\Lscale)=\Th(\sqrt{\mu\Lscale}+\Lscale/\log(e+\Lscale/\mu))=\Th(\Psifn(\mu,\Lscale))$.
 
-\paragraph{Step 1: balanced classes.}
-Fix a coloring $\chi$ with class sizes $m_c=|\chi^{-1}(c)|$, and suppose every coordinate range is $\le D$. Since each
-column has exactly $d$ ones, $\sum_i x_{i,c}=d\,m_c$, so for any $c,c'$,
-\[
-  d\,|m_c-m_{c'}|=\Big|\sum_i (x_{i,c}-x_{i,c'})\Big|\le n D,
-\]
-giving $|m_c-m_{c'}|\le nD/d$. As $\sum_c m_c=T\ge\tau_-\,n$, $\max_c m_c\ge\tau_- n/k$; if $D\le\tfrac{\tau_-}{2}\cdot\tfrac dk$
-then $nD/d\le\tau_- n/(2k)$ and every $m_c\ge\tau_- n/(2k)=\Th(T/k)$. Thus a coloring that beats $D=\Th(\lam)$ is automatically
-class-balanced, and we may restrict the union bound to balanced colorings.
+\paragraph{Step 1: many large classes.}
+Fix a coloring $\chi$ with class sizes $m_c=|\chi^{-1}(c)|$. Since $\sum_c m_c=T$, at least $k/2$ colors satisfy
+$m_c\ge T/(2k)$; call these the \emph{large} colors and let $G$ be their set, $|G|\ge k/2$. A large color has
+$\E Y_c=m_c\,d/n=\Th(\lam)$ and $\Var Y_c=\Th(\lam)$. We bound the coordinate range using only the large colors, so no
+balance assumption is needed: $\rangeop_i\ge\max_{c\in G}Y_c-\min_{c\in G}Y_c$, and it suffices to lower-bound the spread of
+the large loads.
 
 \paragraph{Step 2: Poissonization.}
 Let $B$ be the $n\times T$ matrix with i.i.d.\ $\Bin(1,p)$ entries, $p=d/n$. Conditioning each column of $B$ on having
@@ -32,24 +29,29 @@ coordinate, $Y_c=\sum_{t\in\chi^{-1}(c)}B_{it}\sim\Bin(m_c,p)$, are independent,
 $\Th(\lam)$.
 
 \paragraph{Step 3: per-coordinate spread.}
-Fix a balanced $\chi$. For the coordinate to have range $\le D$, all $k$ loads must lie in a window of width $D$. By the
-single-bin tail \eqref{eq:poisson-tail} (with $\mu=\Th(\lam)$) and the inversion above, $\Pr(Y_c\ge \lam+t^*)\ge e^{-C\Lscale}=k^{-C}$
-with $\Lscale=\log k$; since the $Y_c$ are independent, the probability that \emph{no} color exceeds $\lam+t^*$ is at most
-$(1-k^{-C})^{k}\le\exp(-k^{1-C})$. Choosing the constant in $t^*$ so that $C<1$, with $D=\tfrac12 t^*=\Th(\Psifn(\lam,\log k))$
-the probability that a fixed coordinate has range $\le D$ is at most $\exp(-q)$ with $q=k^{1-C}\ge 1$. Negative association of
-$\{Y_c\}$ across coordinates (\Cref{sec:NA}) gives the product bound: $\Pr_B(\max_i R_i\le D)\le\exp(-q\,n)$ over the $n$
-independent-by-NA coordinates.
+Fix a coordinate. The large loads $\{Y_c\}_{c\in G}$ are independent with means $\Th(\lam)$. Set
+$t^*=t^*(\lam,\log k)=\Th(\Psifn(\lam,\log k))$, the deviation at which a single load reaches rate $\Lscale=\log k$ (the
+inversion above); then $\Pr(Y_c\ge\E Y_c+t^*)\ge k^{-C}$ for a constant $C<1$. Two cases lower-bound the spread.
+\emph{Upper edge.} Since $|G|\ge k/2$ and the loads are independent, the chance that none exceeds its mean by $t^*$ is at
+most $(1-k^{-C})^{k/2}\le e^{-k^{1-C}/2}$, so $\max_{c\in G}Y_c\ge\Th(\lam)+t^*$ \whp.
+\emph{Lower edge.} If $\lam=\Oh(1)$ then $\Pr(Y_c=0)=e^{-\Th(\lam)}=\Th(1)$, so $\Pr(\min_{c\in G}Y_c>0)\le e^{-\Th(k)}$; if
+$\lam\to\infty$ the matching lower tail gives $\Pr(\min_{c\in G}Y_c>\E Y_c-t^*)\le e^{-\Th(k^{1-C})}$ (\Cref{app:prelims}).
+On the complementary event $\rangeop_i\ge t^*=\Th(\Psifn(\lam,\log k))$. Hence, writing $D=\tfrac12 t^*$,
+$\Pr(\rangeop_i\le D)\le e^{-q}$ with $q=\Th(k^{1-C})$. Negative association of $\{Y_c\}$ across the $n$ coordinates
+(\Cref{sec:NA}) gives $\Pr_B(\max_i\rangeop_i\le D)\le e^{-qn}$.
 
 \paragraph{Step 4: union over colorings.}
-Combining Steps 2--3 and union-bounding over the at most $k^T$ balanced colorings,
+Taking the rate constant $C=\tfrac12$ in Step 3 gives $q=\Th(\sqrt k)$ (the bounded-occupancy lower edge gives the stronger
+$q=\Th(k)$, but $\Th(\sqrt k)$ holds in all regimes). Combining Steps 2--3 and union-bounding over the at most $k^T$ colorings,
 \[
-  \Pr_{\mathrm{exact}}\big(\exists\chi:\ \max_i R_i\le D\big)\ \le\ (C\sqrt{d+1})^T\,k^T\,e^{-q n}
-  \ =\ \exp\!\big(\Oh(n\log(dk))-\Th(nk^{1-C})\big).
+  \Pr_{\mathrm{exact}}\big(\exists\chi:\ \max_i\rangeop_i(T)\le D\big)\ \le\ (C\sqrt{d+1})^T\,k^T\,e^{-q n}
+  \ =\ \exp\!\big(\Oh(n\log(dk))-\Th(n\sqrt k)\big).
 \]
-Since $k\le d=(\log n)^{o(1)}$ and $k\ge C\log(dk)$ holds in the regime $k\to\infty$, the negative term dominates, so the
-probability is $\exp(-\Om(nk^{1-C}))=o(1)$. Therefore $\offdisc_k\ge D+1\ge c\,\Psifn(\lam,\log k)$ \whp. The three regimes
-\eqref{eq:Psi-regimes} are the three behaviours of $t^*(\lam,\log k)$: Gaussian $\sqrt{\lam\log k}$ for $\lam\gtrsim\log k$,
-the Bennett term $\log k/\log((\log k)/\lam)$ for $1\ll\lam\ll\log k$, and $\log k/\loglog k$ for $\lam=\Th(1)$. \qed
+By the hypothesis $k\ge C_0\log^2(dk)$, $\sqrt k\ge\sqrt{C_0}\,\log(dk)$ dominates the $\Oh(\log(dk))$ per-coordinate cost, so
+the probability is $\exp(-\Om(n\sqrt k))=o(1)$. Therefore $\offdisc_k\ge D+1\ge c\,\Psifn(\lam,\log k)$ \whp. The three
+regimes \eqref{eq:Psi-regimes} are the three behaviours of $t^*(\lam,\log k)$: Gaussian $\sqrt{\lam\log k}$ for
+$\lam\gtrsim\log k$, the Bennett term $\log k/\log((\log k)/\lam)$ for $1\ll\lam\ll\log k$, and $\log k/\loglog k$ for
+$\lam=\Th(1)$. \qed
 
 \subsection{The structural lemma (\Cref{lem:structural})}\label{app:structural-full}
 
@@ -81,10 +83,11 @@ factorization. With $M=\sum_i\E Y_i\le n e^{-B\ell_s}$ and $a=s/64$,
 \]
 using $\log(n/s)\le\ell_s+\Oh(1)$ (here $T=\Th(n)$). Since $\binom{T}{s}\le(eT/s)^s=e^{s\ell_s}$, union-bounding over $s=1,\dots,T$,
 \[
-  \Pr(\text{some }S\text{ fails})\ \le\ \sum_{s=1}^{T} e^{s\ell_s}\,e^{-cB\,s\ell_s}\ =\ \sum_{s\ge1} e^{-(cB-1)s\ell_s}\ \le\ \frac{e^{-(cB-1)}}{1-e^{-(cB-1)}}\ \xrightarrow{B\ \text{large}}\ 0,
+  \Pr(\text{some }S\text{ fails})\ \le\ \sum_{s=1}^{T} e^{s\ell_s}\,e^{-cB\,s\ell_s}\ =\ \sum_{s=1}^{T} e^{-(cB-1)s\ell_s}.
 \]
-because $s\ell_s\ge s\ge 1$. Taking $B$ large enough that $cB-1$ exceeds any fixed constant makes this $o(1)$; the constant
-$K$ is the $K(B)$ above. \qed
+The function $s\ell_s=s\log(eT/s)$ is increasing on $[1,T]$, so $s\ell_s\ge\ell_1=\log(eT)$ for every $s$; hence each term is
+at most $(eT)^{-(cB-1)}$ and the sum is at most $T(eT)^{-(cB-1)}$, which is $o(1)$ once $cB>2$. The constant $K$ is the
+$K(B)$ from the tail estimates above. \qed
 
 \subsection{The splitting lemma (\Cref{lem:split})}\label{app:split-full}
 
@@ -116,7 +119,7 @@ $r_i(w)=(M_w/M_v)r_i(v)+e_i(w)$ and $|e_i(w)|\le C\Psifn(dM_v/n,\log(eT/M_v))$. 
 $\log(eT/M_v)=\Th(1+\log(k/q))=:\ell_q$. The map $r_i(\cdot)\mapsto$ leaf scales the additive error at a $q$-node by the
 product of the child fractions down to the leaf, which telescopes to $\Th(1/q)$. Summing along the root-to-leaf path,
 \[
-  \Big|x_{i,c}-\tfrac{m_c}{T}\deg_t(i)\Big|\ \le\ C\sum_{q\text{ on path}}\frac{\Psifn(\Th(\lam q),\ell_q)}{q}
+  \Big|x_{i,c}-\tfrac{m_c}{T}\deg(i)\Big|\ \le\ C\sum_{q\text{ on path}}\frac{\Psifn(\Th(\lam q),\ell_q)}{q}
   \ =\ C\Big(\underbrace{\sum_q\tfrac1q}_{\Oh(1)}+\sqrt\lam\sum_q\sqrt{\tfrac{\ell_q}{q}}+\sum_q\frac{\ell_q}{q\,\log(e+\ell_q/(\lam q))}\Big).
 \]
 The $q$'s are $k,k/2,\dots,2$ (geometric). \emph{Square-root term:} $\sum_q\sqrt{\ell_q/q}$ with $\ell_q=1+\log(k/q)$ is
@@ -125,7 +128,7 @@ $\lam\ge\Lscale$ each summand has denominator $\ge1$ and the sum is $\Oh(\Lscale
 put $A=\Lscale/\lam$ and split at $q=\sqrt A$: for $q\le\sqrt A$, $\ell_q\asymp\Lscale$ and $\log(e+\ell_q/(\lam q))\ge c\log(e+A)$,
 giving $\Oh(\Lscale/\log(e+A))$; for $q>\sqrt A$, drop the denominator and $\sum_{q>\sqrt A}\ell_q/q\le C\Lscale/\sqrt A=C\sqrt{\lam\Lscale}$.
 Hence the Bennett term is $\Oh(\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam))$. Adding the three pieces gives
-$\Oh(\Psifn(\lam,\Lscale))$ with $\Lscale=\log(ek)$. Finally $|(m_c/T)\deg_t(i)-(m_{c'}/T)\deg_t(i)|\le\deg_t(i)/T\le 1$
-because the $m_c$ differ by at most one, so $\rangeop_i\le 2\max_c|x_{i,c}-(m_c/T)\deg_t(i)|+1=\Oh(\Psifn(\lam,\log k))$ at
+$\Oh(\Psifn(\lam,\Lscale))$ with $\Lscale=\log(ek)$. Finally $|(m_c/T)\deg(i)-(m_{c'}/T)\deg(i)|\le\deg(i)/T\le 1$
+because the $m_c$ differ by at most one, so $\rangeop_i\le 2\max_c|x_{i,c}-(m_c/T)\deg(i)|+1=\Oh(\Psifn(\lam,\log k))$ at
 every coordinate, and the construction is deterministic given $A$ (the structural event of \Cref{lem:structural} already
 covers every alive set chosen by the recursion, so no further randomness is spent). \qed
