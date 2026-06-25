@@ -1,1 +1,50 @@
-% appD-bc -- STUB (to be written). See ../COMPONENT_MAP.md and ../FROZEN_RESULTS.md.
+% appD-bc.tex -- the broadening-cost lemma + the phase-conveyor obstruction (for Section 6).
+\section{The broadening-cost lemma and the phase conveyor}\label{app:bc}
+
+This appendix supports the discussion of \Cref{sec:open}: it states the adaptive broadening-cost estimate and the
+deterministic obstruction that rules out the expectation-level version of the asymmetric approach.
+
+\paragraph{The broadening-cost lemma.}
+For a range level $r\ge2$ and $\eta\in(0,1)$, let $E_r(t)=\{i:\max_{u\le t}\rangeop_i(u)\ge r\}$ and stop at
+$\sigma_{r,\eta}=\inf\{t:|E_r(t)|>\eta n\}$. Let $B_{i,r}$ be the number of within-level broadenings of coordinate $i$ at
+range $r$ before $T\wedge\sigma_{r,\eta}$ (and before $i$ first reaches range $r+1$).
+
+\begin{lemma}[Broadening cost]\label{lem:bc}
+For every $r\ge2$ and integer $a\ge1$,
+$\E\sum_{i=1}^n (B_{i,r})_a\le n\eta\,(2\tau_+ d^2\eta)^{a}$, uniformly over adaptive stopping-time epochs.
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+A broadening of $i$ at range $r$ reaches rank $q=(k-1)(r-1)+\maxmult+1$; since $r\ge2$, $i$ has a color of load at most
+$\max-2$, not in its rank-$q$ forbidden set, so by the cover certificate of the rank-greedy rule some other supported
+coordinate $j\ne i$ covers it, and any coordinate of range $\le r-1$ has post-rank $\le(k-1)(r-1)+1<q$; hence $i$ and a
+distinct $j$ both lie in $S_t\cap E_r(t-1)$. Bounding $B_{i,r}$ by the count $Y_i$ of arrivals with $i\in S_t$ and
+$(S_t\setminus\{i\})\cap E_r(t-1)\ne\varnothing$, the per-step conditional probability is $\le(d/n)\cdot(d|E_r|/n)\le2d^2\eta/n=:p$
+while $|E_r|\le\eta n$. Sequential conditioning over $a$ ordered times, with at most $\eta n$ eligible targets at the first,
+gives $\E\sum_i(Y_i)_a\le a!\binom T a n\eta\,p^{a}\le n\eta(Tp)^{a}\le n\eta(2\tau_+ d^2\eta)^{a}$. Future supports stay
+i.i.d.\ uniform $d$-sets, so the bound is uniform over stopping times.
+\end{proof}
+
+Combined with the level-raising cover bound, \Cref{lem:bc} yields the symmetric range recurrence $\eta_{r+1}\lesssim(C\eta_r)^k$,
+hence $\eta\le e^{-ck^{j}}$ and a union over $n$ coordinates needs $j\gtrsim\loglog n/\log k$: this is the $\log k$ gap of
+\Cref{sec:open}, and it is intrinsic to permutation-invariant statistics (the skip configuration there).
+
+\paragraph{The phase conveyor.}
+Consider the asymmetric \emph{LeftGap} rule: with $g_{i,c}=x_{i,c}-\min_b x_{i,b}$ and $h_c=\max_{i\in S_t}g_{i,c}$, pick the
+color minimizing $(h_c,c)$ lexicographically, and represent $g_{i,c}\ge\ell$ by a token of phase $k(\ell-1)+c$.
+
+\begin{proposition}[No expectation-level tail for LeftGap]\label{prop:conveyor}
+For $k=d\ge3$ and every $q\ge1$ there is a deterministic sequence of $q$ exactly-$k$-sparse supports on which LeftGap creates
+a principal token of each phase $1,2,\dots,q$ on the successive arrivals, using $\Oh(kq)$ coordinates. Consequently, if
+$Z_u$ counts principal LeftGap tokens of phase $\ge u$, then $\E Z_u\ge\binom nk^{-\lceil u\rceil}$, which for
+$k=\lfloor\Hscale^2/(2\log\Hscale)\rfloor$ exceeds $e^{-cF_k(m)}$ at $u=kB+m$ for any fixed $m>\Hscale/\log2$. Hence no bound
+$\E Z_{kB+m}\le Cnd\,e^{-cF_k(m)}$ holds on a window reaching $m=\Th(\Hscale)$.
+\end{proposition}
+
+The conveyor recycles three core coordinates plus fresh fillers; after $r$ cycles it maintains the invariant
+$g_a=(0,r,\dots,r)$, $g_{b_1}=(r,0,\dots,0)$, $g_{b_j}=r(e_1+e_j)$, and one more cycle advances the maximum phase by exactly
+$k$ (linearly, not Fibonacci). Its probability is $\binom nk^{-q}=\exp(-(\log n)\Hscale^{\Oh(1)})\ll n^{-A}$ for every $A$,
+so it does not contradict a high-probability bound and is not an online lower bound; it refutes only the expectation tail and
+the stopping-time-uniform mixed-profile factorization. The corrected, sufficient statement for \Cref{prob:growing} is a
+truncated bound $\Pr(Z_{kB+m}>0)\le Cnd\,e^{-cF_k(m)}+n^{-A}$, whose proof would require a cycle-aware ``fold-or-Fibonacci''
+count that charges every coordinate reuse to enough independent earlier births; this remains open.

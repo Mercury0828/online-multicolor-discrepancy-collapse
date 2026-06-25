@@ -1,1 +1,78 @@
-% appC-online -- STUB (to be written). See ../COMPONENT_MAP.md and ../FROZEN_RESULTS.md.
+% appC-online.tex -- full deferred proofs of Section 4.
+\section{Deferred proofs of \Cref{sec:online}}\label{app:online}
+
+\subsection{The lower bound (\Cref{lem:online-lower})}\label{app:online-lower-full}
+
+Fix a signing $\xi:[k]\to\R$ with $\sum_c\xi(c)=0$ and apply it coordinatewise to an online $k$-coloring: at each step the
+sign assigned to the arrival is $\xi(\chi(t))$, a function of the (online) color, hence itself online. The resulting signed
+sum at coordinate $i$ is $\sum_c\xi(c)x_{i,c}$. For the even split ($\xi=\pm1$ on equal halves), $\sum_c\xi(c)x_{i,c}$ is a
+difference of two sums of $k/2$ loads, each within $\rangeop_i$ of the others, so $|\sum_c\xi(c)x_{i,c}|\le(k/2)\rangeop_i$.
+This is a valid online $\pm1$-balancing of the same arrivals (a uniform $d$-sparse stream), so the two-color online lower
+bound $\Om(\loglog n)$ of \cite{AT2025} gives $(k/2)\max_{t,i}\rangeop_i\ge\Om(\loglog n)$, i.e.\ $\ondisc_k\ge\Om(\loglog n/k)$.
+
+For odd $k=2a+1$, take $\xi\equiv1$ on a part $P_+$ of size $a+1$ and $\xi\equiv-\tfrac{a+1}{a}$ on $P_-$ of size $a$ (zero-sum).
+After rescaling, the induced online process uses step sizes in $\{+1,-\rho\}$ with $\rho=a/(a+1)\in[\tfrac12,1]$. The
+two-color lower bound of \cite{AT2025} is driven by a recurrence on the spread that, at each of its $\Th(\loglog n)$ stages,
+grows by a constant amount independent of the step size within the band $[\tfrac12,1]$; the only effect of $\rho\ne1$ is a
+constant factor $\le2$ in the stage count. Hence $\Om(\loglog n)$ persists for the projected process and
+$\ondisc_k\ge\Om(\loglog n/k)$ for odd $k$ as well. \qed
+
+\subsection{The upper bound (\Cref{lem:online-upper})}\label{app:online-upper-full}
+
+Write $\Hscale=\loglog n$. Let $\widetilde x_{i,c}(t)$ be the loads under the pure-seed coloring ($\chi\equiv\widetilde\chi$)
+and $\widetilde R_i(t)$ the seed-only range. A coordinate--arrival pair $(i,t)$ is a \emph{modified incidence} if $i\in S_t$
+and the algorithm's color differs from $\widetilde\chi_t$; by construction the color differs only when the repair branch
+fires, which requires a coordinate $i^*\in S_t\cap E_{t-1}$. Since range is $2$-Lipschitz in $\ell_\infty$,
+$|R_i(t)-\widetilde R_i(t)|\le 2\,\|x_i(t)-\widetilde x_i(t)\|_\infty\le 2\cdot(\#\text{ modified incidences at }i)$.
+
+\paragraph{Part 1: seed tail.}
+Fix $i$ and colors $a\ne b$, and let $\widetilde D_{i,a,b}(t)=\sum_{s\le t}\1[i\in S_s]\big(\1[\widetilde\chi_s=a]-\1[\widetilde\chi_s=b]\big)$,
+a martingale with increments in $\{-1,0,1\}$ and predictable variance $\langle\widetilde D\rangle_T\le\sum_s\Pr(i\in S_s)\Pr(\widetilde\chi_s\in\{a,b\})=2Td/(nk)=:V$.
+By the Freedman/Bernstein maximal inequality,
+$\Pr(\max_t\widetilde D_{i,a,b}\ge 32\Hscale)\le\exp(-\tfrac{(32\Hscale)^2/2}{V+32\Hscale/3})$. The seed range exceeds
+$32\Hscale$ only if some pair $(a,b)$ has $\widetilde D_{i,a,b}\ge 32\Hscale$, so a union over $\le k^2$ pairs gives
+$\Pr(\max_t\widetilde R_i\ge 32\Hscale)\le k^2\exp(-\tfrac{512\Hscale^2}{V+\Oh(\Hscale)})$. In the worst case $k=2$,
+$d=\Hscale^2/\log\Hscale$: $V=\Hscale^2/\log\Hscale$ dominates the $\Oh(\Hscale)$ term, the exponent is $\approx512\log\Hscale$,
+and the bound is $\Hscale^{-512+o(1)}\le d^{-28}$ (since $d^{-28}=\Hscale^{-56+o(1)}$): a factor-$\approx 9$ margin in the
+exponent. Increasing $k$ lowers $V$ and only helps. Thus
+\begin{equation}\label{eq:seed-tail}
+  \Pr(\max_t\widetilde R_i\ge 32\Hscale)\ \le\ d^{-28}.
+\end{equation}
+
+\paragraph{Part 2: the exceptional set is sparse (the category recursion).}
+Call coordinate $i$ \emph{category-$0$} if its seed range reaches $32\Hscale$; by \eqref{eq:seed-tail} the expected number is
+$\le n d^{-28}$, so $|\mathcal C_0|\le n d^{-27}$ \whp. For a coordinate to reach actual range $64\Hscale$ while its seed range
+stays below $32\Hscale$, it needs at least $(64\Hscale-32\Hscale)/2=16\Hscale$ modified incidences. Each modified incidence
+$(i,s)$ co-occurs with an already-exceptional coordinate $i^*\in S_s\cap E_{s-1}$ (the repair invariant). Index the
+recursion by depth: a coordinate is \emph{category-$(w{+}1)$} if it becomes exceptional with its causal helpers in category
+$\le w$. For a fixed coordinate $i$ to be promoted at level $w$, it must collect $\ge16\Hscale$ modified incidences whose
+helpers are category-$(w{-}1)$; with $\beta_{w-1}=|\mathcal C_{w-1}|/n$, the probability a given arrival is such an incidence
+for $i$ is $\le\Pr(i\in S_s)\cdot\Pr(S_s\cap\mathcal C_{w-1}\ne\varnothing\mid i\in S_s)\le(d/n)\cdot(d\beta_{w-1})=d^2\beta_{w-1}/n$.
+Over $T=\Th(n)$ arrivals the count of such incidences for $i$ is dominated by $\Bin(T,d^2\beta_{w-1}/n)$ with mean
+$\Th(d^2\beta_{w-1})$, and the factorial-moment (Chernoff) bound for exceeding $16\Hscale$ gives
+\begin{equation}\label{eq:category}
+  \beta_w\ \le\ \Big(\frac{e\,T\,d^2\beta_{w-1}/n}{16\Hscale}\Big)^{16\Hscale}\ \le\ \big(C\,d^2\beta_{w-1}/\Hscale\big)^{16\Hscale}.
+\end{equation}
+With $d^2\le\Hscale^4/(\log\Hscale)^2$, the factor $Cd^2/\Hscale\le d^2$ for large $n$; starting from $\beta_0\le d^{-27}$,
+\eqref{eq:category} gives $\beta_1\le(d^2\cdot d^{-27})^{16\Hscale}=d^{-400\Hscale}$, and once $\beta_{w-1}\le d^{-6}$ it stays
+$\le(d^2\cdot d^{-6})^{16\Hscale}=d^{-64\Hscale}$. The number of nonempty categories is at most $6\Hscale$ (a coordinate's
+$16\Hscale$ modified incidences sort into at most $6\Hscale$ category classes, forcing promotion before depth $6\Hscale$).
+Summing the geometric collapse,
+\[
+  \frac{|E_T|}{n}\ \le\ \beta_0+\sum_{w=1}^{6\Hscale}\beta_w\ \le\ d^{-27}+6\Hscale\,d^{-64\Hscale}\ \le\ d^{-5}\qquad\whp,
+\]
+the conversion to high probability using a per-level Chernoff over the (NA, hence product-bounded) coordinate counts.
+This argument uses only independence of future supports, the sparsity of $\mathcal C_0$, and the repair invariant; it never
+uses that $k=2$, so it transplants to all $k$.
+
+\paragraph{Part 3: double-exponential decay.}
+Let $M(t,r)=\{i:\max_{s\le t}\rangeop_i(s)\ge 65\Hscale+3r\}$. A coordinate in $M(T,0)$ undergoes $\ge\Hscale$ upcrossings
+after becoming exceptional; at each it was not the unique strict maximum of its support (else the repair would have kept its
+range), so the support contained another exceptional coordinate. On $|E_T|\le n d^{-5}$, the chance a given arrival contains a
+fixed target and another exceptional coordinate is $\le(d/n)(d|E_T|/n)\le C d^{-3}/n$; requiring $\ge\Hscale$ such
+co-incidences and applying Markov over the $n$ coordinates gives $|M(T,0)|\le n/\log^2 n$. For $r\ge1$, a coordinate in
+$M(T,r)$ has $\ge3$ upcrossings while its range is $\ge65\Hscale+3(r-1)$, each supplying a same-arrival helper from
+$M(t-1,r-1)$; the three-hit conditioning yields $|M(T,r)|\le n(\log n)^{-2\cdot2^r}$ except with probability $\Oh(r/\log n)$.
+This drops below $1$ once $2^r\gtrsim\log n/(2\Hscale)$, i.e.\ $r\gtrsim\log_2(\log n/\Hscale)\approx 1.44\,\Hscale$, so at
+$r=\lceil2\Hscale\rceil$ the level set is empty \whp. Hence $\max_{t,i}\rangeop_i\le 65\Hscale+6\Hscale+\Oh(1)<80\Hscale$, and
+the union over the $\le2\Hscale$ levels costs $\sum_r\Oh(r/\log n)=\Oh(\Hscale^2/\log n)=o(1)$. \qed

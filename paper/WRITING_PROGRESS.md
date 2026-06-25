@@ -35,7 +35,13 @@
 - P2 / separation / BC: `LEDGER_collapse.md` (P2, P13); V3; round-6/7 for the open problem.
 
 ## NEXT ACTION
-Write §3 (the offline characterization): §3.1 the `Ω(Ψ)` lower (Poissonization + k-Poisson extreme value, the three
-regimes), §3.2 overview, §3.3 the all-subsets NA structural lemma, §3.4 the exact-cardinality Lovett–Meka splitting,
-§3.5 the recursive color-tree ⇒ `O(Ψ)`. Body = statements + intuition + proof entry points; **full proofs in appB**.
-Then §4, §5, §6, intro, abstract. Push after each major section.
+**FULL FIRST DRAFT COMPLETE** (all body §1–§6 + appendices A–D + abstract). Now: style gate + **Codex review panels**
+(6 reviewers + 3 cold-readers via `codex exec -m gpt-5.5 -c model_reasoning_effort="xhigh"`, per the routing red line),
+then fix BLOCKERs and converge on (a) proofs complete, (b) length, (c) refs, (d) readability.
+
+## DRAFT STATUS (all written)
+`sec0-abstract` ✅ · `sec1-intro` ✅ · `sec2-prelims` ✅ · `sec3-offline` ✅ (+`appB` full proofs) ·
+`sec4-online` ✅ (+`appC` full proofs incl. the A-T category recursion reproduced) · `sec5-separation` ✅ ·
+`sec6-open` ✅ (+`appD` BC lemma + phase conveyor) · `appA-prelims` ✅. `refs.bib` ~18 anchors (grow to ~50–70 + verify).
+Honest length note: a focused single-characterization paper; with the full proofs present it is more compact than NSW's
+multi-application ~50–60pp. Expand proof detail / add a worked example / grow refs to reach the SODA density at the review stage.

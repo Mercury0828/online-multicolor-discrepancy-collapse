@@ -1,2 +1,29 @@
-% appA-prelims.tex -- STUB. Additional preliminaries (NA closure, LM exact-equality, Poisson tails in full).
+% appA-prelims.tex -- Additional preliminaries.
 \section{Additional preliminaries}\label{app:prelims}
+
+\paragraph{Negative association: the closure properties we use.}
+We use two standard closure properties of NA families \cite{JoagDevProschan1983}. (P7, independent union) If $X$ and $Y$ are
+each NA and independent of each other, their concatenation is NA. (P6, monotone functions of disjoint blocks) If
+$(Z_1,\dots,Z_m)$ is NA and $g_1,\dots,g_r$ are coordinatewise-nondecreasing functions on \emph{disjoint} index blocks, then
+$(g_1(Z),\dots,g_r(Z))$ is NA. Applying (P7) to the $s$ independent columns of a subset $S$ gives an NA vector on $[n]\times S$,
+and applying (P6) with $g_i(\cdot)=\sum_{t\in S}A_{it}$ (which reads only block $\{(i,t):t\in S\}$, and these blocks are
+disjoint across $i$) shows $\{r_i(S)\}_{i\in[n]}$ is NA. The single inequality we invoke is that for nondecreasing
+$f_1,\dots,f_n$ and $t>0$, $\E\big[\prod_i f_i(Y_i)\big]\le\prod_i\E[f_i(Y_i)]$, which is the upper-tail direction of NA. In
+both estimates of \Cref{app:structural-full} the summand $Y_i$ is a nondecreasing function of $r_i$ (for the dense estimate,
+$\exp(-c/r)\1[r>0]$ is nondecreasing in $r$; for the sparse estimate, $\1[r>U]$ is nondecreasing), so $e^{tY_i}$ is
+nondecreasing and the factorization applies in the correct direction.
+
+\paragraph{The exact-equality form of Lovett--Meka.}
+In \Cref{lem:LM} a threshold $c_j=0$ on a vector $v_j$ contributes $e^{-0}=1$ to the budget $\sum_j e^{-c_j^2/16}\le m/16$ and
+enforces $\langle v_j,x-x_0\rangle=0$ exactly. We use this only for $v_j=\mathbf 1$ (the all-ones vector), so the budget
+spent is $1$; together with the row constraints ($\le m/64$) it stays under $m/16$ as soon as $m\ge 22$. The partial-coloring
+walk is run as a Brownian motion constrained to the subspace $\{x:\langle\mathbf 1,x\rangle=\langle\mathbf 1,x_0\rangle\}$,
+the standard way to impose an exact linear equality; the cardinality of the output is therefore exact up to the $\Oh(1)$
+coordinates left fractional when the alive set drops below $22$, which are rounded by hand at additive cost $\Oh(1)$.
+
+\paragraph{Poisson tail, full statement.}
+For $X\sim\Pois(\mu)$ and $t\ge0$, $\Pr(X\ge\mu+t)\le\exp(-\mu\,h(t/\mu))$ with $h(u)=(1+u)\log(1+u)-u\ge0$, and a matching
+lower bound of the same order holds for $\mu\ge1$ and $t\le\mu^{2}$ by the local central limit theorem. The two regimes of
+\eqref{eq:poisson-tail} are $h(u)\asymp u^2$ ($u\le1$) and $h(u)\asymp u\log(1+u)$ ($u\ge1$). The same estimate transfers to
+$\Bin(m,p)$ with $\mu=mp$ whenever $mp(1-p)\ge1$, which holds throughout because the relevant means are $\Th(\lam)=\Om(1)$ in
+the regime $k\le d$.

@@ -1,2 +1,63 @@
-% sec4-online.tex -- STUB. Online fixed-k: P2 lower + multicolor A-T upper (full proofs -> appC).
+% sec4-online.tex -- Online fixed-k: P2 lower + multicolor A-T upper. Full proofs -> appC.
 \section{The online value for fixed $k$}\label{sec:online}
+
+Online, the picture is the opposite of \Cref{thm:offline}: more colors do not help in the fixed-$k$ regime.
+
+\begin{theorem}[Online, fixed $k$]\label{thm:online}
+For every fixed $k\ge 2$, $\ondisc_k=\Th(\loglog n)$ \whp, independent of $d$ in the range $2\le d\le\Hscale^2/\log\Hscale$.
+\end{theorem}
+
+The lower bound is \Cref{lem:online-lower} and holds for all $k$; the upper bound is \Cref{lem:online-upper} and also holds
+for all $k$, giving $\ondisc_k=\Th(\loglog n)$ once $k$ is constant. The two-color case $k=2$ is the theorem of
+Altschuler and Tikhomirov~\cite{AT2025}; our contribution is that both bounds extend to every $k$, and that the upper bound
+stays $\Oh(\loglog n)$ even as $k$ grows.
+
+\subsection{The lower bound}\label{sec:online-lower}
+
+\begin{lemma}[Online lower bound]\label{lem:online-lower}
+For all $k\ge 2$, $\ondisc_k\ge\Om(\loglog n/k)$.
+\end{lemma}
+
+\paragraph{Idea.}
+Project the $k$ colors onto two groups by a fixed signing $\xi:[k]\to\{+1,-\rho\}$ and apply the two-color online lower
+bound \cite{AT2025}. For even $k$, split $[k]$ into equal halves with $\xi\equiv+1$ on one and $\xi\equiv-1$ on the other;
+for any coordinate, $|\sum_c\xi(c)x_{i,c}|\le (k/2)\,\rangeop_i$, so an online $k$-coloring induces an online two-coloring of
+discrepancy at most $(k/2)\,\rangeop_i$, and the two-color bound $\Om(\loglog n)$ forces $\rangeop_i\ge\Om(\loglog n/k)$. For
+odd $k=2a+1$ the asymmetric weighting $\xi\equiv 1$ on the size-$(a+1)$ part and $\xi\equiv -a/(a+1)$ on the size-$a$ part is
+zero-sum, with action set $\{+1,-\rho\}$, $\rho=a/(a+1)\in[\tfrac12,1]$; the two-color recurrence of \cite{AT2025} is
+insensitive to $\rho\in[\tfrac12,1]$ up to a constant factor at most $2$, so the same bound follows
+(\Cref{app:online-lower-full}).
+
+\subsection{The upper bound}\label{sec:online-upper}
+
+\begin{lemma}[Online upper bound]\label{lem:online-upper}
+For all $k$, there is an online $k$-coloring with $\max_{t,i}\rangeop_i(t)\le 80\,\loglog n$ \whp\ (when $T=n$; for
+$T=\Th(n)$ the constant changes only).
+\end{lemma}
+
+\paragraph{The algorithm.}
+Pre-sample seed colors $\widetilde\chi_t\sim\Unif[k]$. Let $E_t$ be the set of coordinates whose range has reached $64\Hscale$
+by time $t$ (a coordinate, once in $E$, stays). On arrival $t$ with support $S_t$: if there is a \emph{unique} coordinate
+$i^*\in S_t\cap E_{t-1}$ whose range strictly exceeds that of every other $j\in S_t$, assign $i^*$ a color attaining
+$\min_c x_{i^*,c}(t-1)$; otherwise assign the seed color $\widetilde\chi_t$.
+
+\paragraph{Idea.}
+Assigning a minimum-load color never raises that coordinate's range, so a coordinate can only cross a range level when it is
+\emph{not} the unique strict maximum of its support, which forces another already-exceptional coordinate to be present in the
+same arrival. The proof has three parts (\Cref{app:online-upper-full}). A maximal Bernstein bound shows the seed-only range
+exceeds $32\Hscale$ with probability at most $d^{-28}$; the relevant martingale has variance $\le 2Td/(nk)$, so larger $k$
+only helps, and the worst case $k=2$ clears $d^{-28}$ with a constant-factor margin. A category argument, carried over from
+the two-color proof of \cite{AT2025} verbatim (it uses only independence of future supports, sparsity of the seed-exceptional
+set, and the implication ``actual color $\ne$ seed $\Rightarrow$ the support contains an already-exceptional coordinate'',
+none of which mentions the number of colors), shows the exceptional set has size at most $n d^{-5}$. A double-exponential
+recurrence on the level sets $M(t,r)=\{i:\max_{s\le t}\rangeop_i(s)\ge 65\Hscale+3r\}$ then collapses by $r=2\Hscale$, giving
+$\max_{t,i}\rangeop_i<80\Hscale$.
+
+\medskip
+\Cref{thm:online} follows by combining \Cref{lem:online-lower,lem:online-upper}.
+
+\begin{remark}\label{rem:online-upper-allk}
+\Cref{lem:online-upper} holds for \emph{all} $k$, so $\ondisc_k=\Oh(\loglog n)$ throughout. The online value is therefore
+$d$-independent, in contrast with the $d$-dependent offline threshold $\Psifn$ of \Cref{thm:offline}. For growing $k$ the
+upper bound $\loglog n$ need not be tight; see \Cref{sec:separation,sec:open}.
+\end{remark}

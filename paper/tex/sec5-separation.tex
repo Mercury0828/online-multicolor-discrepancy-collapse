@@ -1,2 +1,37 @@
-% sec5-separation.tex -- STUB. The online-vs-offline separation + the growing-k bracket.
+% sec5-separation.tex -- The online-vs-offline separation + the growing-k bracket.
 \section{The online--offline separation}\label{sec:separation}
+
+\Cref{thm:offline,thm:online} together give a multicolor analogue of the two-color separation of \cite{AT2025}.
+
+\begin{theorem}[Separation, fixed $k$]\label{thm:separation}
+For every fixed $k\ge 2$ and $2\le d\le\Hscale^2/\log\Hscale$,
+\[
+  \ondisc_k\ =\ \Th(\loglog n)\ \gg\ \offdisc_k\ =\ \Th(\sqrt d)\ =\ o(\loglog n)\qquad\whp.
+\]
+\end{theorem}
+
+\begin{proof}
+The online value is $\Th(\loglog n)$ by \Cref{thm:online}. The offline value of a random $d$-regular set system, $k$-colored
+with a constant number of colors, is $\Th(\sqrt d)$: the two-color value is the classical $\Th(\sqrt d)$ of
+\cite{BansalMeka2019,EzraLovett2016,HobergRothvoss2019}, and a constant number of colors changes it only by a constant factor
+(each color load is $\Bin(\Th(T/k),d/n)$ with standard deviation $\Th(\sqrt{d/k})$, and the per-coordinate spread of $k=\Th(1)$
+such loads is $\Th(\sqrt d)$). Under the sparsity cap $d\le\Hscale^2/\log\Hscale$, $\sqrt d\le\Hscale/\sqrt{\log\Hscale}=o(\Hscale)$,
+so $\offdisc_k=o(\loglog n)$.
+\end{proof}
+
+We state the offline value at fixed $k$ from the classical random-set-system bounds rather than from \Cref{thm:offline},
+which is proved for $k\to\infty$; the two agree on the overlap, since $\Psifn(\lam,\log k)=\Th(\sqrt d)$ when $k$ is constant.
+
+For growing $k$ the online value is no longer pinned. \Cref{thm:offline} (with $\ondisc_k\ge\offdisc_k$) and
+\Cref{lem:online-lower,lem:online-upper} give the following.
+
+\begin{corollary}[Growing-$k$ bracket]\label{cor:bracket}
+For $k\to\infty$ with $k\le d$ and $d,k=(\log n)^{o(1)}$,
+\[
+  \max\!\Big\{\,\Psifn(\lam,\log k),\ \frac{\loglog n}{k}\,\Big\}\ \le\ \ondisc_k\ \le\ \loglog n\qquad\whp.
+\]
+\end{corollary}
+
+The two endpoints can be far apart. The online-specific term $\loglog n/k$ strictly exceeds the offline floor $\Psifn$ for
+small $k$ (so online is genuinely worse than offline there), while for $k$ near $\loglog n$ the floor $\Psifn$ takes over.
+Pinning the exact growing-$k$ order is the subject of \Cref{sec:open}.

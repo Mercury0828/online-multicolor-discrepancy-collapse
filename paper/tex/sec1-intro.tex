@@ -1,2 +1,88 @@
-% sec1-intro.tex -- STUB. WRITTEN LATE (contributions map 1:1 to T1/T2/T3). Related work folded into 1.3.
+% sec1-intro.tex -- Introduction. Contributions map 1:1 to T1/T2/T3; related work in 1.3.
 \section{Introduction}\label{sec:intro}
+
+In online vector balancing, vectors $v_1,\dots,v_T\in\R^n$ arrive one at a time, and each must be assigned a label as soon
+as it appears so as to keep the labeled partial sums balanced at every prefix. The two-label (signing) version is the online
+form of the Beck--Fiala and Koml\'os problems; here we study the $k$-label (coloring) version, where the imbalance at a
+coordinate is the gap between the largest and smallest color load there.
+
+We work in the average-case model of Altschuler and Tikhomirov~\cite{AT2025}: the arrivals are i.i.d.\ uniform $0/1$ vectors
+with exactly $d$ ones, $T=\Th(n)$, and $2\le d\le(\loglog n)^2/\log\log\log n$. They proved that the optimal \emph{online}
+two-color prefix discrepancy is $\Th(\loglog n)$, independent of $d$, an exponential separation from the offline value
+$\Th(\sqrt d)$ of random $d$-regular set systems. We ask how the number of colors $k$ changes this, and answer it in two of
+the three regimes of $k$, reducing the third to a single high-probability lemma.
+
+Write $\lam=Td/(nk)=\Th(d/k)$ for the per-color occupancy, $\Hscale=\loglog n$, and
+$\Psifn(\lam,\Lscale)=1+\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam)$.
+
+\paragraph{Results.}
+Our first result determines the \emph{offline} value exactly. It is the spread of $k$ independent Poisson loads at a
+coordinate, a balls-into-bins occupancy threshold.
+
+\begin{itemize}
+  \item[\textbf{(T1)}] (\Cref{thm:offline}) For $k\to\infty$ with $k\le d$ and $d,k=(\log n)^{o(1)}$,
+  $\offdisc_k=\Th(\Psifn(\lam,\log k))$.
+\end{itemize}
+The three summands of $\Psifn$ give three regimes: $\sqrt{\lam\log k}$ for $\lam\gtrsim\log k$, then
+$\log k/\log((\log k)/\lam)$, then $\log k/\loglog k$ for $\lam=\Th(1)$. Offline, more colors help: the value drops from
+$\Th(\sqrt d)$ at $k=2$ toward this much smaller occupancy threshold.
+
+Our second result determines the \emph{online} value for every fixed number of colors.
+
+\begin{itemize}
+  \item[\textbf{(T2)}] (\Cref{thm:online}) For every fixed $k\ge2$, $\ondisc_k=\Th(\loglog n)$, independent of $d$.
+\end{itemize}
+Online, more colors do not help when $k$ is constant: the $\Th(\loglog n)$ barrier of \cite{AT2025} persists for all fixed
+$k$, and the upper bound $\Oh(\loglog n)$ in fact holds for all $k$.
+
+The two results give a multicolor online--offline separation.
+
+\begin{itemize}
+  \item[\textbf{(T3)}] (\Cref{thm:separation}) For every fixed $k$, $\ondisc_k=\Th(\loglog n)\gg\offdisc_k=\Th(\sqrt d)=o(\loglog n)$.
+\end{itemize}
+
+\subsection{The growing-$k$ regime}\label{sec:intro-growing}
+
+For growing $k$ the online value is bracketed but not pinned: $\max\{\Psifn(\lam,\log k),\loglog n/k\}\le\ondisc_k\le\loglog n$
+(\Cref{cor:bracket}). The online-specific term $\loglog n/k$ exceeds the offline floor for small $k$, while the floor
+$\Psifn$ takes over near $k\asymp\loglog n$. We reduce the exact order to one high-probability lemma about an asymmetric
+online rule, and show that the symmetric approach provably cannot reach it (\Cref{sec:open}). We conjecture
+$\ondisc_k=\Th(\max\{\Psifn(\lam,\log k),\loglog n/k\})$.
+
+\subsection{Techniques}\label{sec:intro-techniques}
+
+\paragraph{The offline upper bound.}
+The technical heart is producing, from a single draw of the incidence matrix, one $k$-coloring whose every coordinate
+range is $\Oh(\Psifn)$. Three ingredients combine (\Cref{sec:offline}). A structural lemma certifies that the matrix is
+simultaneously well behaved for \emph{every} column subset, using negative association so that an adaptive recursion never
+spends fresh randomness. A density-sensitive splitting lemma halves any column class into prescribed sizes with the
+occupancy-scale error, by running the Lovett--Meka partial-coloring walk with locally tuned thresholds and an all-ones
+equality that keeps the sizes exact. A recursive color-tree composes these along a balanced binary tree; an error at a node
+with $q$ leaves attenuates by $\Oh(1/q)$, and the geometric path sum reassembles exactly into $\Psifn$, with no extra factor
+of $\log d$ or $\loglog n$. The matching lower bound is a first-moment Poissonization that reads off the spread of $k$
+Poisson loads.
+
+\paragraph{The online upper bound.}
+The fixed-$k$ upper bound extends the seed-and-repair scheme of \cite{AT2025} to $k$ colors. The algorithm colors by a random
+seed, repairing only the uniquely largest exceptional coordinate of each arrival by a minimum-load color, which never raises
+its own range. The category and double-exponential machinery of the two-color analysis uses only independence of future
+arrivals, sparsity of the seed-exceptional set, and the implication ``the chosen color differs from the seed only when an
+already-exceptional coordinate is present''. None of this refers to the number of colors, so it carries over verbatim, which
+we make precise in \Cref{app:online}.
+
+\subsection{Related work}\label{sec:intro-related}
+
+The online sparse i.i.d.\ model and the two-color value $\Th(\loglog n)$ are due to Altschuler and Tikhomirov~\cite{AT2025};
+the offline value $\Th(\sqrt d)$ of random $d$-regular set systems is due to Bansal--Meka, Ezra--Lovett, and Hoberg--Rothvoss
+\cite{BansalMeka2019,EzraLovett2016,HobergRothvoss2019}, sharpening the worst-case Beck--Fiala and Spencer bounds
+\cite{BeckFiala1981,Spencer1985}. Online stochastic discrepancy for general distributions gives polylogarithmic bounds and
+extends to multiple colors generically \cite{BansalStochastic2021}; online multicolor discrepancy for general unit vectors is
+$\Th(\sqrt{\log T})$ and is studied alongside envy minimization \cite{HPVX2025}; neither gives a sharp sparse threshold.
+Multicolor discrepancy in the worst case is governed by lower bounds of order $\sqrt n$ \cite{MulticolorLB2025}, the opposite
+dependence on $k$ from the average-case behaviour here, and classical multicolor reductions do not produce the $1/\sqrt k$
+gain of \Cref{thm:offline} \cite{DoerrSrivastav2003}. Our occupancy threshold $\Psifn$ is the maximum-load law of
+balls-into-bins allocation \cite{ABKU1999}, and the growing-$k$ obstruction in \Cref{sec:open} is the same staggered-Fibonacci
+mechanism that gives \emph{Always-Go-Left} its $\loglog n/k$ load \cite{BCSV2006}. Our constructive tools are the Lovett--Meka
+partial-coloring lemma \cite{LovettMeka2015} and negative association / strong Rayleigh measures
+\cite{JoagDevProschan1983,BorceaBrandenLiggett2009}; the recursive-rounding structure parallels online dependent rounding for
+matchings \cite{NSW2025}.

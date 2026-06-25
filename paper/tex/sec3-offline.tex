@@ -1,6 +1,127 @@
-% sec3-offline.tex -- STUB. NEXT to write (the technical centerpiece; full proofs -> appB).
+% sec3-offline.tex -- The offline characterization (technical centerpiece). Full proofs -> appB.
 \section{The offline characterization}\label{sec:offline}
-% 3.1 lower Omega(Psi) [\Cref{sec:offline-lower}]; 3.2 overview; 3.3 NA structural lemma;
-% 3.4 exact-cardinality Lovett-Meka splitting; 3.5 recursive color-tree => O(Psi).
+
+This section proves the offline value exactly.
+
+\begin{theorem}[Offline characterization]\label{thm:offline}
+For $k\to\infty$ with $k\le d$ and $d,k=(\log n)^{o(1)}$,
+\[
+  \offdisc_k\ =\ \Th\big(\Psifn(\lam,\log k)\big)\qquad\whp,
+\]
+with $\lam=Td/(nk)$ and $\Psifn$ as in \eqref{eq:Psi}.
+\end{theorem}
+
+The matching upper and lower bounds are \Cref{lem:offline-lower,lem:offline-upper}. The value
+$\Psifn(\lam,\log k)$ is the spread of $k$ independent $\Pois(\lam)$ loads at a coordinate: the lower bound says a
+coordinate cannot avoid this spread, and the upper bound exhibits a coloring that matches it at every coordinate at once.
+For fixed $d$, $k=2$ recovers the classical $\Th(\sqrt d)$ value of random $d$-regular set systems
+\cite{BansalMeka2019,EzraLovett2016,HobergRothvoss2019}; the content here is the dependence on $k$.
+
 \subsection{The occupancy lower bound}\label{sec:offline-lower}
-% TODO (next turn): Poissonization + extreme-value of k Poisson(lambda); the three regimes of \eqref{eq:Psi-regimes}.
+
+\begin{lemma}[Lower bound]\label{lem:offline-lower}
+Under the hypotheses of \Cref{thm:offline}, $\offdisc_k\ge c\,\Psifn(\lam,\log k)$ \whp, for an absolute constant $c>0$.
+\end{lemma}
+
+\paragraph{Idea.}
+Fix an offline coloring $\chi$ and suppose every coordinate has range at most $D$. We compare with the unconditioned
+Bernoulli model and use a first-moment bound. Replacing each exactly-$d$ column by $n$ independent $\Bin(1,d/n)$ entries
+and conditioning on exactly $d$ ones recovers $\mu_{d,n}$; the conditioning costs a factor $(\Oh(\sqrt d))^{T}$, which is
+$e^{\Oh(n\log d)}$ and is dominated by the entropy $\Th(n\log k)$ of the union over the at most $k^{T}=e^{\Th(n\log k)}$
+colorings. Under the Bernoulli model the $k$ color-loads at a fixed coordinate are independent, and color $c$'s load is
+$\Bin(m_c,d/n)$ with $m_c=|\chi^{-1}(c)|$; a balance argument (\Cref{app:offline-lower-full}) shows that any coloring with
+all ranges $\le D\le \alpha\lam$ has every class size $m_c=\Th(T/k)$, so each load is approximately $\Pois(\lam)$. For all
+$k$ loads to lie in a window of width $D$, the maximum load may exceed $\lam$ by at most $D$; but by \eqref{eq:poisson-tail}
+the deviation $t$ at which the expected number of exceeding colors drops below one solves rate $=\log k$, giving
+$t\asymp\sqrt{\lam\log k}+\log k/\log(e+\log k/\lam)=\Th(\Psifn)$. Negative association across coordinates makes the
+per-coordinate events combine, and the union over colorings is beaten because $k\ge C\log(dk)$ in this regime. The full
+argument, including the three regimes \eqref{eq:Psi-regimes}, is in \Cref{app:offline-lower-full}.
+
+\subsection{Overview of the upper bound}\label{sec:offline-overview}
+
+The upper bound is the technical heart. We must produce, from a single draw of the incidence matrix $A\in\{0,1\}^{n\times T}$,
+one offline $k$-coloring whose every coordinate range is $\Oh(\Psifn)$. Three ingredients combine.
+
+First, a \emph{structural lemma} (\Cref{lem:structural}) certifies that $A$ is simultaneously well behaved for
+\emph{every} column subset $S\subseteq[T]$: the row counts $r_i(S)=\sum_{t\in S}A_{it}$ have light tails uniformly over
+$S$. This uniformity is what lets an adaptive recursion choose its column subsets from the realized matrix without a fresh
+appeal to randomness.
+
+Second, a density-sensitive \emph{splitting lemma} (\Cref{lem:split}) shows that any column class $S$ can be partitioned
+into two parts of any prescribed sizes so that each row's count splits in the same proportion up to an additive
+$\Oh(\Psifn(\mu_s,\ell_s))$ error, where $\mu_s,\ell_s$ are the density parameters of $S$. The proof iterates the
+Lovett--Meka lemma with thresholds tuned to the local density; an all-ones constraint of threshold $0$ keeps the part sizes
+exact (\Cref{lem:LM}).
+
+Third, a \emph{recursive color-tree} (\Cref{lem:offline-upper}) builds the $k$ classes by repeatedly splitting along a
+balanced binary tree of depth $\log_2 k$. An error introduced at a node with $q$ leaves below it is attenuated by a factor
+$\Oh(1/q)$ on the way to a single leaf, and the geometric decrease of $q$ down a root-to-leaf path makes the accumulated
+error a convergent sum that reassembles exactly into $\Psifn(\lam,\log k)$, with no extra factor of $\log d$, $\sqrt{\log d}$,
+or $\loglog n$.
+
+\subsection{The structural lemma}\label{sec:structural}
+
+For $S\subseteq[T]$ with $s=|S|$ write $\mu_s=ds/n$ and $\ell_s=\log(eT/s)\ge 1$.
+
+\begin{lemma}[All-subsets structural lemma]\label{lem:structural}
+There is an absolute constant $K$, depending only on the bounds on $T/n$, such that \whp\ the following hold
+simultaneously for all $S\subseteq[T]$.
+\begin{align}
+  \mu_s\ge\ell_s:&\qquad \sum_{i:\,r_i(S)>0}\exp\!\Big(-\tfrac{K^2\mu_s\ell_s}{16\,r_i(S)}\Big)\ \le\ \tfrac{s}{64};
+    \label{eq:struct-dense}\\
+  \mu_s<\ell_s:&\qquad \big|\{\,i:\ r_i(S)>K\,\Psifn(\mu_s,\ell_s)\,\}\big|\ \le\ \tfrac{s}{64}.
+    \label{eq:struct-sparse}
+\end{align}
+\end{lemma}
+
+The proof (\Cref{app:structural-full}) fixes $S$, bounds the relevant sum or count in expectation by a binomial Chernoff
+estimate \eqref{eq:struct-dense} or a Bennett estimate \eqref{eq:struct-sparse} of order $e^{-B\ell_s}$ for a large
+constant $B$, and then converts to a high-probability statement using that $\{r_i(S)\}_i$ is negatively associated
+(\Cref{sec:NA}); the second summand of $\Psifn$ is exactly calibrated so that the Bennett exponent reaches $B\ell_s$. The
+union over the at most $\binom{T}{s}\le e^{s\ell_s}$ subsets of each size converges because the per-subset failure
+probability $e^{-cBs\ell_s}$ and the subset count $e^{s\ell_s}$ scale with the same $s\ell_s$, so a large absolute $B$ wins.
+This single uniform event is what supports the adaptive recursion below.
+
+\subsection{The splitting lemma}\label{sec:split}
+
+\begin{lemma}[Density-sensitive exact-cardinality splitting]\label{lem:split}
+On the event of \Cref{lem:structural}, for every $S\subseteq[T]$ with $s=|S|$ and every integer $0\le a\le s$ there is
+$Y\subseteq S$ with $|Y|=a$ and
+\[
+  \max_{i}\ \Big|\,r_i(Y)-\tfrac{a}{s}\,r_i(S)\,\Big|\ \le\ C\,\Psifn(\mu_s,\ell_s),
+\]
+for an absolute constant $C$.
+\end{lemma}
+
+The proof (\Cref{app:split-full}) runs \Cref{lem:LM} from the fractional point $x^{(0)}_t=2a/s-1$, always including the
+all-ones vector with threshold $0$ so that $\sum_t\sigma_t$ stays fixed and $|Y|=a$ exactly. While the alive set is dense
+($\mu_A\ge\ell_A$) each row $i$ with $r_i(A)>0$ gets threshold $c_i=K\sqrt{\mu_A\ell_A}/\sqrt{r_i(A)}$; by
+\eqref{eq:struct-dense} the threshold budget closes and each iteration moves a row by at most $K\sqrt{\mu_A\ell_A}$. When the
+alive set turns sparse ($\mu_A<\ell_A$) every row above $K\Psifn(\mu_A,\ell_A)$ is constrained and every row below it is
+released for good, contributing at most $2K\Psifn(\mu_A,\ell_A)$ thereafter. Because the alive set halves each iteration,
+the per-stage errors form a convergent geometric sum, bounded in \Cref{app:split-full} by $C\Psifn(\mu_s,\ell_s)$.
+
+\subsection{The recursive color-tree}\label{sec:tree}
+
+\begin{lemma}[Upper bound]\label{lem:offline-upper}
+On the event of \Cref{lem:structural}, there is an offline $k$-coloring with $\max_{t,i}\rangeop_i(t)\le C\,\Psifn(\lam,\log k)$.
+\end{lemma}
+
+\paragraph{Idea.}
+Fix target class sizes $m_c\in\{\lfloor T/k\rfloor,\lceil T/k\rceil\}$ summing to $T$, and a balanced binary tree whose $k$
+leaves are the colors. A node $v$ with $q_v$ leaves below it holds a column set of size $M_v=\sum_{c\text{ below }v}m_c$;
+split it into its two children by \Cref{lem:split} with the exact child sizes. By \eqref{eq:rank} it suffices to bound each
+leaf's deviation $|x_{i,c}-(m_c/T)\deg_t(i)|$, where $\deg_t(i)$ is coordinate $i$'s total count. Unrolling the splits along
+a root-to-leaf path, the error injected at a $q$-leaf node reaches the leaf scaled by $\Oh(1/q)$, so
+\[
+  \Big|x_{i,c}-\tfrac{m_c}{T}\deg_t(i)\Big|\ \le\ C\sum_{q\text{ on path}}\frac{\Psifn(\Th(\lam q),\,1+\log(k/q))}{q}.
+\]
+The $q$'s decrease geometrically. The square-root summand contributes
+$\sqrt\lam\sum_q\sqrt{(1+\log(k/q))/q}=\Oh(\sqrt{\lam\log k})$, and the Bennett summand contributes
+$\Oh(\sqrt{\lam\log k}+\log k/\log(e+\log k/\lam))$ after splitting the sum at $q=\sqrt{\log k/\lam}$. The two pieces
+reassemble into $\Psifn(\lam,\log k)$, and the ideal terms $(m_c/T)\deg_t(i)$ differ across colors by at most
+$\deg_t(i)/T\le 1$. The bound holds at every prefix because it is a statement about the final loads and the prefix maxima
+are dominated by them. The full calculation is in \Cref{app:tree-full}.
+
+\medskip
+\Cref{thm:offline} follows by combining \Cref{lem:offline-lower,lem:offline-upper}.

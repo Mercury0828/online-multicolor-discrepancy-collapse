@@ -1,1 +1,131 @@
-% appB-offline -- STUB (to be written). See ../COMPONENT_MAP.md and ../FROZEN_RESULTS.md.
+% appB-offline.tex -- full deferred proofs of Section 3.
+\section{Deferred proofs of \Cref{sec:offline}}\label{app:offline}
+
+Throughout, $A\in\{0,1\}^{n\times T}$ is the incidence matrix ($A_{it}=\1[i\in\supp(v_t)]$), $r_i(S)=\sum_{t\in S}A_{it}$,
+$\mu_s=ds/n$, $\ell_s=\log(eT/s)$. We assume $\tau_-\,n\le T\le\tau_+\,n$ for absolute constants $0<\tau_-\le\tau_+$, so
+$\ell_s=\Th(\log(n/s))$ and $\ell_s\ge\log e=1$.
+
+\subsection{The lower bound (\Cref{lem:offline-lower})}\label{app:offline-lower-full}
+
+\paragraph{Poisson tails and the inversion.}
+For $X\sim\Pois(\mu)$, the Cram\'er rate at $\mu+t$ is $I(t)=\mu\,h(t/\mu)$ with $h(u)=(1+u)\log(1+u)-u$. Since
+$h(u)=\Th(u^2)$ for $u\le 1$ and $h(u)=\Th(u\log(1+u))$ for $u\ge 1$, we get \eqref{eq:poisson-tail}. Solving rate $=\Lscale$:
+in the regime $t\lesssim\mu$, $t^2/\mu\asymp\Lscale$ gives $t\asymp\sqrt{\mu\Lscale}$; in the regime $t\gtrsim\mu$, setting
+$t=c\,\Lscale/\log(e+\Lscale/\mu)$ and $z=\Lscale/\mu\ge 1$ gives $t\log(1+t/\mu)\asymp \mu\cdot\frac{z}{\log(e+z)}\cdot\log\!\big(1+\tfrac{z}{\log(e+z)}\big)\asymp\mu z=\Lscale$, because $\log(1+z/\log(e+z))\asymp\log(e+z)$ for $z\ge 1$. Hence the deviation at which a single $\Pois(\mu)$ load reaches rate $\Lscale$ is $t^*(\mu,\Lscale)=\Th(\sqrt{\mu\Lscale}+\Lscale/\log(e+\Lscale/\mu))=\Th(\Psifn(\mu,\Lscale))$.
+
+\paragraph{Step 1: balanced classes.}
+Fix a coloring $\chi$ with class sizes $m_c=|\chi^{-1}(c)|$, and suppose every coordinate range is $\le D$. Since each
+column has exactly $d$ ones, $\sum_i x_{i,c}=d\,m_c$, so for any $c,c'$,
+\[
+  d\,|m_c-m_{c'}|=\Big|\sum_i (x_{i,c}-x_{i,c'})\Big|\le n D,
+\]
+giving $|m_c-m_{c'}|\le nD/d$. As $\sum_c m_c=T\ge\tau_-\,n$, $\max_c m_c\ge\tau_- n/k$; if $D\le\tfrac{\tau_-}{2}\cdot\tfrac dk$
+then $nD/d\le\tau_- n/(2k)$ and every $m_c\ge\tau_- n/(2k)=\Th(T/k)$. Thus a coloring that beats $D=\Th(\lam)$ is automatically
+class-balanced, and we may restrict the union bound to balanced colorings.
+
+\paragraph{Step 2: Poissonization.}
+Let $B$ be the $n\times T$ matrix with i.i.d.\ $\Bin(1,p)$ entries, $p=d/n$. Conditioning each column of $B$ on having
+exactly $d$ ones yields $\mu_{d,n}$, and by Stirling $\Pr(\Bin(n,p)=d)\ge c_0/\sqrt{d+1}$, so $\Pr(\mathcal C)\ge(c_0/\sqrt{d+1})^T$
+where $\mathcal C$ is the event that all columns have weight $d$. Hence for any event $E$,
+$\Pr_{\mathrm{exact}}(E)\le\Pr_B(E)/\Pr_B(\mathcal C)\le(C\sqrt{d+1})^T\Pr_B(E)$. Under $B$ the $k$ loads at a fixed
+coordinate, $Y_c=\sum_{t\in\chi^{-1}(c)}B_{it}\sim\Bin(m_c,p)$, are independent, with $\E Y_c=m_c p=\Th(\lam)$ and variance
+$\Th(\lam)$.
+
+\paragraph{Step 3: per-coordinate spread.}
+Fix a balanced $\chi$. For the coordinate to have range $\le D$, all $k$ loads must lie in a window of width $D$. By the
+single-bin tail \eqref{eq:poisson-tail} (with $\mu=\Th(\lam)$) and the inversion above, $\Pr(Y_c\ge \lam+t^*)\ge e^{-C\Lscale}=k^{-C}$
+with $\Lscale=\log k$; since the $Y_c$ are independent, the probability that \emph{no} color exceeds $\lam+t^*$ is at most
+$(1-k^{-C})^{k}\le\exp(-k^{1-C})$. Choosing the constant in $t^*$ so that $C<1$, with $D=\tfrac12 t^*=\Th(\Psifn(\lam,\log k))$
+the probability that a fixed coordinate has range $\le D$ is at most $\exp(-q)$ with $q=k^{1-C}\ge 1$. Negative association of
+$\{Y_c\}$ across coordinates (\Cref{sec:NA}) gives the product bound: $\Pr_B(\max_i R_i\le D)\le\exp(-q\,n)$ over the $n$
+independent-by-NA coordinates.
+
+\paragraph{Step 4: union over colorings.}
+Combining Steps 2--3 and union-bounding over the at most $k^T$ balanced colorings,
+\[
+  \Pr_{\mathrm{exact}}\big(\exists\chi:\ \max_i R_i\le D\big)\ \le\ (C\sqrt{d+1})^T\,k^T\,e^{-q n}
+  \ =\ \exp\!\big(\Oh(n\log(dk))-\Th(nk^{1-C})\big).
+\]
+Since $k\le d=(\log n)^{o(1)}$ and $k\ge C\log(dk)$ holds in the regime $k\to\infty$, the negative term dominates, so the
+probability is $\exp(-\Om(nk^{1-C}))=o(1)$. Therefore $\offdisc_k\ge D+1\ge c\,\Psifn(\lam,\log k)$ \whp. The three regimes
+\eqref{eq:Psi-regimes} are the three behaviours of $t^*(\lam,\log k)$: Gaussian $\sqrt{\lam\log k}$ for $\lam\gtrsim\log k$,
+the Bennett term $\log k/\log((\log k)/\lam)$ for $1\ll\lam\ll\log k$, and $\log k/\loglog k$ for $\lam=\Th(1)$. \qed
+
+\subsection{The structural lemma (\Cref{lem:structural})}\label{app:structural-full}
+
+\paragraph{Negative association.}
+The indicator vector of a uniform $d$-subset of $[n]$ is strongly Rayleigh, hence NA across coordinates
+\cite{BorceaBrandenLiggett2009}. Concatenating the $s$ independent columns of $S$ gives an NA vector on $\{(i,t):i\in[n],t\in S\}$,
+and each $r_i(S)=\sum_{t\in S}A_{it}$ is a nondecreasing function of the disjoint block $\{(i,t):t\in S\}$, so by closure
+under nondecreasing functions of disjoint blocks $\{r_i(S)\}_{i\in[n]}$ is NA (\Cref{app:prelims}).
+
+\paragraph{The two tail estimates.}
+Fix $S$, $s=|S|$. Each $r_i(S)\sim\Bin(s,d/n)$ with mean $\mu_s$. Fix a large constant $B$.
+
+\emph{Dense case $\mu_s\ge\ell_s$.} Let $Y_i=\exp(-K^2\mu_s\ell_s/(16\,r_i))\1[r_i>0]$. Splitting at $r_i=b\mu_s$ for a
+constant $b$: on $\{0<r_i\le b\mu_s\}$, $Y_i\le e^{-K^2\ell_s/(16 b)}$; on $\{r_i>b\mu_s\}$, $Y_i\le 1$ and a Chernoff bound
+gives $\Pr(r_i>b\mu_s)\le e^{-c_b\mu_s}\le e^{-c_b\ell_s}$. Choosing $b$ with $c_b\ge B$, then $K$ with $K^2/(16b)\ge B$, yields
+$\E Y_i\le 2e^{-B\ell_s}\le e^{-(B-1)\ell_s}$.
+
+\emph{Sparse case $\mu_s<\ell_s$.} Let $Y_i=\1[r_i>K\Psifn(\mu_s,\ell_s)]$. Bennett's binomial tail at deviation
+$t=K\Psifn$ has exponent $\ge B\ell_s$: for $\ell_s/\mu_s=\Oh(1)$ the Gaussian part gives $\gtrsim t^2/\mu_s\gtrsim K^2\ell_s$;
+for $\ell_s/\mu_s\to\infty$ the dominant summand $K\ell_s/\log(e+\ell_s/\mu_s)$ feeds $t\log(t/\mu_s)\gtrsim K\ell_s$ (the
+denominator of $\Psifn$ cancels the $\log(t/\mu_s)\asymp\log(\ell_s/\mu_s)$ amplification, and the ``$1$'' in $\Psifn$ handles
+$\mu_s\to0$). Hence $\E Y_i=\Pr(r_i>K\Psifn)\le e^{-B\ell_s}$.
+
+\paragraph{From expectation to high probability, and the union.}
+In both cases each $Y_i$ is a nondecreasing function of $r_i$, so $e^{tY_i}$ is nondecreasing and NA gives the upper-tail
+factorization. With $M=\sum_i\E Y_i\le n e^{-B\ell_s}$ and $a=s/64$,
+\[
+  \Pr\Big(\sum_i Y_i>a\Big)\ \le\ \Big(\tfrac{eM}{a}\Big)^{a}\ \le\ \big(64e\,(n/s)\,e^{-B\ell_s}\big)^{s/64}\ \le\ e^{-cB\,s\ell_s},
+\]
+using $\log(n/s)\le\ell_s+\Oh(1)$ (here $T=\Th(n)$). Since $\binom{T}{s}\le(eT/s)^s=e^{s\ell_s}$, union-bounding over $s=1,\dots,T$,
+\[
+  \Pr(\text{some }S\text{ fails})\ \le\ \sum_{s=1}^{T} e^{s\ell_s}\,e^{-cB\,s\ell_s}\ =\ \sum_{s\ge1} e^{-(cB-1)s\ell_s}\ \le\ \frac{e^{-(cB-1)}}{1-e^{-(cB-1)}}\ \xrightarrow{B\ \text{large}}\ 0,
+\]
+because $s\ell_s\ge s\ge 1$. Taking $B$ large enough that $cB-1$ exceeds any fixed constant makes this $o(1)$; the constant
+$K$ is the $K(B)$ above. \qed
+
+\subsection{The splitting lemma (\Cref{lem:split})}\label{app:split-full}
+
+Run \Cref{lem:LM} from $x^{(0)}_t=2a/s-1$ ($t\in S$); a sign vector $\sigma\in\{-1,1\}^S$ with $\sum_t\sigma_t=2a-s$
+corresponds to $Y=\{t:\sigma_t=1\}$, $|Y|=a$. Always include the all-ones vector with threshold $0$, an exact equality that
+preserves $\sum_t$ at every iteration. Let $A$ denote the current alive set, $m=|A|$, $\mu_A=dm/n$, $\ell_A=\log(eT/m)$.
+
+\emph{Dense phase ($\mu_A\ge\ell_A$).} For each row with $r_i(A)>0$ set $c_i=K\sqrt{\mu_A\ell_A}/\sqrt{r_i(A)}$. By
+\eqref{eq:struct-dense}, $\sum_i e^{-c_i^2/16}\le m/64$, leaving room for the all-ones constraint ($1+m/64\le m/16$ once
+$m\ge 22$). Each iteration changes row $i$ by at most $c_i\|v_i\|_2=c_i\sqrt{r_i(A)}=K\sqrt{\mu_A\ell_A}$.
+
+\emph{Sparse phase ($\mu_A<\ell_A$).} Set $U_A=K\Psifn(\mu_A,\ell_A)$. By \eqref{eq:struct-sparse} at most $m/64$ rows have
+$r_i(A)>U_A$; constrain those with threshold $0$ and \emph{release} the rest. A released row has at most $U_A$ alive
+incidences, so its total future change is at most $2U_A$.
+
+\emph{Stage-summing.} The alive set halves each iteration; writing the shrink as $e^{-u}$, $\mu(u)=\mu_0 e^{-u}$,
+$\ell(u)=\ell_0+u$. Since $e^{-u/2}\sqrt{\ell_0+u}$ is nonincreasing for $\ell_0\ge 1$,
+$\sum_{\text{dense}}\sqrt{\mu_A\ell_A}\le C\sqrt{\mu_0\ell_0}$. For the sparse thresholds, $\sup_{\text{sparse}}\Psifn(\mu_A,\ell_A)\le C\Psifn(\mu_0,\ell_0)$:
+if $\mu_0\le\ell_0$ this is monotone; if $\mu_0>\ell_0$ the sparse phase starts at $u_*\le\log(\mu_0/\ell_0)$, where
+$\ell_*=\ell_0+u_*\le\ell_0+\log(\mu_0/\ell_0)\le C\sqrt{\mu_0\ell_0}$, and we rebase. The process stops with $\Oh(1)$ alive
+variables, finished by brute force at cost $\Oh(1)$, absorbed by the ``$1$'' in $\Psifn$. Cardinality is exact up to an
+$\Oh(1)$ cleanup swap, which changes each $r_i(Y)$ by at most $1\le\Psifn$. Dividing the signed discrepancy by $2$ gives the
+claim. \qed
+
+\subsection{The recursive color-tree (\Cref{lem:offline-upper})}\label{app:tree-full}
+
+For a node $v$ with $q_v$ leaves and size $M_v$, \Cref{lem:split} gives children $w$ with
+$r_i(w)=(M_w/M_v)r_i(v)+e_i(w)$ and $|e_i(w)|\le C\Psifn(dM_v/n,\log(eT/M_v))$. For a $q$-leaf node, $dM_v/n=\Th(\lam q)$ and
+$\log(eT/M_v)=\Th(1+\log(k/q))=:\ell_q$. The map $r_i(\cdot)\mapsto$ leaf scales the additive error at a $q$-node by the
+product of the child fractions down to the leaf, which telescopes to $\Th(1/q)$. Summing along the root-to-leaf path,
+\[
+  \Big|x_{i,c}-\tfrac{m_c}{T}\deg_t(i)\Big|\ \le\ C\sum_{q\text{ on path}}\frac{\Psifn(\Th(\lam q),\ell_q)}{q}
+  \ =\ C\Big(\underbrace{\sum_q\tfrac1q}_{\Oh(1)}+\sqrt\lam\sum_q\sqrt{\tfrac{\ell_q}{q}}+\sum_q\frac{\ell_q}{q\,\log(e+\ell_q/(\lam q))}\Big).
+\]
+The $q$'s are $k,k/2,\dots,2$ (geometric). \emph{Square-root term:} $\sum_q\sqrt{\ell_q/q}$ with $\ell_q=1+\log(k/q)$ is
+dominated by the small-$q$ end and is $\Oh(\sqrt{\Lscale})$, so the term is $\Oh(\sqrt{\lam\Lscale})$. \emph{Bennett term:} if
+$\lam\ge\Lscale$ each summand has denominator $\ge1$ and the sum is $\Oh(\Lscale)=\Oh(\sqrt{\lam\Lscale})$. If $\lam<\Lscale$,
+put $A=\Lscale/\lam$ and split at $q=\sqrt A$: for $q\le\sqrt A$, $\ell_q\asymp\Lscale$ and $\log(e+\ell_q/(\lam q))\ge c\log(e+A)$,
+giving $\Oh(\Lscale/\log(e+A))$; for $q>\sqrt A$, drop the denominator and $\sum_{q>\sqrt A}\ell_q/q\le C\Lscale/\sqrt A=C\sqrt{\lam\Lscale}$.
+Hence the Bennett term is $\Oh(\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam))$. Adding the three pieces gives
+$\Oh(\Psifn(\lam,\Lscale))$ with $\Lscale=\log(ek)$. Finally $|(m_c/T)\deg_t(i)-(m_{c'}/T)\deg_t(i)|\le\deg_t(i)/T\le 1$
+because the $m_c$ differ by at most one, so $\rangeop_i\le 2\max_c|x_{i,c}-(m_c/T)\deg_t(i)|+1=\Oh(\Psifn(\lam,\log k))$ at
+every coordinate, and the construction is deterministic given $A$ (the structural event of \Cref{lem:structural} already
+covers every alive set chosen by the recursion, so no further randomness is spent). \qed
