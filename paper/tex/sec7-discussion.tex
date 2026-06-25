@@ -1,0 +1,73 @@
+\section{Consequences and discussion}\label{sec:discussion}
+
+We close by drawing out what the three theorems say together, and by comparing the techniques with the two-color theory they
+extend.
+
+\subsection{The cost of going online}\label{sec:disc-cost}
+
+\Cref{thm:offline,thm:online} let us read off the price the online constraint exacts as a function of the palette size. Define
+the \emph{online overhead} at palette $k$ as the ratio of the online value to the offline value,
+\[
+  \rho_k\ :=\ \frac{\ondisc_k}{\offdisc_k}.
+\]
+For fixed $k$ this ratio is $\Th(\loglog n/\sqrt d)$ by \Cref{thm:separation}, which is $\omega(1)$ across the whole sparsity
+range $2\le d\le\Hscale^2/\log\Hscale$ and grows as $d$ shrinks: the online penalty is largest exactly when the instance is
+sparsest. As $k$ grows the offline value falls from $\Th(\sqrt d)$ toward the occupancy floor $\Psifn(\lam,\log k)$, so the
+overhead can only widen, and the upper bracket gives $\rho_k\le\Oh(\loglog n/\Psifn(\lam,\log k))$. The qualitative
+conclusion is robust: more colors are a genuine resource offline and an illusory one online, and the gap between the two
+behaviours is the content of the separation.
+
+\begin{corollary}[Offline monotonicity]\label{cor:offline-mono}
+For $\log^5(dk)\le k\le d$, $\offdisc_k$ is nonincreasing in $k$ up to constants, dropping from $\Th(\sqrt d)$ at constant
+$k$ to $\Th(\log k/\loglog k)$ once $\lam=\Th(1)$, i.e.\ once $k=\Th(d)$.
+\end{corollary}
+
+\begin{proof}
+$\Psifn(\lam,\log k)$ with $\lam=\Th(d/k)$ is nonincreasing in $k$ in each of its three regimes: the Gaussian term
+$\sqrt{\lam\log k}=\Th(\sqrt{(d/k)\log k})$ decreases once $k\ge\log k$, and the two large-deviation terms are bounded by
+$\log k/\loglog k=o(\sqrt d)$. At $k=\Th(d)$, $\lam=\Th(1)$ and the bounded-occupancy term $\log k/\loglog k$ governs. The
+endpoints are \Cref{thm:separation} and \Cref{thm:offline}.
+\end{proof}
+
+The corollary locates the exact palette at which the offline discrepancy bottoms out: it is the balls-into-bins regime
+$\lam=\Th(1)$, where each color sees $\Th(1)$ arrivals per coordinate and the discrepancy is the maximum occupancy
+$\Th(\log k/\loglog k)$, the same $\Th(\log d/\loglog d)$ that governs the longest hash-probe sequence \cite{Gonnet1981}. No
+finer palette helps: pushing $k$ past $d$ would leave some colors empty at a coordinate, and the range cannot fall below the
+gap between an occupied and an empty bin.
+
+\subsection{Why the recursion loses no logarithm}\label{sec:disc-technique}
+
+The single most delicate point in the offline upper bound is that the color-tree composes $\log_2 k$ levels of partial
+coloring without paying a factor of $\log k$ (or of $\log d$, or of $\loglog n$) for the composition. Two design choices make
+this possible, and both are worth isolating because they are where a naive attempt fails.
+
+First, the splitting error at a node is \emph{density-sensitive}: a node controlling $m$ columns contributes
+$\Psifn(\mu,\ell)$ at the occupancy scale of that node, and not a uniform $\sqrt m$. A flat Lovett--Meka rounding at each
+node, with a common threshold, would contribute $\sqrt m$ per level and sum to $\Th(\sqrt T\log k)$, off by a large
+polynomial factor. The local tuning of thresholds is what keeps each node's error at the right scale.
+
+Second, the errors \emph{attenuate} down the tree. An error created at a node with $q$ leaves below it is divided among those
+leaves and reaches any single leaf reduced by $\Oh(1/q)$. The leaf therefore sees a geometric sum $\sum_q \Psifn(\Th(\lam
+q),\ell_q)/q$ along its root-to-leaf path, and this sum is dominated by its smallest scales and totals $\Th(\Psifn(\lam,\log
+k))$. A union bound over levels would instead have multiplied the per-level error by the number of levels; the attenuation is
+exactly what replaces that product by a convergent series. The same two features (a density-sensitive per-step error and a
+geometric attenuation) are what one should look for in any recursive rounding that aims to be tight at every scale at once,
+and they are the reusable methodological output of the construction.
+
+\subsection{What the online transplant does and does not use}\label{sec:disc-online}
+
+The online upper bound is deliberately a thin layer over \cite{AT2025}. The point of isolating properties (i) and (ii) of the
+repair rule (\Cref{sec:online}) is that they are the \emph{entire} interface between the algorithm and the
+Altschuler--Tikhomirov analysis: any online rule satisfying them, with any number of colors, inherits the
+$\Oh(\loglog n)$ bound. This is what makes the multicolor upper bound short, and it also explains why the online value cannot
+drop below the two-color barrier: the lower bound projects $k$ colors onto two by a zero-sum signing, and the projection is a
+legitimate online two-coloring whose discrepancy is at most $(k/2)\ondisc_k$. The barrier is therefore not an artifact of the
+algorithm but a feature of the model: the irrevocable commitment is what freezes $\Th(\loglog n)$, and no palette unfreezes
+it.
+
+The growing-$k$ frontier (\Cref{sec:open}) is where this thin layer stops sufficing. There the question is no longer whether
+a coordinate is exceptional but how its $k$ colors are distributed within the exceptional band, a genuinely $k$-dependent
+statistic that the two-color analysis does not track. The obstruction we record is precise: a permutation-invariant potential
+in $(\rangeop,\maxmult)$ overcounts by a $\log k$ factor, and the asymmetric rule that would avoid the overcount has an
+expectation-level tail that the phase conveyor refutes. Pinning the growing-$k$ order is, in our reading, the natural next
+target, and the bracket $\max\{\Psifn,\loglog n/k\}\le\ondisc_k\le\loglog n$ says exactly how much room is left.

@@ -113,32 +113,61 @@ per-row input the high-probability step consumes.
 \emph{Dense case $\mu_s\ge\ell_s$.} Here the natural overload scale is the multiplicative one, so we use a soft exponential
 test variable in place of a hard threshold. Let $Y_i=\exp(-K^2\mu_s\ell_s/(16\,r_i))\1[r_i>0]$, which is increasing in
 $r_i$ and bounded by $1$. Split on whether $r_i$ exceeds $b\mu_s$ for a constant $b$ to be chosen. On the event
-$\{0<r_i\le b\mu_s\}$ the exponent $-K^2\mu_s\ell_s/(16 r_i)$ is at most $-K^2\mu_s\ell_s/(16 b\mu_s)=-K^2\ell_s/(16b)$, so
-$Y_i\le e^{-K^2\ell_s/(16 b)}$ there. On the complementary event $\{r_i>b\mu_s\}$ we only use $Y_i\le 1$, but this event is
-itself rare: a multiplicative Chernoff bound for $\Bin(s,d/n)$ gives $\Pr(r_i>b\mu_s)\le e^{-c_b\mu_s}\le e^{-c_b\ell_s}$,
-the last step using $\mu_s\ge\ell_s$. Combining the two events, $\E Y_i\le e^{-K^2\ell_s/(16b)}+e^{-c_b\ell_s}$. We now fix
-constants in order: choose $b$ large enough that $c_b\ge B$, and then choose $K$ large enough that $K^2/(16b)\ge B$. Both
-summands are then at most $e^{-B\ell_s}$, so $\E Y_i\le 2e^{-B\ell_s}\le e^{-(B-1)\ell_s}$, where the factor $2$ is absorbed
-by lowering the exponent by one (valid since $\ell_s\ge 1$).
+$\{0<r_i\le b\mu_s\}$, since $r_i\le b\mu_s$ enlarges the denominator and so shrinks the magnitude of the negative exponent,
+the exponent $-K^2\mu_s\ell_s/(16 r_i)$ is at most
+\[
+  -\frac{K^2\mu_s\ell_s}{16\,r_i}\ \le\ -\frac{K^2\mu_s\ell_s}{16\,b\mu_s}\ =\ -\frac{K^2\ell_s}{16b},
+\]
+so $Y_i\le e^{-K^2\ell_s/(16 b)}$ there. On the complementary event $\{r_i>b\mu_s\}$ we only use $Y_i\le 1$, but this event
+is itself rare: writing $r_i\sim\Bin(s,d/n)$ with mean $\mu_s$, the multiplicative Chernoff bound
+$\Pr(r_i>(1+\delta)\mu_s)\le\exp(-\mu_s\,((1+\delta)\log(1+\delta)-\delta))$ at $1+\delta=b$ gives
+\[
+  \Pr(r_i>b\mu_s)\ \le\ \exp\!\big(-\mu_s\,(b\log b-b+1)\big)\ =\ e^{-c_b\mu_s}\ \le\ e^{-c_b\ell_s},
+  \qquad c_b:=b\log b-b+1,
+\]
+the last step using $\mu_s\ge\ell_s$ and $c_b>0$ for $b>1$. Combining the two events,
+\[
+  \E Y_i\ \le\ e^{-K^2\ell_s/(16b)}\cdot\Pr(0<r_i\le b\mu_s)+1\cdot\Pr(r_i>b\mu_s)\ \le\ e^{-K^2\ell_s/(16b)}+e^{-c_b\ell_s}.
+\]
+We now fix constants in order: choose $b$ large enough that $c_b=b\log b-b+1\ge B$, and then choose $K$ large enough that
+$K^2/(16b)\ge B$. Both summands are then at most $e^{-B\ell_s}$, so $\E Y_i\le 2e^{-B\ell_s}\le e^{-(B-1)\ell_s}$, where the
+factor $2\le e^{\ell_s}$ is absorbed by lowering the exponent by one (valid since $\ell_s\ge 1$, hence $2\le e\le e^{\ell_s}$).
 
 \emph{Sparse case $\mu_s<\ell_s$.} Here the relevant overload scale is the additive deviation $\Psifn(\mu_s,\ell_s)$, so we
 use a hard threshold. Let $Y_i=\1[r_i>K\Psifn(\mu_s,\ell_s)]$, again nondecreasing in $r_i$. Its expectation is precisely
-the probability that the binomial load exceeds the threshold $t=K\Psifn$, which we bound by Bennett's inequality, showing
-its exponent is at least $B\ell_s$. There are two sub-regimes governed by $\ell_s/\mu_s$. When $\ell_s/\mu_s=\Oh(1)$ the
-deviation $t$ is comparable to $\sqrt{\mu_s\ell_s}$, the Gaussian part of Bennett's exponent applies, and it contributes
-$\gtrsim t^2/\mu_s\gtrsim K^2\ell_s$. When $\ell_s/\mu_s\to\infty$ the threshold is dominated by the Poissonian summand
-$K\ell_s/\log(e+\ell_s/\mu_s)$ of $\Psifn$, and the Bennett exponent $t\log(t/\mu_s)\gtrsim K\ell_s$: the amplification
-$\log(t/\mu_s)\asymp\log(\ell_s/\mu_s)$ is exactly cancelled by the denominator $\log(e+\ell_s/\mu_s)$ built into $\Psifn$,
-while the additive ``$1$'' inside $\Psifn$ keeps the bound meaningful as $\mu_s\to0$. In both sub-regimes the exponent is at
-least $B\ell_s$ once $K$ is large in terms of $B$, so $\E Y_i=\Pr(r_i>K\Psifn)\le e^{-B\ell_s}$.
+the probability that the binomial load $r_i\sim\Bin(s,d/n)$ exceeds $t=K\Psifn(\mu_s,\ell_s)$. Bennett's inequality for a sum
+of independent indicators of mean $\mu_s$ states $\Pr(r_i\ge\mu_s+x)\le\exp(-\mu_s\,h(x/\mu_s))$ with
+$h(u)=(1+u)\log(1+u)-u$, and writing $x=t-\mu_s$ this is the upper tail at the deviation $t$ above the mean. Since
+$t=K\Psifn\ge K\sqrt{\mu_s\ell_s}\ge K\mu_s$ (using $\ell_s>\mu_s$ in this case), we have $x=t-\mu_s\ge t/2$ once $K\ge 2$,
+so the exponent is at least $\tfrac12\,\mu_s\,h(t/(2\mu_s))$ up to the relabelling $x\ge t/2$; we record the two sub-regimes
+governed by $\ell_s/\mu_s$ explicitly. There are two sub-regimes governed by $\ell_s/\mu_s$. When $\ell_s/\mu_s=\Oh(1)$ the
+deviation $t$ is comparable to $\sqrt{\mu_s\ell_s}$ (the first two summands of $\Psifn$ being of the same order there), so
+$t\lesssim\mu_s$ up to constants, the Gaussian branch $h(u)=\Th(u^2)$ of Bennett's exponent applies, and it contributes
+\[
+  \mu_s\,h(t/\mu_s)\ \gtrsim\ \mu_s\cdot\frac{t^2}{\mu_s^2}\ =\ \frac{t^2}{\mu_s}\ \ge\ \frac{K^2\mu_s\ell_s}{\mu_s}\ =\ K^2\ell_s.
+\]
+When $\ell_s/\mu_s\to\infty$ the threshold is dominated by the Poissonian summand $K\ell_s/\log(e+\ell_s/\mu_s)$ of $\Psifn$,
+so $t\gtrsim\mu_s$, the large-deviation branch $h(u)=\Th(u\log(1+u))$ applies, and
+\[
+  \mu_s\,h(t/\mu_s)\ \gtrsim\ \mu_s\cdot\frac{t}{\mu_s}\log\!\Big(1+\frac t{\mu_s}\Big)\ =\ t\,\log\!\Big(1+\frac t{\mu_s}\Big)
+  \ \gtrsim\ \frac{K\ell_s}{\log(e+\ell_s/\mu_s)}\cdot\log\!\Big(\frac t{\mu_s}\Big)\ \gtrsim\ K\ell_s,
+\]
+because $t/\mu_s\gtrsim(\ell_s/\mu_s)/\log(e+\ell_s/\mu_s)$ makes $\log(t/\mu_s)\asymp\log(\ell_s/\mu_s)\asymp\log(e+\ell_s/\mu_s)$,
+so the amplification $\log(t/\mu_s)$ is exactly cancelled by the denominator $\log(e+\ell_s/\mu_s)$ built into $\Psifn$; the
+additive ``$1$'' inside $\Psifn$ keeps $t\ge K$ and the bound meaningful as $\mu_s\to0$. In both sub-regimes the exponent is
+at least $B\ell_s$ once $K$ is large in terms of $B$ (take $K^2\ge B$ in the first and $cK\ge B$ in the second), so
+$\E Y_i=\Pr(r_i>K\Psifn)\le e^{-B\ell_s}$.
 
 \paragraph{From expectation to high probability, and the union.}
 We now turn the per-row expectation bound into control of the number of overloaded rows, and then pay for all subsets. In
-both cases $Y_i$ is a nondecreasing function of $r_i$, hence so is $e^{tY_i}$ for $t\ge 0$, and negative association lets us
-bound the moment generating function of $\sum_i Y_i$ by the product of the individual ones, exactly as under independence;
-this is the upper-tail factorization. The count $\sum_i Y_i$ has mean $M=\sum_i\E Y_i\le n e^{-B\ell_s}$, and we ask that it
-not exceed $a=s/64$. The standard Chernoff bound for a sum of $\{0,1\}$ (or $[0,1]$) variables with this factorization
-gives
+both cases $Y_i$ is a nondecreasing function of $r_i$, hence so is $e^{\theta Y_i}$ for $\theta\ge 0$, and since the rows
+$\{r_i(S)\}_i$ are NA the upper-tail factorization of \Cref{sec:NA} gives, for every $\theta\ge0$,
+\[
+  \E\Big[\exp\!\Big(\theta\sum_i Y_i\Big)\Big]\ =\ \E\Big[\prod_i e^{\theta Y_i}\Big]\ \le\ \prod_i\E\big[e^{\theta Y_i}\big],
+\]
+exactly as under independence. The count $\sum_i Y_i$ has mean $M=\sum_i\E Y_i\le n e^{-B\ell_s}$, and we ask that it not
+exceed $a=s/64$. Applying Markov's inequality to the factorized moment generating function and optimizing $\theta$ in the
+usual way is the standard Chernoff bound for a sum of $[0,1]$ variables, which with this factorization gives
 \[
   \Pr\Big(\sum_i Y_i>a\Big)\ \le\ \Big(\tfrac{eM}{a}\Big)^{a}\ \le\ \big(64e\,(n/s)\,e^{-B\ell_s}\big)^{s/64}\ \le\ e^{-cB\,s\ell_s},
 \]
@@ -168,29 +197,52 @@ then summed over $\Oh(\log m)$ halving stages, and the per-stage errors form a g
 $\Psifn$ term.
 
 Run \Cref{lem:LM} from the starting point $x^{(0)}_t=2a/s-1$ ($t\in S$), so that the target average sign encodes the
-intended split size; a sign vector $\sigma\in\{-1,1\}^S$ with $\sum_t\sigma_t=2a-s$ corresponds to the set
-$Y=\{t:\sigma_t=1\}$ of size $|Y|=a$. To pin the cardinality we always include the all-ones constraint vector with
-threshold $0$, which forces an exact equality $\sum_t\sigma_t^{(\text{step})}=0$ on the increment at every iteration and so
-preserves $\sum_t$ throughout the walk; this is what guarantees $|Y|=a$ on exit, not merely in expectation. Let $A$
+intended split size: the entries of $x^{(0)}$ average to $\tfrac1s\sum_t(2a/s-1)=2a/s-1$, which is the mean sign of a set of
+size $a$. A sign vector $\sigma\in\{-1,1\}^S$ with $\sum_t\sigma_t=2a-s$ corresponds to the set $Y=\{t:\sigma_t=1\}$ of size
+$|Y|=a$, since if $|Y|=a$ then $\sum_t\sigma_t=a\cdot(+1)+(s-a)\cdot(-1)=2a-s$, and conversely. To pin the cardinality we
+always include the all-ones constraint vector $v_0=\mathbf 1$ with threshold $c_0=0$. By \Cref{lem:LM} the threshold $0$
+enforces the exact linear equality $\langle\mathbf 1,\sigma-x^{(0)}\rangle=0$, that is $\sum_t\sigma_t=\sum_t x^{(0)}_t=2a-s$,
+so the average sign is preserved exactly from the start point through the end of the walk. This is what guarantees $|Y|=a$ on
+exit, not merely in expectation. Let $A$
 denote the current alive set of columns, $m=|A|$, and write $\mu_A=dm/n$, $\ell_A=\log(eT/m)$ for the running mean and
 logarithmic budget. The Lovett--Meka guarantee is that the walk reaches a face on which at least a constant fraction of the
 coordinates are frozen to $\pm1$, provided the constraints leave enough slack; the constraints we impose are exactly the
 overload tests of the structural lemma, with locally-tuned thresholds, and we verify the slack in each phase.
 
 \emph{Dense phase ($\mu_A\ge\ell_A$).} In this phase we constrain every nonempty row by a soft Gaussian-width budget scaled
-to its own load. For each row with $r_i(A)>0$ set the constraint coefficient $c_i=K\sqrt{\mu_A\ell_A}/\sqrt{r_i(A)}$, so that
-heavily loaded rows are held more tightly. The Lovett--Meka feasibility condition is that $\sum_i e^{-c_i^2/16}$ be a small
-fraction of $m$, and this is precisely the dense structural estimate: by \eqref{eq:struct-dense}, $\sum_i e^{-c_i^2/16}\le
-m/64$. This leaves room for the one extra all-ones equality constraint, since $1+m/64\le m/16$ as soon as $m\ge 22$, so the
-total constrained budget stays below the threshold the walk requires. Each iteration moves $\sigma$ along a unit Gaussian
-step inside the body, so it changes the load of row $i$ by at most $c_i\|v_i\|_2=c_i\sqrt{r_i(A)}=K\sqrt{\mu_A\ell_A}$,
+to its own load. For row $i$ feed \Cref{lem:LM} the test vector $v_i\in\R^A$ with $(v_i)_t=A_{it}$ for $t\in A$, the
+indicator of which alive columns cover $i$, so that $\langle v_i,\sigma\rangle=\sum_{t\in A}A_{it}\sigma_t$ is exactly the
+signed load of row $i$ under the partial coloring and $\|v_i\|_2=\sqrt{\sum_{t\in A}A_{it}}=\sqrt{r_i(A)}$. For each row with
+$r_i(A)>0$ set the threshold coefficient $c_i=K\sqrt{\mu_A\ell_A}/\sqrt{r_i(A)}$, so that heavily loaded rows are held more
+tightly. The Lovett--Meka feasibility condition is that $\sum_i e^{-c_i^2/16}$ be a small fraction of $m$. Substituting
+$c_i^2=K^2\mu_A\ell_A/r_i(A)$,
+\[
+  \sum_{i:\,r_i(A)>0} e^{-c_i^2/16}\ =\ \sum_{i:\,r_i(A)>0}\exp\!\Big(-\frac{K^2\mu_A\ell_A}{16\,r_i(A)}\Big)\ \le\ \frac{m}{64}
+\]
+is precisely the dense structural estimate \eqref{eq:struct-dense} read at the alive set $A$ (with $s=m$, $\mu_s=\mu_A$,
+$\ell_s=\ell_A$). This leaves room for the one extra all-ones equality constraint, which we encode as the vector
+$\mathbf 1\in\R^A$ with threshold $0$ (contributing $e^{-0}=1$ to the budget): the total is then
+\[
+  \sum_i e^{-c_i^2/16}+e^{-0}\ \le\ \frac{m}{64}+1\ \le\ \frac{m}{16}
+\]
+as soon as $m\ge 22$ (where $m/16-m/64=3m/64\ge1$), so the total constrained budget stays below the threshold the walk
+requires by \Cref{lem:LM}. Each iteration moves $\sigma$ along a unit Gaussian step inside the body, so the guarantee
+$|\langle v_i,\sigma-x_0\rangle|\le c_i\|v_i\|_2$ bounds the change in the load of row $i$ by
+\[
+  c_i\,\|v_i\|_2\ =\ \frac{K\sqrt{\mu_A\ell_A}}{\sqrt{r_i(A)}}\cdot\sqrt{r_i(A)}\ =\ K\sqrt{\mu_A\ell_A},
+\]
 where the $\sqrt{r_i(A)}$ in $\|v_i\|_2$ cancels the $\sqrt{r_i(A)}$ in the denominator of $c_i$. The per-row, per-stage
 change is therefore the uniform bound $K\sqrt{\mu_A\ell_A}$, independent of $i$.
 
 \emph{Sparse phase ($\mu_A<\ell_A$).} Here loads are small and we use a hard threshold. Set $U_A=K\Psifn(\mu_A,\ell_A)$. By
-the sparse structural estimate \eqref{eq:struct-sparse}, at most $m/64$ rows have $r_i(A)>U_A$. We constrain exactly those
-overloaded rows, with threshold $0$ so the walk does not increase their loads, and we \emph{release} all the remaining rows,
-imposing no constraint on them. A released row had at most $U_A$ alive incidences to begin with, so no matter how its
+the sparse structural estimate \eqref{eq:struct-sparse} read at $A$, the overloaded set $\mathcal O=\{i:r_i(A)>U_A\}$ has
+$|\mathcal O|\le m/64$. We constrain exactly those overloaded rows: for each $i\in\mathcal O$ feed the same load vector
+$v_i=(A_{it})_{t\in A}$ with threshold $c_i=0$, which by \Cref{lem:LM} freezes $\langle v_i,\sigma-x^{(0)}\rangle=0$ so the
+walk does not move row $i$'s load at all. Including the all-ones equality vector, the budget is
+\[
+  \sum_{i\in\mathcal O} e^{-0}+e^{-0}\ =\ |\mathcal O|+1\ \le\ \frac{m}{64}+1\ \le\ \frac{m}{16}
+\]
+for $m\ge22$, so \Cref{lem:LM} again applies. We \emph{release} all the remaining rows, imposing no constraint on them. A released row had at most $U_A$ alive incidences to begin with, so no matter how its
 incidences are colored across this and all later stages, its load can change by at most $U_A$ in each of the two halves,
 hence by at most $2U_A$ in total. Releasing such rows costs nothing because their entire future deviation is already bounded
 by $2U_A=\Oh(\Psifn(\mu_A,\ell_A))$.
@@ -249,24 +301,55 @@ $(\lam q)\ell_q/(\lam q\cdot\log(e+\ell_q/(\lam q)))$ divided by $q$ gives the l
 values of $q$ along the path are the geometric sequence $k,k/2,\dots,2$, so each of the three sums is a geometric-type sum
 that we now evaluate.
 
-The first sum is harmless: $\sum_q 1/q$ over the geometric sequence $k,k/2,\dots,2$ is a convergent geometric series, hence
-$\Oh(1)$.
+The first sum is harmless. Writing $q=k/2^j$ for $j=0,1,\dots,\log_2 k-1$, the values of $1/q$ form the geometric
+progression $1/k,2/k,4/k,\dots,1/2$, so
+\[
+  \sum_{q} \frac1q\ =\ \sum_{j=0}^{\log_2 k-1}\frac{2^j}{k}\ =\ \frac{2^{\log_2 k}-1}{k}\ =\ \frac{k-1}{k}\ \le\ 1\ =\ \Oh(1).
+\]
 
-\emph{Square-root term.} We must bound $\sum_q\sqrt{\ell_q/q}$ with $\ell_q=1+\log(k/q)$. As $q$ ranges over
-$k,k/2,\dots,2$, the factor $1/\sqrt q$ decays geometrically while $\sqrt{\ell_q}$ grows only like $\sqrt{\log(k/q)}$, so the
-sum is dominated by its small-$q$ (large-$k/q$) end, where $\ell_q=\Th(\log k)=\Th(\Lscale)$; carrying out the geometric sum
-gives $\sum_q\sqrt{\ell_q/q}=\Oh(\sqrt{\Lscale})$. Multiplying by the prefactor $\sqrt\lam$, the whole square-root term is
-$\Oh(\sqrt{\lam\Lscale})$.
+\emph{Square-root term.} We must bound $\sum_q\sqrt{\ell_q/q}$ with $\ell_q=1+\log(k/q)$. Substitute $q=k/2^j$, so that
+$\ell_q=1+\log 2^j=1+j\log 2=\Th(1+j)$ and $1/q=2^j/k$, giving the explicit series
+\[
+  \sum_{q}\sqrt{\frac{\ell_q}{q}}\ =\ \sum_{j=0}^{\log_2 k-1}\sqrt{\frac{(1+j\log 2)\,2^j}{k}}\ =\ \frac1{\sqrt k}\sum_{j=0}^{\log_2 k-1}\sqrt{1+j\log 2}\;\,2^{j/2}.
+\]
+The summand grows by the geometric factor $2^{1/2}$ times the slowly varying $\sqrt{(1+(j+1)\log2)/(1+j\log2)}\to1$, so the
+series is geometric and dominated by its last term $j=\log_2 k-1$, where $1+j\log2=\Th(\log k)=\Th(\Lscale)$ and
+$2^{j/2}=\Th(\sqrt k)$. Hence
+\[
+  \sum_{q}\sqrt{\frac{\ell_q}{q}}\ \le\ \frac{C}{\sqrt k}\cdot\sqrt{\Lscale}\cdot\sqrt k\ =\ \Oh\big(\sqrt{\Lscale}\big),
+\]
+the geometric tail summing to a constant multiple of the largest term. Multiplying by the prefactor $\sqrt\lam$, the whole
+square-root term is $\Oh(\sqrt{\lam\Lscale})$.
 
-\emph{Bennett term.} We must bound $\sum_q \ell_q/\big(q\,\log(e+\ell_q/(\lam q))\big)$. If $\lam\ge\Lscale$, then for every
-$q\ge1$ we have $\ell_q/(\lam q)\le\Lscale/\lam\le 1$, so the denominator $\log(e+\ell_q/(\lam q))\ge1$, and the sum is at
-most $\sum_q\ell_q/q=\Oh(\Lscale)=\Oh(\sqrt{\lam\Lscale})$, the last equality holding because $\lam\ge\Lscale$. If
-$\lam<\Lscale$, put $A=\Lscale/\lam>1$ and split the path at $q=\sqrt A$. For the small-$q$ part $q\le\sqrt A$ we have
-$\ell_q\asymp\Lscale$ and $\ell_q/(\lam q)\ge\Lscale/(\lam\sqrt A)=\sqrt A$, so $\log(e+\ell_q/(\lam q))\ge c\log(e+A)$, and
-the geometric sum $\sum_{q\le\sqrt A}\ell_q/q$ is $\Oh(\Lscale)$, giving an overall $\Oh(\Lscale/\log(e+A))$ for this part.
-For the large-$q$ part $q>\sqrt A$ we simply drop the denominator (it is $\ge1$) and bound $\sum_{q>\sqrt A}\ell_q/q\le
-C\Lscale/\sqrt A=C\Lscale/\sqrt{\Lscale/\lam}=C\sqrt{\lam\Lscale}$. Adding the two parts, the Bennett term is
-$\Oh(\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam))$.
+\emph{Bennett term.} We must bound $\sum_q \ell_q/\big(q\,\log(e+\ell_q/(\lam q))\big)$. We first record the geometric sum
+that appears repeatedly: by the same substitution $q=k/2^j$ used above, $\sum_{q\le Q}\ell_q/q$ is dominated by its
+largest-$j$ (smallest-$q$) term, where $\ell_q=\Th(\log(k/q))$ peaks and $1/q$ peaks, so for any cutoff $Q$,
+\[
+  \sum_{q\le Q}\frac{\ell_q}{q}\ \le\ C\,\frac{\ell_Q}{Q}\cdot\frac{1}{1-1/2}\ =\ \Oh\!\Big(\frac{\ell_Q}{Q}\Big),
+  \qquad\text{and in particular}\qquad \sum_{q}\frac{\ell_q}{q}\ =\ \Oh(\Lscale)
+\]
+taking $Q=2$ at the small-$q$ end where $\ell_q=\Th(\log k)=\Th(\Lscale)$ and $1/q=\Th(1)$. Now split into cases.
+
+If $\lam\ge\Lscale$, then for every $q\ge1$ we have $\ell_q/(\lam q)\le\ell_q/\lam\le\Lscale/\lam\le 1$, so the denominator
+$\log(e+\ell_q/(\lam q))\ge\log e=1$, and dropping it,
+\[
+  \sum_q \frac{\ell_q}{q\,\log(e+\ell_q/(\lam q))}\ \le\ \sum_q\frac{\ell_q}{q}\ =\ \Oh(\Lscale)\ =\ \Oh(\sqrt{\lam\Lscale}),
+\]
+the last equality holding because $\Lscale\le\sqrt{\lam\Lscale}$ when $\lam\ge\Lscale$.
+
+If $\lam<\Lscale$, put $A=\Lscale/\lam>1$ and split the path at $q=\sqrt A$. For the small-$q$ part $q\le\sqrt A$ we have
+$\ell_q\asymp\Lscale$ and $\ell_q/(\lam q)\ge\Lscale/(\lam\sqrt A)=A/\sqrt A=\sqrt A$, so
+$\log(e+\ell_q/(\lam q))\ge\log(e+\sqrt A)\ge c\log(e+A)$, and pulling this denominator out of the geometric sum,
+\[
+  \sum_{q\le\sqrt A}\frac{\ell_q}{q\,\log(e+\ell_q/(\lam q))}\ \le\ \frac{1}{c\log(e+A)}\sum_{q\le\sqrt A}\frac{\ell_q}{q}
+  \ =\ \Oh\!\Big(\frac{\Lscale}{\log(e+A)}\Big).
+\]
+For the large-$q$ part $q>\sqrt A$ we simply drop the denominator (it is $\ge1$) and use the geometric sum from the other
+end, now dominated by its smallest surviving $q=\Th(\sqrt A)$ where $\ell_q=\Th(\Lscale)$:
+\[
+  \sum_{q>\sqrt A}\frac{\ell_q}{q}\ \le\ C\,\frac{\Lscale}{\sqrt A}\ =\ C\,\frac{\Lscale}{\sqrt{\Lscale/\lam}}\ =\ C\sqrt{\lam\Lscale}.
+\]
+Adding the two parts, the Bennett term is $\Oh(\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam))$.
 
 Adding the three pieces, $\Oh(1)+\Oh(\sqrt{\lam\Lscale})+\Oh(\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam))$, recombines
 exactly into $\Oh(\Psifn(\lam,\Lscale))$ with $\Lscale=\log(ek)$; no extra logarithmic factor survives because the
