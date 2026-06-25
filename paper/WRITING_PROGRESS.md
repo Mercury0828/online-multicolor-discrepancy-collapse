@@ -6,7 +6,20 @@
 > Style gate after each section (`.agent/AI_STYLE_CHECKLIST.md`): zero AI-tokens, 说人话, NO defensive prose, "rather than" banned,
 > no em-dash glue, every bound pulled from the frozen proof, cross-section number echo.
 
-## LENGTH + REFS (2026-06-25, second pass)
+## LENGTH + REFS (2026-06-25, FINAL — 40pp / 69 refs)
+- **40 pages**, compiles clean (0 undefined, 0 multiply-defined). Structure: intro+results-table → Technical Overview →
+  prelims → T1 statements (≈ first 10pp = extended abstract) → full offline proof → full online proof → separation →
+  open problem → **Sec 7 Discussion** (online overhead, offline-monotonicity corollary, why the color-tree loses no log,
+  what the online transplant uses); appendix = NA/Poisson facts + broadening-cost/conveyor.
+- **refs.bib: 69 entries, all web-verified, all cited.**
+- Proofs deepened to full self-verifiable derivations (color-tree path-sum per regime; LM budget; Freedman seed-tail;
+  NA closure facts; fixed-k offline Theta(sqrt d) with anticoncentration; BC charging + conveyor invariant).
+- Offline lower-bound lemma `lem:occ-spread` left intact (still the one "correct-modulo-cited-occupancy-law" step;
+  relay prompt at `rounds/RELAY_occupancy_lemma.md` for GPT-5.5-Pro).
+- CAVEAT: the deepening passes added new explicit derivations around the (preserved) statements; these merit one more
+  Codex correctness pass before submission.
+
+
 - **Now 32 pages**, compiles clean (0 undefined). Restructured per SODA's "first 10pp must convey the core ideas":
   intro (+results table) → **Technical Overview** (new: proof ideas of T1/T2/T3 + growing-k obstruction) → prelims →
   T1 statements ≈ first ~10pp (extended-abstract part); then **full proofs in the body** (offline, online), separation,
