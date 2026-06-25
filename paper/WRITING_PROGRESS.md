@@ -6,6 +6,22 @@
 > Style gate after each section (`.agent/AI_STYLE_CHECKLIST.md`): zero AI-tokens, 说人话, NO defensive prose, "rather than" banned,
 > no em-dash glue, every bound pulled from the frozen proof, cross-section number echo.
 
+## ACCEPTANCE STATUS (2026-06-25) — full draft + Codex review convergence
+- **Compiles clean**: `latexmk main.tex` → 17pp, exit 0, 0 undefined refs/citations after bibtex.
+- **All sections + full-proof appendices + intro + abstract written.** Title/headline/structure as decided below.
+- **Codex review (gpt-5.5 xhigh) BLOCKERs resolved** through iterated re-checks (R1 correctness, R5 completeness):
+  - Prefix-vs-final: `offdisc`=final, `ondisc`=prefix (Altschuler–Tikhomirov split). FIXED §2/§3/appB/§5.
+  - Online upper (§4/appC): reframed as a **black-box reduction** to A-T's exceptional-set + level-set lemmas; we prove
+    only the k-free transplant (repair range-non-increasing for any k; actual≠seed ⇒ exceptional coord present). RESOLVED.
+  - Offline lower (appB): rewritten as **Lemma `lem:occ-spread` (occupancy spread lower tail)**, q≥k^{1/5}; heavy/light
+    on the *relative* threshold k^{1/4}λ; comparable-mean extreme-value law cited (ABKU/BCSV) as the one occupancy input.
+    Reviewer verdict: **LB-SHOULDFIX** = correct modulo the cited standard law (no remaining false sub-claim).
+  - Hypothesis `k ≥ C₀ log⁵(dk)` now carried in Thm 1, intro T1, and `cor:bracket` (the loglog n/k floor needs no lower-k).
+  - Compile blocker `\whp` in display math, `\newtheorem{problem}`, odd-k signing sign (−(a+1)/a, zero-sum). FIXED.
+- **Remaining (honest, non-blocking for a review draft):** (a) refs ~18 → grow to ~50–70 + verify; (b) prose density —
+  proofs are tight; expanding to full SODA exposition would grow length; (c) the comparable-mean occupancy law is invoked
+  as a cited standard fact (the one spot to hand the external solver if a referee wants it self-contained).
+
 ## Decisions (owner-aligned)
 - Title = **A2**: "Multicolor Discrepancy of Sparse Random Vectors: An Occupancy Threshold and an Online–Offline Separation".
 - Headline = "more colors: offline helps, online doesn't" + the multicolor online–offline separation.
