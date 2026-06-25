@@ -24,42 +24,40 @@ Let $B$ be the $n\times T$ matrix with i.i.d.\ $\Bin(1,p)$ entries, $p=d/n$. Con
 exactly $d$ ones yields $\mu_{d,n}$, and by Stirling $\Pr(\Bin(n,p)=d)\ge c_0/\sqrt{d+1}$, so $\Pr(\mathcal C)\ge(c_0/\sqrt{d+1})^T$
 where $\mathcal C$ is the event that all columns have weight $d$. Hence for any event $E$,
 $\Pr_{\mathrm{exact}}(E)\le\Pr_B(E)/\Pr_B(\mathcal C)\le(C\sqrt{d+1})^T\Pr_B(E)$. Under $B$ the $k$ loads at a fixed
-coordinate, $Y_c=\sum_{t\in\chi^{-1}(c)}B_{it}\sim\Bin(m_c,p)$, are independent, with $\E Y_c=m_c p=\Th(\lam)$ and variance
-$\Th(\lam)$.
+coordinate, $Y_c=\sum_{t\in\chi^{-1}(c)}B_{it}\sim\Bin(m_c,p)$, are independent, with $\E Y_c=\mu_c=m_c p$ and
+$\Var Y_c=\Th(\mu_c)$ and $\sum_c\mu_c=k\lam$.
 
 \paragraph{Step 3: per-coordinate spread.}
-Fix a coordinate; we show $\Pr(\rangeop_i\le \tfrac14 t^*)\le e^{-q}$ with $q=\Th(\sqrt k)$.
+Fix a coordinate. The $k$ loads are independent with means $\mu_c$ summing to $k\lam$; their spread is exactly the maximum
+load minus minimum load of a weighted balls-into-bins allocation of $k\lam$ balls into $k$ bins. The maximum-load law of such
+an allocation is $\lam+\Th(\Psifn(\lam,\log k))$ \cite{ABKU1999,BCSV2006}, and the minimum load is $\Oh(\lam)$, so
+$\rangeop_i=\Th(\Psifn(\lam,\log k))$ \whp. We need the lower tail of this fact with an explicit per-coordinate rate
+$q=k^{\Om(1)}$, which we obtain by a heavy/light split (set $\tau=k^{1/4}$ and $t^*=\Th(\Psifn(\lam,\log k))$).
 
-\emph{Case 1: a heavy color.} If $\max_c\mu_c\ge 6(\lam+t^*)$, the heaviest color has mean $\mu\ge 6(\lam+t^*)\ge 6\log k$,
-so by a Chernoff bound $Y\ge\mu/2\ge 3(\lam+t^*)$ \whp. The lightest color has mean $\mu_{\min}\le\lam$, so by the upper tail
-$\min_c Y_c\le\lam+t^*$ \whp. Hence $\rangeop_i\ge 3(\lam+t^*)-(\lam+t^*)=2\lam+2t^*\ge t^*$, with failure probability
-$e^{-\Th(k)}$ (the Chernoff and tail bounds), so $q=\Th(k)$ here.
+\emph{Heavy bin ($\max_c\mu_c\ge\tau$).} The heaviest bin has load $\ge\mu_{c^\dagger}/2\ge\tau/2$ by a Chernoff bound with
+failure $e^{-\Th(\tau)}$, while $\min_c Y_c\le\lam+t^*\le\tau/4$ (the lightest bin has mean $\le\lam$ and $\tau\gg\lam+t^*$).
+Thus $\rangeop_i\ge\tau/4\ge t^*$ off an event of probability $e^{-\Th(\tau)}$, giving $q=\Th(k^{1/4})$.
 
-\emph{Case 2: no heavy color.} Every $\mu_c\le 6(\lam+t^*)$. Colors with $\mu_c<\lam/2$ carry total mean $<k\lam/2$, so
-$H=\{c:\mu_c\ge\lam/2\}$ has $\sum_{c\in H}\mu_c>k\lam/2$ and hence $|H|\ge k\lam/(12(\lam+t^*))=:k'$, each with
-$\mu_c\in[\lam/2,\,6(\lam+t^*)]$. Partition $[\lam/2,6(\lam+t^*)]$ into the $\Oh(\log(1+t^*/\lam))=\Oh(\loglog n)$ dyadic
-bands $[M,2M]$; some band $B\subseteq H$ has $|B|\ge k'/\Oh(\loglog n)=:k''$, with all means in a common $[M,2M]$,
-$M\ge\lam/2$. The loads $\{Y_c\}_{c\in B}$ are independent with comparable means $\Th(M)$, and by \eqref{eq:poisson-tail}
-each exceeds its mean by $t^*$ with probability $\ge k^{-1/2}$ and (for $M\to\infty$) falls $t^*$ below it with the same
-probability; the rate constant is taken so $t^*$ stays $\Th(\Psifn(\lam,\log k))$ (the spread at mean $M\ge\lam$ is at least
-that at mean $\lam$). The extreme values over the $k''$ independent comparable loads therefore satisfy
-$\max_{c\in B}Y_c-\min_{c\in B}Y_c\ge t^*$ \whp: for $\lam\to\infty$ both edges hold with failure $\le 2(1-k^{-1/2})^{k''}$,
-and for $\lam=\Oh(1)$ the minimum is $0$ \whp (as $k''e^{-\Th(M)}\ge1$) while the maximum reaches $t^*$. Hence
-$\Pr(\rangeop_i\le\tfrac14 t^*)\le e^{-k''k^{-1/2}}=e^{-q}$. Since $k''=\Th\!\big(k\lam/((\lam+t^*)\loglog n)\big)$ and
-$t^*=(\log n)^{o(1)}$, $k''=k^{1-o(1)}$, so $q=k''k^{-1/2}=\Th(\sqrt k\,/\,(\log n)^{o(1)})\ge k^{2/5}$.
+\emph{All bins light ($\mu_c<\tau$).} Bins with $\mu_c<\lam/2$ carry total mean $<k\lam/2$, so $H=\{c:\mu_c\ge\lam/2\}$ has
+$|H|\ge(k\lam/2)/\tau=:k'$, each with $\mu_c\in[\lam/2,\tau)$. Split $[\lam/2,\tau)$ into $\Oh(\log(\tau/\lam))=\Oh(\log k)$
+dyadic bands; the densest band $B$ has $|B|\ge k'/\Oh(\log k)=:k''$, with means in a common $[M,2M]$, $M\ge\lam/2$. Over the
+$k''$ comparable-mean bins the occupancy extreme value gives $\max_{c\in B}Y_c-\min_{c\in B}Y_c\ge\Psifn(M,\log k)\ge t^*$
+\whp\ (the spread at occupancy $M\ge\lam/2$ is at least that at $\lam$): when $M\to\infty$ the matching upper and lower
+deviations are $\Th(\Psifn(M,\log k))$ with single-bin probability $k^{-1/2}$, and when $M=\Th(1)$ the minimum is $0$ \whp\
+and the maximum reaches $\Th(\log k/\loglog k)=t^*$. The failure probability is $e^{-\Th(k''k^{-1/2})}$. Since
+$k''=\Th(k\lam/(\tau\log k))=k^{1-o(1)}/\tau$ and $\tau=k^{1/4}$, $q=k''k^{-1/2}=k^{1/4-o(1)}\ge k^{1/5}$.
 
-In both cases $\Pr(\rangeop_i\le\tfrac14 t^*)\le e^{-q}$ with $q=\Th(\sqrt k)$. Negative association of $\{Y_c\}$ across the
+Both cases give $\Pr(\rangeop_i\le\tfrac14 t^*)\le e^{-q}$ with $q\ge k^{1/5}$. Negative association of $\{Y_c\}$ across the
 $n$ coordinates (\Cref{sec:NA}) gives $\Pr_B(\max_i\rangeop_i\le\tfrac14 t^*)\le e^{-qn}$. Set $D=\tfrac14 t^*=\Th(\Psifn)$.
 
 \paragraph{Step 4: union over colorings.}
-Step 3 gives a per-coordinate rate $q\ge k^{2/5}$ (Case 2; Case 1 gives the stronger $q=\Th(k)$). Combining Steps 2--3 and
-union-bounding over the at most $k^T$ colorings,
+Step 3 gives a per-coordinate rate $q\ge k^{1/5}$. Combining Steps 2--3 and union-bounding over the at most $k^T$ colorings,
 \[
   \Pr_{\mathrm{exact}}\big(\exists\chi:\ \max_i\rangeop_i(T)\le D\big)\ \le\ (C\sqrt{d+1})^T\,k^T\,e^{-q n}
-  \ =\ \exp\!\big(\Oh(n\log(dk))-\Om(n\,k^{2/5})\big).
+  \ =\ \exp\!\big(\Oh(n\log(dk))-\Om(n\,k^{1/5})\big).
 \]
-By the hypothesis $k\ge C_0\log^3(dk)$, $k^{2/5}\ge C_0^{2/5}\log^{6/5}(dk)$ dominates the $\Oh(\log(dk))$ per-coordinate
-cost, so the probability is $\exp(-\Om(n\,k^{2/5}))=o(1)$. Therefore $\offdisc_k\ge D+1\ge c\,\Psifn(\lam,\log k)$ \whp. The three
+By the hypothesis $k\ge C_0\log^5(dk)$, $k^{1/5}\ge C_0^{1/5}\log(dk)$ dominates the $\Oh(\log(dk))$ per-coordinate cost, so
+the probability is $\exp(-\Om(n\,k^{1/5}))=o(1)$. Therefore $\offdisc_k\ge D+1\ge c\,\Psifn(\lam,\log k)$ \whp. The three
 regimes \eqref{eq:Psi-regimes} are the three behaviours of $t^*(\lam,\log k)$: Gaussian $\sqrt{\lam\log k}$ for
 $\lam\gtrsim\log k$, the Bennett term $\log k/\log((\log k)/\lam)$ for $1\ll\lam\ll\log k$, and $\log k/\loglog k$ for
 $\lam=\Th(1)$. \qed

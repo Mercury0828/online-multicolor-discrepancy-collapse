@@ -20,7 +20,7 @@ Our first result determines the \emph{offline} value exactly. It is the spread o
 coordinate, a balls-into-bins occupancy threshold.
 
 \begin{itemize}
-  \item[\textbf{(T1)}] (\Cref{thm:offline}) For $C_0\log^3(dk)\le k\le d$ with $d,k=(\log n)^{o(1)}$, the optimal offline
+  \item[\textbf{(T1)}] (\Cref{thm:offline}) For $C_0\log^5(dk)\le k\le d$ with $d,k=(\log n)^{o(1)}$, the optimal offline
   (final) discrepancy is $\offdisc_k=\Th(\Psifn(\lam,\log k))$.
 \end{itemize}
 The three summands of $\Psifn$ give three regimes: $\sqrt{\lam\log k}$ for $\lam\gtrsim\log k$, then
@@ -43,8 +43,8 @@ The two results give a multicolor online--offline separation.
 
 \subsection{The growing-$k$ regime}\label{sec:intro-growing}
 
-For growing $k$ the online value is bracketed but not pinned: $\max\{\Psifn(\lam,\log k),\loglog n/k\}\le\ondisc_k\le\loglog n$
-(\Cref{cor:bracket}). The online-specific term $\loglog n/k$ exceeds the offline floor for small $k$, while the floor
+For growing $k$ the online value is bracketed but not pinned: under the hypotheses of \Cref{cor:bracket}
+($\log^5(dk)\le k\le d$), $\max\{\Psifn(\lam,\log k),\loglog n/k\}\le\ondisc_k\le\loglog n$. The online-specific term $\loglog n/k$ exceeds the offline floor for small $k$, while the floor
 $\Psifn$ takes over near $k\asymp\loglog n$. We reduce the exact order to one high-probability lemma about an asymmetric
 online rule, and show that the symmetric approach provably cannot reach it (\Cref{sec:open}). We conjecture
 $\ondisc_k=\Th(\max\{\Psifn(\lam,\log k),\loglog n/k\})$.

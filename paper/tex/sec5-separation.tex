@@ -26,12 +26,12 @@ For growing $k$ the online value is no longer pinned. \Cref{thm:offline} (with $
 \Cref{lem:online-lower,lem:online-upper} give the following.
 
 \begin{corollary}[Growing-$k$ bracket]\label{cor:bracket}
-For $C_0\log^3(dk)\le k\le d$ with $d,k=(\log n)^{o(1)}$,
+For $C_0\log^5(dk)\le k\le d$ with $d,k=(\log n)^{o(1)}$,
 \[
   \max\!\Big\{\,\Psifn(\lam,\log k),\ \frac{\loglog n}{k}\,\Big\}\ \le\ \ondisc_k\ \le\ \loglog n\qquad\whp.
 \]
 (The floor $\loglog n/k$ alone, from \Cref{lem:online-lower}, needs no lower bound on $k$; the $\Psifn$ floor uses
-\Cref{thm:offline} and hence its hypothesis $k\ge C_0\log^3(dk)$.)
+\Cref{thm:offline} and hence its hypothesis $k\ge C_0\log^5(dk)$.)
 \end{corollary}
 
 The two endpoints can be far apart. The online-specific term $\loglog n/k$ strictly exceeds the offline floor $\Psifn$ for

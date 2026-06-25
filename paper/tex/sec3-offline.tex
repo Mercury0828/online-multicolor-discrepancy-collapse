@@ -4,14 +4,14 @@
 This section proves the offline value exactly.
 
 \begin{theorem}[Offline characterization]\label{thm:offline}
-There is an absolute constant $C_0$ such that for $k\le d$, $d,k=(\log n)^{o(1)}$, and $k\ge C_0\log^3(dk)$,
+There is an absolute constant $C_0$ such that for $k\le d$, $d,k=(\log n)^{o(1)}$, and $k\ge C_0\log^5(dk)$,
 \[
   \offdisc_k\ =\ \Th\big(\Psifn(\lam,\log k)\big)\qquad\whp,
 \]
 with $\lam=Td/(nk)$ and $\Psifn$ as in \eqref{eq:Psi}. (Here $\offdisc_k$ is the final discrepancy, \Cref{sec:model}.)
 \end{theorem}
 
-The hypothesis $k\ge C_0\log^3(dk)$ is what lets the per-coordinate spread beat the union over the $k^T$ colorings; it holds
+The hypothesis $k\ge C_0\log^5(dk)$ is what lets the per-coordinate spread beat the union over the $k^T$ colorings; it holds
 for all but the smallest $k$ in the range, and excludes $k=2$, consistent with the two-color value being $\Th(\sqrt d)$
 rather than $\Th(\Psifn)$.
 
@@ -38,7 +38,7 @@ has mean $\gg\lam$ and its load alone tops the others by $\Psifn$, or a constant
 and the extreme value of $k$ Poisson loads spans $\Psifn$. By \eqref{eq:poisson-tail}, the deviation at which the expected
 number of colors exceeding $\mu_c+t$ drops below one solves rate $=\log k$, giving
 $t\asymp\sqrt{\lam\log k}+\log k/\log(e+\log k/\lam)=\Th(\Psifn)$. Negative association across coordinates combines the
-per-coordinate events, and the union over the $k^T$ colorings is beaten because $k\ge C_0\log^3(dk)$. The full argument,
+per-coordinate events, and the union over the $k^T$ colorings is beaten because $k\ge C_0\log^5(dk)$. The full argument,
 with the heavy/light dichotomy and the three regimes \eqref{eq:Psi-regimes}, is in \Cref{app:offline-lower-full}.
 
 \subsection{Overview of the upper bound}\label{sec:offline-overview}
