@@ -12,12 +12,12 @@ two-color prefix discrepancy is $\Th(\loglog n)$, independent of $d$, an exponen
 $\Th(\sqrt d)$ of random $d$-regular set systems. We ask how the number of colors $k$ changes this, and answer it in two of
 the three regimes of $k$, reducing the third to a single high-probability lemma.
 
-Write $\lam=Td/(nk)=\Th(d/k)$ for the per-color occupancy, $\Hscale=\loglog n$, and
-$\Psifn(\lam,\Lscale)=1+\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam)$.
+Write $\lam=Td/(nk)=\Th(d/k)$ for the per-color occupancy, $\Hscale=\loglog n$, and, for a scale parameter $\Lscale$,
+$\Psifn(\lam,\Lscale)=1+\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam)$; the offline threshold uses $\Lscale=\log k$.
 
 \paragraph{Results.}
-Our first result determines the \emph{offline} value exactly. It is the spread of $k$ independent Poisson loads at a
-coordinate, a balls-into-bins occupancy threshold.
+Our first result determines the \emph{offline} value up to constant factors, in the growing-palette regime. It is the spread
+of $k$ independent Poisson loads at a coordinate, a balls-into-bins occupancy threshold.
 
 \begin{itemize}
   \item[\textbf{(T1)}] (\Cref{thm:offline}) For $C_0\log^5(dk)\le k\le d$ with $d,k=(\log n)^{o(1)}$ and $\lam\ge1$, the
@@ -38,7 +38,7 @@ $k$, and the upper bound $\Oh(\loglog n)$ in fact holds for all $k$.
 The two results give a multicolor online--offline separation.
 
 \begin{itemize}
-  \item[\textbf{(T3)}] (\Cref{thm:separation}) For every fixed $k$, $\ondisc_k=\Th(\loglog n)\gg\offdisc_k=\Th(\sqrt d)=o(\loglog n)$.
+  \item[\textbf{(T3)}] (\Cref{thm:separation}) For every fixed $k$, $\ondisc_k=\Th(\loglog n)\gg\offdisc_k=\Oh(\sqrt d)=o(\loglog n)$.
 \end{itemize}
 
 \begin{table}[t]
@@ -49,20 +49,20 @@ The two results give a multicolor online--offline separation.
 regime of $k$ & offline $\offdisc_k$ & online $\ondisc_k$ & where \\
 \hline
 $k=2$ & $\Th(\sqrt d)$ & $\Th(\loglog n)$ & \cite{AT2025}, \cite{BansalMeka2019} \\
-fixed $k\ge 2$ & $\Th(\sqrt d)$ & $\Th(\loglog n)$ & \Cref{thm:separation} \\
-$\log^5(dk)\le k\le d$ & $\Th(\Psifn(\lam,\log k))$ & $[\max\{\Psifn,\tfrac{\loglog n}{k}\},\,\loglog n]$ & \Cref{thm:offline}, \Cref{cor:bracket} \\
+fixed $k\ge 2$ & $\Oh(\sqrt d)$ & $\Th(\loglog n)$ & \Cref{thm:separation} \\
+$\log^5(dk)\le k\le d,\ \lam\ge1$ & $\Th(\Psifn(\lam,\log k))$ & $[\max\{\Psifn(\lam,\log k),\tfrac{\loglog n}{k}\},\,\loglog n]$ & \Cref{thm:offline}, \Cref{cor:bracket} \\
 \hline
 \end{tabular}
 \caption{The offline value collapses to the occupancy threshold $\Psifn(\lam,\log k)$ as $k$ grows, while the online value
-stays at the $\Th(\loglog n)$ barrier for every fixed $k$. The growing-$k$ online order is bracketed
-(\Cref{sec:open}).}\label{tab:results}
+stays at the $\Th(\loglog n)$ barrier for every fixed $k$; here $\lam=\Th(d/k)$ and $d,k=(\log n)^{o(1)}$. The growing-$k$
+online order is bracketed (\Cref{sec:open}).}\label{tab:results}
 \end{table}
 
 \subsection{The growing-$k$ regime}\label{sec:intro-growing}
 
 For growing $k$ the online value is bracketed but not pinned: under the hypotheses of \Cref{cor:bracket}
-($\log^5(dk)\le k\le d$), $\max\{\Psifn(\lam,\log k),\loglog n/k\}\le\ondisc_k\le\loglog n$. The online-specific term $\loglog n/k$ exceeds the offline floor for small $k$, while the floor
-$\Psifn$ takes over near $k\asymp\loglog n$. We reduce the exact order to one high-probability lemma about an asymmetric
+($\log^5(dk)\le k\le d$, $\lam\ge1$), $\max\{\Psifn(\lam,\log k),\loglog n/k\}\le\ondisc_k\le\loglog n$. The online-specific
+term $\loglog n/k$ exceeds the offline floor for small $k$, while the floor $\Psifn$ takes over as $k$ approaches $d$. We reduce the exact order to one high-probability lemma about an asymmetric
 online rule, and show that the symmetric approach provably cannot reach it (\Cref{sec:open}). We conjecture
 $\ondisc_k=\Th(\max\{\Psifn(\lam,\log k),\loglog n/k\})$.
 
@@ -94,7 +94,7 @@ The combinatorial discrepancy of a set system asks for a two-coloring keeping ev
 Beck--Fiala's $2t-1$ for degree $t$ \cite{BeckFiala1981}, Spencer's $\Oh(\sqrt n)$ for $n$ sets \cite{Spencer1985}, the
 Bárány--Grinberg vector-balancing bound \cite{BaranyGrinberg1981}, and Banaszczyk's $\Oh(\sqrt{\log n})$ for the Komlós and
 Beck--Fiala settings \cite{Banaszczyk1998}; see the surveys and texts \cite{BeckSos1995,Matousek1999,Chazelle2000,AlonSpencer2016}.
-A line of constructive algorithms now matches these existentially: Bansal's SDP rounding \cite{Bansal2010}, the Lovett--Meka
+A line of constructive algorithms now matches these existentially: Bansal's semidefinite-programming (SDP) rounding \cite{Bansal2010}, the Lovett--Meka
 partial-coloring walk \cite{LovettMeka2015}, Rothvoss's convex-set method \cite{Rothvoss2017,EldanSingh2018}, the Gram--Schmidt
 walk and its relatives \cite{BansalGarg2017,BansalDadushGargLovett2018}, and an algorithm matching Banaszczyk's Komlós bound
 \cite{BansalDadushGarg2019,Nikolov2013}. The structure of the problem is by now well mapped: hereditary discrepancy and its

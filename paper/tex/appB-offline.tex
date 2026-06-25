@@ -100,8 +100,8 @@ $\Pr(Y_h<\mu_h/2)\le e^{-\mu_h/8}\le e^{-k^{1/4}/8}$ (using $\lam\ge1$), and eac
 (Markov), so $\Pr(\min_{c\in S}Y_c>2\lam)\le 2^{-|S|}\le e^{-ck^{1/4}}$. Off these events $\rangeop_i\ge\tfrac12 k^{1/4}\lam-2\lam$,
 which exceeds $\tfrac14 t^*$ because $t^*/\lam\le 1+\sqrt{\log k}+\log k=\Oh(\log k)$ for $\lam\ge1$ and $k^{1/4}=\omega(\log k)$.
 
-\emph{No heavy bin: $\mu_h<k^{1/4}\lam$.} Let $H=\{c:\mu_c\ge\tfrac{9}{10}\lam\}$; the discarded bins carry mean
-$<\tfrac{9}{10}k\lam$, so $\sum_{c\in H}\mu_c>\tfrac1{10}k\lam$ and $|H|\ge\tfrac1{10}k^{3/4}$. Split
+\emph{No heavy bin: $\mu_h<k^{1/4}\lam$.} Let $G=\{c:\mu_c\ge\tfrac{9}{10}\lam\}$; the discarded bins carry mean
+$<\tfrac{9}{10}k\lam$, so $\sum_{c\in G}\mu_c>\tfrac1{10}k\lam$ and $|G|\ge\tfrac1{10}k^{3/4}$. Split
 $[\tfrac{9}{10}\lam,k^{1/4}\lam)$ into $\Oh(\log k)$ dyadic bands; the densest band $B$ has $m:=|B|\ge ck^{3/4}/\log k=k^{3/4-o(1)}$
 bins of comparable mean $M\in[\tfrac{9}{10}\lam,k^{1/4}\lam)$, with $\ell=\log m\ge\tfrac{7}{10}\log k$. A direct estimate gives
 $\Psifn(M,\ell)\ge\tfrac58\,t^*$: the constant and Gaussian terms only grow, and for the Bennett term
@@ -333,7 +333,7 @@ For a node $v$ with $q_v$ leaves below it and column set of size $M_v$, applying
 whose loads satisfy $r_i(w)=(M_w/M_v)r_i(v)+e_i(w)$, where the first term is the perfectly proportional split and the
 additive error obeys $|e_i(w)|\le C\Psifn(dM_v/n,\log(eT/M_v))$ by the splitting lemma. We index nodes by the number $q$ of
 leaves they subtend. For a $q$-leaf node the relevant parameters are $dM_v/n=\Th(\lam q)$, since such a node holds a
-$\Th(q/k)$ fraction of all columns and $\lam=\Th(dk/n)/k$, and $\log(eT/M_v)=\Th(1+\log(k/q))=:\ell_q$. So the error
+$\Th(q/k)$ fraction of all columns and $\lam=Td/(nk)=\Th(d/k)$, and $\log(eT/M_v)=\Th(1+\log(k/q))=:\ell_q$. So the error
 injected at a $q$-node is $\Oh(\Psifn(\Th(\lam q),\ell_q))$.
 
 Now follow this error to the leaf. Passing the recursion $r_i(w)=(M_w/M_v)r_i(v)+e_i(w)$ down the path expresses the leaf

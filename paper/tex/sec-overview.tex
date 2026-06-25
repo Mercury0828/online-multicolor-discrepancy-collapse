@@ -65,10 +65,11 @@ that two properties of this rule are \emph{independent of the number of colors}:
 repaired coordinate's range (for any $k$), and the assigned color differs from the seed only when the arrival already contains
 an exceptional coordinate. These are exactly the two hypotheses under which the Altschuler--Tikhomirov category and level-set
 analysis runs, so we invoke that analysis as a black box (\Cref{sec:online}) and verify only the transplant. The one genuinely
-$k$-dependent estimate is the seed tail---the probability that a random $k$-coloring leaves a coordinate exceptional---which we
-bound directly and which scopes the result to $k$ up to a power of $d$. The upper bound $\Oh(\loglog n)$ in fact holds for all
-$k$; the lower bound $\Om(\loglog n)$ for fixed $k$ projects the two-color lower bound through a balanced or, for odd $k$,
-asymmetric zero-sum signing of the colors.
+$k$-dependent estimate is the seed tail, the probability that a random $k$-coloring leaves a coordinate exceptional; we bound
+it directly by a maximal Bernstein inequality whose variance $2Td/(nk)$ only shrinks as $k$ grows, so the bound holds for all
+$k$ with the worst case at $k=2$. Hence the upper bound $\Oh(\loglog n)$ holds for all $k$. The lower bound $\Om(\loglog n)$
+for fixed $k$ projects the two-color lower bound through a balanced or, for odd $k$, asymmetric zero-sum signing of the
+colors.
 
 \subsection{The separation and the growing-$k$ frontier}\label{sec:ov-sep}
 
