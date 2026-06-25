@@ -29,7 +29,7 @@ The second idea is a splitting primitive: given a class of $m$ columns, partitio
 every coordinate's count splits in proportion, up to the occupancy-scale error $\Psifn(\mu,\ell)$ of the class
 (\Cref{lem:split}). We run the Lovett--Meka partial-coloring walk \cite{LovettMeka2015} with \emph{locally tuned} thresholds:
 a coordinate of count $r_i$ in the class gets a Gaussian or Bennett threshold matched to its own density, which is why the
-error is the density-sensitive $\Psifn$ rather than a uniform $\sqrt{m}$. An all-ones equality constraint with threshold $0$
+error is the density-sensitive $\Psifn$ and not a uniform $\sqrt{m}$. An all-ones equality constraint with threshold $0$
 keeps the two sub-sizes exact at every iteration, so the recursion never accumulates rounding drift.
 
 \paragraph{The color-tree path sum.}

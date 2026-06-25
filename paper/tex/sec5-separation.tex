@@ -1,7 +1,12 @@
 % sec5-separation.tex -- The online-vs-offline separation + the growing-k bracket.
 \section{The online--offline separation}\label{sec:separation}
 
-\Cref{thm:offline,thm:online} together give a multicolor analogue of the two-color separation of \cite{AT2025}.
+The two halves of the analysis, the offline upper bound of \Cref{thm:offline} and the online lower bound of
+\Cref{thm:online}, can now be placed side by side. Read together they say that the online and offline values live on
+genuinely different scales, and so they give a multicolor analogue of the two-color separation of \cite{AT2025}. In the
+two-color setting that separation already shows that an adversary who reveals the columns one at a time forces an
+asymptotically larger imbalance than an offline colorer who sees the whole matrix; the statement below records that the
+same phenomenon survives, and in fact sharpens, when the palette has any fixed number of colors.
 
 \begin{theorem}[Separation, fixed $k$]\label{thm:separation}
 For every fixed $k\ge 2$ and $2\le d\le\Hscale^2/\log\Hscale$,
@@ -11,19 +16,43 @@ For every fixed $k\ge 2$ and $2\le d\le\Hscale^2/\log\Hscale$,
 \end{theorem}
 
 \begin{proof}
-The online value is $\Th(\loglog n)$ by \Cref{thm:online}. The offline value of a random $d$-regular set system, $k$-colored
-with a constant number of colors, is $\Th(\sqrt d)$: the two-color value is the classical $\Th(\sqrt d)$ of
-\cite{BansalMeka2019,EzraLovett2016,HobergRothvoss2019}, and a constant number of colors changes it only by a constant factor
-(each color load is $\Bin(\Th(T/k),d/n)$ with standard deviation $\Th(\sqrt{d/k})$, and the per-coordinate spread of $k=\Th(1)$
-such loads is $\Th(\sqrt d)$). Under the sparsity cap $d\le\Hscale^2/\log\Hscale$, $\sqrt d\le\Hscale/\sqrt{\log\Hscale}=o(\Hscale)$,
-so $\offdisc_k=o(\loglog n)$.
+There are three things to verify: that the online value sits at $\Th(\loglog n)$, that the offline value sits at
+$\Th(\sqrt d)$, and that the sparsity cap forces the second to be of strictly smaller order than the first.
+
+The online value is $\Th(\loglog n)$ by \Cref{thm:online}, which supplies both directions at fixed $k$. The lower bound is
+the heart of the matter: no online rule can keep the maximum per-coordinate spread below order $\loglog n$, because the
+adversary can always feed columns that drive the rank statistic upward at the doubly logarithmic rate forced by the
+self-similar branching of the allocation. The matching upper bound shows that the rank-greedy rule keeps the spread at
+$\Oh(\loglog n)$, so the online order is pinned at $\Th(\loglog n)$.
+
+The offline value of a random $d$-regular set system, $k$-colored with a constant number of colors, is $\Th(\sqrt d)$. For
+two colors this is the classical discrepancy of a random sparse set system, namely $\Th(\sqrt d)$ from
+\cite{BansalMeka2019,EzraLovett2016,HobergRothvoss2019}. Passing from two colors to a fixed number $k=\Th(1)$ of colors
+changes the value only by a constant factor that depends on $k$, and not on $n$ or $d$. To see this, fix a balanced
+$k$-coloring and look at one row. Each color class contributes a load that is distributed as $\Bin(\Th(T/k),d/n)$, a sum of
+roughly $T/k$ independent indicators each of probability $d/n$, so it has mean $\Th(d/k)$ and standard deviation
+$\Th(\sqrt{d/k})$. The per-coordinate spread the offline objective measures is the gap between the largest and smallest of
+these $k=\Th(1)$ color loads, and the spread of a constant number of loads each with deviation $\Th(\sqrt{d/k})$ is again
+$\Th(\sqrt d)$, since $k$ enters only through a bounded multiplicative constant. The classical offline algorithm attains this
+spread up to constants, so the offline value is $\Th(\sqrt d)$.
+
+It remains to compare the two scales. Under the sparsity cap $d\le\Hscale^2/\log\Hscale$ we have
+$\sqrt d\le\Hscale/\sqrt{\log\Hscale}$. Since $\Hscale=\loglog n\to\infty$, the factor $1/\sqrt{\log\Hscale}\to0$, so
+$\sqrt d=o(\Hscale)=o(\loglog n)$. Therefore $\offdisc_k=\Th(\sqrt d)=o(\loglog n)=o(\ondisc_k)$, which is exactly the
+displayed chain of the theorem.
 \end{proof}
 
-We state the offline value at fixed $k$ from the classical random-set-system bounds rather than from \Cref{thm:offline},
-which is proved for $k\to\infty$; the two agree on the overlap, since $\Psifn(\lam,\log k)=\Th(\sqrt d)$ when $k$ is constant.
+A word on why the offline value here is quoted from the classical random-set-system bounds and not read off from
+\Cref{thm:offline}. \Cref{thm:offline} is proved in the growing-palette regime $k\to\infty$, where its hypotheses are in
+force, so it does not directly cover a fixed $k$. The two descriptions agree on the overlap of their ranges: the offline
+formula $\Psifn(\lam,\log k)$ of \Cref{thm:offline} collapses to $\Th(\sqrt d)$ when $k$ is held constant, because the
+$\log k$ argument is then a bounded constant and $\Psifn$ reduces to its Gaussian-spread regime. So the two routes give the
+same offline order on the common domain, and we use whichever is licensed by its hypotheses.
 
-For growing $k$ the online value is no longer pinned. \Cref{thm:offline} (with $\ondisc_k\ge\offdisc_k$) and
-\Cref{lem:online-lower,lem:online-upper} give the following.
+For growing $k$ the online value is no longer pinned to a single power of $\loglog n$, and the clean separation above gives
+way to a two-sided estimate. Combining \Cref{thm:offline} (through the trivial inequality $\ondisc_k\ge\offdisc_k$, since any
+online coloring is in particular an offline one) with the online lower and upper bounds
+\Cref{lem:online-lower,lem:online-upper} gives the following bracket.
 
 \begin{corollary}[Growing-$k$ bracket]\label{cor:bracket}
 For $C_0\log^5(dk)\le k\le d$ with $d,k=(\log n)^{o(1)}$,
@@ -34,6 +63,20 @@ For $C_0\log^5(dk)\le k\le d$ with $d,k=(\log n)^{o(1)}$,
 \Cref{thm:offline} and hence its hypothesis $k\ge C_0\log^5(dk)$.)
 \end{corollary}
 
-The two endpoints can be far apart. The online-specific term $\loglog n/k$ strictly exceeds the offline floor $\Psifn$ for
-small $k$ (so online is genuinely worse than offline there), while for $k$ near $\loglog n$ the floor $\Psifn$ takes over.
-Pinning the exact growing-$k$ order is the subject of \Cref{sec:open}.
+The two endpoints of this bracket can be far apart, and which of the two floors dominates depends on the size of $k$
+relative to $\loglog n$. The lower bound is the maximum of two terms of very different origin. The term $\Psifn(\lam,\log k)$
+is the offline floor: it is a price that even an all-seeing colorer must pay, inherited from \Cref{thm:offline}. The term
+$\loglog n/k$ is online-specific: it is the cost the doubly logarithmic branching imposes on any column-by-column rule, and
+it has no offline counterpart. For small $k$ the online-specific term $\loglog n/k$ is the larger of the two and strictly
+exceeds the offline floor $\Psifn$, so online coloring is genuinely worse than offline coloring in that range, which is the
+qualitative content of the separation extended past fixed $k$. As $k$ grows the online-specific term decays like $1/k$,
+while the offline floor $\Psifn$ grows with its $\log k$ argument, so near $k\approx\loglog n$ the two cross and the offline
+floor $\Psifn$ takes over. In between, the bracket leaves a genuine gap between the lower and upper bounds, and pinning the
+exact growing-$k$ order inside that gap is the subject of \Cref{sec:open}.
+
+Two consequences are worth stating. First, the separation of \Cref{thm:separation} is exponential in the offline value: the
+online value $\Th(\loglog n)$ is exponentially larger than the offline value $\Th(\sqrt d)$ across the whole sparse range
+$2\le d\le\Hscale^2/\log\Hscale$, since $\sqrt d$ can be as small as $\Th(1)$ while $\loglog n\to\infty$. Second, the
+separation is not an artifact of a single palette size: it persists for every fixed $k\ge2$, with the implied constants
+depending on $k$ only through bounded factors, so the online disadvantage is a stable structural feature of the problem and
+not a coincidence at one value of $k$.

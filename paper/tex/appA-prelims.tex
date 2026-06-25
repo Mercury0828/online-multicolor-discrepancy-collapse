@@ -2,16 +2,44 @@
 \section{Additional preliminaries}\label{app:prelims}
 
 \paragraph{Negative association: the closure properties we use.}
-We use two standard closure properties of NA families \cite{JoagDevProschan1983}. (P7, independent union) If $X$ and $Y$ are
-each NA and independent of each other, their concatenation is NA. (P6, monotone functions of disjoint blocks) If
-$(Z_1,\dots,Z_m)$ is NA and $g_1,\dots,g_r$ are coordinatewise-nondecreasing functions on \emph{disjoint} index blocks, then
-$(g_1(Z),\dots,g_r(Z))$ is NA. Applying (P7) to the $s$ independent columns of a subset $S$ gives an NA vector on $[n]\times S$,
-and applying (P6) with $g_i(\cdot)=\sum_{t\in S}A_{it}$ (which reads only block $\{(i,t):t\in S\}$, and these blocks are
-disjoint across $i$) shows $\{r_i(S)\}_{i\in[n]}$ is NA. The single inequality we invoke is that for nondecreasing
-$f_1,\dots,f_n$ and $t>0$, $\E\big[\prod_i f_i(Y_i)\big]\le\prod_i\E[f_i(Y_i)]$, which is the upper-tail direction of NA. In
-both estimates of \Cref{app:structural-full} the summand $Y_i$ is a nondecreasing function of $r_i$ (for the dense estimate,
-$\exp(-c/r)\1[r>0]$ is nondecreasing in $r$; for the sparse estimate, $\1[r>U]$ is nondecreasing), so $e^{tY_i}$ is
-nondecreasing and the factorization applies in the correct direction.
+We use two standard closure properties of negatively associated (NA) families, both from the original treatment of
+\cite{JoagDevProschan1983}, together with the one tail inequality they imply. Recall that a random vector is NA if, for every
+pair of disjoint index sets and every pair of coordinatewise-nondecreasing functions of the corresponding subvectors, the two
+resulting functions are nonpositively correlated. The two closure properties we need are the following.
+
+The first (property P7, closure under independent union) says that NA is preserved by concatenating independent NA vectors:
+if $X$ and $Y$ are each NA and are independent of each other, then the stacked vector $(X,Y)$ is NA. The reason is that any
+two monotone functions on disjoint index sets either read coordinates of a single block, where the NA of that block applies,
+or split across the two blocks, where independence makes the covariance vanish; in every case the defining inequality holds.
+
+The second (property P6, monotone functions of disjoint blocks) says that NA is preserved under taking nondecreasing
+functions of disjoint groups of coordinates: if $(Z_1,\dots,Z_m)$ is NA and $g_1,\dots,g_r$ are coordinatewise-nondecreasing
+functions, each depending only on its own \emph{disjoint} block of indices, then $(g_1(Z),\dots,g_r(Z))$ is again NA. This is
+immediate from the definition, since any monotone function of a subcollection of the $g_i$ is itself a monotone function of a
+union of the underlying disjoint blocks.
+
+These two facts are exactly what is needed to certify that the row loads of a random column-sampled matrix are NA. Fix a
+subset $S$ of $s$ columns. The columns are sampled independently, and within a single column the entries form an NA vector
+(a vector of indicators of a uniform $d$-subset is NA by the permutation-distribution case of \cite{JoagDevProschan1983}).
+Applying (P7) across the $s$ independent columns of $S$ therefore yields an NA vector on the product index set
+$[n]\times S$. Now apply (P6) with the functions $g_i(\cdot)=\sum_{t\in S}A_{it}$, one per row $i$. The function $g_i$ reads
+only the block $\{(i,t):t\in S\}$, these blocks are disjoint across the rows $i$, and each $g_i$ is nondecreasing in its
+entries, so the hypotheses of (P6) hold and the row-load vector $\{r_i(S)\}_{i\in[n]}$ is NA.
+
+The single inequality we actually invoke downstream is the upper-tail (MGF) direction of NA: for nondecreasing functions
+$f_1,\dots,f_n$ and any $t>0$,
+\[
+  \E\Big[\textstyle\prod_i f_i(Y_i)\Big]\ \le\ \prod_i\E[f_i(Y_i)],
+\]
+which is the statement that the moment generating function of a sum of NA coordinates factorizes as an upper bound. It is the
+direction of NA that makes Chernoff-type bounds go through as if the coordinates were independent. We must check that we apply
+it with the inequality pointing the right way, that is, with genuinely nondecreasing $f_i$. In both estimates of
+\Cref{app:structural-full} the summand $Y_i$ is a nondecreasing function of the load $r_i$: for the dense estimate it is
+$\exp(-c/r)\1[r>0]$, which increases as $r$ increases (a larger load makes the exponential closer to $1$ and keeps the
+indicator on); for the sparse estimate it is the threshold indicator $\1[r>U]$, which is also nondecreasing in $r$. Hence in
+each case $e^{tY_i}$ is a nondecreasing function of $Y_i$ and so of $r_i$, the factorization above applies in the correct
+(upper-bound) direction, and the moment generating function of $\sum_i Y_i$ is dominated by the product of the per-coordinate
+moment generating functions.
 
 \paragraph{The exact-equality form of Lovett--Meka.}
 In \Cref{lem:LM} a threshold $c_j=0$ on a vector $v_j$ contributes $e^{-0}=1$ to the budget $\sum_j e^{-c_j^2/16}\le m/16$ and
@@ -22,8 +50,32 @@ the standard way to impose an exact linear equality; the cardinality of the outp
 coordinates left fractional when the alive set drops below $22$, which are rounded by hand at additive cost $\Oh(1)$.
 
 \paragraph{Poisson tail, full statement.}
-For $X\sim\Pois(\mu)$ and $t\ge0$, $\Pr(X\ge\mu+t)\le\exp(-\mu\,h(t/\mu))$ with $h(u)=(1+u)\log(1+u)-u\ge0$, and a matching
-lower bound of the same order holds for $\mu\ge1$ and $t\le\mu^{2}$ by the local central limit theorem. The two regimes of
-\eqref{eq:poisson-tail} are $h(u)\asymp u^2$ ($u\le1$) and $h(u)\asymp u\log(1+u)$ ($u\ge1$). The same estimate transfers to
-$\Bin(m,p)$ with $\mu=mp$ whenever $mp(1-p)\ge1$, which holds throughout because the relevant means are $\Th(\lam)=\Om(1)$ in
-the regime $k\le d$.
+We record the upper tail of a Poisson variable in the Bennett form used in \eqref{eq:poisson-tail}, together with its
+derivation, its two regimes, and the transfer to the binomial. Let $X\sim\Pois(\mu)$ and let $t\ge0$. For any $\theta>0$ the
+Chernoff bound gives
+\[
+  \Pr(X\ge\mu+t)\ \le\ e^{-\theta(\mu+t)}\,\E[e^{\theta X}]\ =\ \exp\!\big(\mu(e^{\theta}-1)-\theta(\mu+t)\big),
+\]
+using the Poisson moment generating function $\E[e^{\theta X}]=\exp(\mu(e^{\theta}-1))$. Minimizing the exponent over
+$\theta$ sets $e^{\theta}=1+t/\mu$, that is $\theta=\log(1+t/\mu)$, and substituting this optimal $\theta$ collapses the
+exponent to $-\mu\,h(t/\mu)$ with
+\[
+  h(u)\ =\ (1+u)\log(1+u)-u\ \ge\ 0 .
+\]
+Thus $\Pr(X\ge\mu+t)\le\exp(-\mu\,h(t/\mu))$, which is the upper bound quoted in \eqref{eq:poisson-tail}. The function $h$ is
+nonnegative because $h(0)=0$ and $h'(u)=\log(1+u)\ge0$, so it is increasing on $[0,\infty)$. A matching lower bound of the
+same exponential order holds for $\mu\ge1$ and $t\le\mu^{2}$ by the local central limit theorem, which gives the Poisson
+point mass at $\mu+t$ up to polynomial factors and lets one sum the tail with no loss in the exponent; this is what makes the
+estimate tight and not merely an upper bound.
+
+The two regimes of \eqref{eq:poisson-tail} are read off from the behavior of $h$. For small deviations, $u\le1$, a Taylor
+expansion gives $h(u)=\tfrac12 u^2-\tfrac16u^3+\cdots\asymp u^2$, so the bound is the Gaussian one
+$\exp(-\Th(t^2/\mu))$. For large deviations, $u\ge1$, the leading term is $h(u)\asymp u\log(1+u)$, so the bound becomes the
+Poissonian $\exp(-\Th(t\log(1+t/\mu)))$, which decays faster than any Gaussian. The crossover at $u\asymp1$, that is at
+$t\asymp\mu$, is exactly the point where the deviation stops being typical-scale and the heavier Poisson tail takes over.
+
+The same estimate transfers verbatim to the binomial. For $X\sim\Bin(m,p)$ with mean $\mu=mp$, Bennett's inequality gives the
+identical $\exp(-\mu\,h(t/\mu))$ upper tail, and the matching lower bound of the same order holds once the variance is at
+least constant, $mp(1-p)\ge1$, so that the local central limit theorem applies. This variance condition holds throughout our
+application, because the relevant binomial means are $\Th(\lam)=\Om(1)$ in the regime $k\le d$, and the success probabilities
+are bounded away from $1$, so $mp(1-p)=\Th(\lam)\ge1$.

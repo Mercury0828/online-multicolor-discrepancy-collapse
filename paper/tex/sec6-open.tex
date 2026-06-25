@@ -1,29 +1,61 @@
 % sec6-open.tex -- The growing-k frontier (open problem).
 \section{The growing-$k$ regime}\label{sec:open}
 
-\Cref{cor:bracket} leaves a gap for growing $k$. We record what the gap reduces to and why two natural approaches do not
-close it; this maps the open problem precisely.
+\Cref{cor:bracket} leaves a gap between its lower and upper bounds for growing $k$. The purpose of this section is to say as
+precisely as possible what would be needed to close that gap, and to explain why two natural lines of attack, one symmetric
+and one asymmetric, each fall short for a concrete and identifiable reason. The result is a sharp map of where the open
+problem actually sits: not at a missing estimate that one could plausibly grind out, but at a specific structural obstacle
+that any successful argument must route around.
 
 \paragraph{A sufficient lemma.}
-Recall the rank $\rank$ of \eqref{eq:rank}: a range increase (``raise'') changes a coordinate by $\Delta\rank=k-\maxmult$, and
-a within-level broadening (a color one below the maximum is incremented, enlarging the argmax set) changes it by
-$\Delta\rank=+1$ without changing the range. By \eqref{eq:rank}, an online rule keeping $\max_{t,i}\rank_i(t)\le C(k\,\Psifn+\Hscale)$
-would give $\ondisc_k=\Th(\max\{\Psifn,\loglog n/k\})$, closing the bracket. The aggregate level-raising cover bound (the
-analogue used in the offline analysis) controls raises; the missing piece is control of the within-level broadenings.
+Everything funnels through the rank statistic $\rank$ of \eqref{eq:rank}. Recall how the two kinds of online move act on it.
+A range increase, which we call a ``raise,'' happens when the largest color load on a coordinate grows; it changes the rank
+of that coordinate by $\Delta\rank=k-\maxmult$, where $\maxmult$ is the current multiplicity of the maximum. A within-level
+broadening happens when a color that is one below the maximum is incremented, so the set of colors achieving the maximum
+load grows by one; this enlarges the argmax set and changes the rank by $\Delta\rank=+1$ while leaving the range itself
+fixed. Because the rank is built additively from these two kinds of increment, \eqref{eq:rank} translates a bound on the
+rank directly into a bound on the discrepancy. Concretely, any online rule that keeps the rank uniformly bounded, in the
+sense that $\max_{t,i}\rank_i(t)\le C(k\,\Psifn+\Hscale)$ for some constant $C$ over all times $t$ and coordinates $i$,
+would imply $\ondisc_k=\Th(\max\{\Psifn,\loglog n/k\})$, which is exactly the conjectured order and closes the bracket. So a
+single uniform rank bound is sufficient. The difficulty is that the rank accumulates from both raises and broadenings, and
+these are controlled by very different mechanisms. The raises are handled by the aggregate level-raising cover bound, the
+same device that drives the offline analysis, which limits how many coordinates can reach each successive range. The
+broadenings are the missing piece: there is at present no comparably tight control on how often the argmax set of a
+coordinate can grow, and it is precisely this within-level term that the two approaches below try, and fail, to bound.
 
 \paragraph{Two obstructions.}
-The natural symmetric approach, a moment hierarchy in $(\rangeop,\maxmult)$ alone, cannot reach the target. The broadening
-cost is controlled by an adaptive estimate (\Cref{lem:bc}), but combined with the raise cover it yields only a $k$-fold
-range recurrence $\eta_{r+1}\lesssim(C\eta_r)^k$, hence $\eta\le e^{-ck^{j}}$, so a union over $n$ coordinates needs
-$j\gtrsim\loglog n/\log k$ rather than the $\loglog n/k$ the bracket allows: a $\log k$ gap. A deterministic ``skip''
-configuration (one coordinate per color at profile $(r,0,\dots,0)$) shows that no permutation-invariant rule in
-$(\rangeop,\maxmult)$ avoids the $k^{r}$ branching, so the symmetric route is genuinely obstructed (this is an obstruction to
-a proof method, not an online lower bound). An asymmetric, color-sensitive rule recovers the right ``staggered Fibonacci''
-branching $F_k(m)=\sum_{j=1}^{k}F_k(m-j)=\Th(\phi_k^{m})$ with $\phi_k\uparrow2$ (the mechanism behind the $\loglog n/k$ load
-of \emph{Always-Go-Left} allocation \cite{BCSV2006}); but the expectation-level tail it would need is false, refuted by an
-explicit ``phase conveyor'' (\Cref{app:bc}) that recycles one coordinate to produce consecutive phases with linearly many
-arrivals. That construction has probability far below $n^{-A}$, so it refutes the expectation bound and the quenched
-factorization, not the high-probability statement.
+There are two natural ways to try to bound the broadenings, and each runs into a wall that we can describe exactly.
+
+The first is the symmetric approach: track only the permutation-invariant pair $(\rangeop,\maxmult)$ and run a moment
+hierarchy in those two coordinates. This is attractive because it is exactly the statistic the offline argument uses, and
+the broadening cost is in fact controlled by an adaptive estimate in this language, namely \Cref{lem:bc}. The trouble is in
+how that estimate composes with the raise cover. When the broadening bound of \Cref{lem:bc} is folded into the level-raising
+recurrence, the two together produce a $k$-fold range recurrence of the form $\eta_{r+1}\lesssim(C\eta_r)^k$, where $\eta_r$
+is the fraction of coordinates that have reached range $r$. Iterating this recurrence gives $\eta\le e^{-ck^{j}}$ after $j$
+levels, so to make the failure probability beat a union bound over the $n$ coordinates one needs $k^{j}\gtrsim\log n$, that
+is $j\gtrsim\loglog n/\log k$. The bracket, however, allows only $j$ up to $\loglog n/k$. The ratio of these two thresholds
+is a factor of $k/\log k$, which is the $\log k$ gap: the symmetric recurrence overcounts by exactly a $\log k$ factor in the
+exponent. This gap is not a slack in the bookkeeping that a sharper inequality could remove. A deterministic ``skip''
+configuration, in which one coordinate per color is placed at the profile $(r,0,\dots,0)$, shows that the $k^{r}$ branching is
+forced: no permutation-invariant rule that sees only $(\rangeop,\maxmult)$ can distinguish the colors well enough to avoid
+it, because by symmetry it must treat all $k$ skip directions alike. So the symmetric route is genuinely obstructed. We
+stress that this is an obstruction to a particular proof method and not an online lower bound; it says the moment hierarchy
+in $(\rangeop,\maxmult)$ cannot prove the conjecture, and not that the conjecture is false.
+
+The second approach is asymmetric: use a color-sensitive rule that breaks the symmetry the skip configuration exploits. Such
+a rule recovers the correct branching, which is not the symmetric $k^{r}$ but the slower ``staggered Fibonacci'' recurrence
+$F_k(m)=\sum_{j=1}^{k}F_k(m-j)=\Th(\phi_k^{m})$, whose growth rate $\phi_k\uparrow2$ as $k\to\infty$. This is the same
+recurrence that governs the $\loglog n/k$ maximum load of \emph{Always-Go-Left} allocation \cite{BCSV2006}, where biasing
+the tie-breaking toward a fixed direction replaces multiplicative branching by the gentler Fibonacci branching. With the
+right branching in hand, the conjectured order would follow from a tail bound at the level of expectations, controlling the
+expected number of coordinates reaching each phase. That expectation-level tail is, unfortunately, false. It is refuted by an
+explicit construction we call the ``phase conveyor'' (\Cref{app:bc}): a deterministic schedule that recycles a small fixed
+set of coordinates to manufacture consecutive phases using only linearly many arrivals, instead of the Fibonacci-many that a
+typical instance would require. The conveyor inflates the expectation past what the desired bound allows. What saves the
+conjecture is that the conveyor is fragile: the precise sequence of supports it needs has probability far below $n^{-A}$ for
+every fixed $A$. So the conveyor refutes the expectation bound and the associated quenched factorization, and not the
+high-probability statement, which is why the conjecture below survives even though the natural expectation-level proof of it
+does not.
 
 \begin{problem}\label{prob:growing}
 Determine $\ondisc_k$ for growing $k$ ($k\le d$, $d,k=(\log n)^{o(1)}$). We conjecture

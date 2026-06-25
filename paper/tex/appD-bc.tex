@@ -1,15 +1,23 @@
 % appD-bc.tex -- the broadening-cost lemma + the phase-conveyor obstruction (for Section 6).
 \section{The broadening-cost lemma and the phase conveyor}\label{app:bc}
 
-This appendix supports the open problem of \Cref{sec:open}; its statements are not used by \Cref{thm:offline,thm:online,thm:separation}.
-We state the adaptive broadening-cost estimate and the deterministic obstruction that rules out the expectation-level version
-of the asymmetric approach. \Cref{lem:bc} is proved in full; \Cref{prop:conveyor} is a construction whose verification we
-sketch, as it serves only to delimit the open problem.
+This appendix supports the open problem of \Cref{sec:open}, and nothing in it feeds back into the main results: its
+statements are not used by \Cref{thm:offline,thm:online,thm:separation}. The two objects we develop here are the adaptive
+broadening-cost estimate, which is the positive input to the symmetric approach, and the deterministic phase conveyor, which
+is the obstruction that rules out the expectation-level version of the asymmetric approach. Together they explain precisely
+why the bracket of \Cref{sec:open} is hard to close from either side. We prove \Cref{lem:bc} in full, since it is a clean
+probabilistic estimate; \Cref{prop:conveyor} is a deterministic construction whose verification we sketch, because it serves
+only to delimit the open problem and not to support any theorem.
 
 \paragraph{The broadening-cost lemma.}
-For a range level $r\ge2$ and $\eta\in(0,1)$, let $E_r(t)=\{i:\max_{u\le t}\rangeop_i(u)\ge r\}$ and stop at
-$\sigma_{r,\eta}=\inf\{t:|E_r(t)|>\eta n\}$. Let $B_{i,r}$ be the number of within-level broadenings of coordinate $i$ at
-range $r$ before $T\wedge\sigma_{r,\eta}$ (and before $i$ first reaches range $r+1$).
+We first set up the stopped process the estimate lives on. Fix a range level $r\ge2$ and a density $\eta\in(0,1)$. Let
+$E_r(t)=\{i:\max_{u\le t}\rangeop_i(u)\ge r\}$ be the set of coordinates that have reached range at least $r$ by time $t$;
+this set only grows in $t$. Stop the process the first time this set exceeds an $\eta$ fraction of all coordinates, at
+$\sigma_{r,\eta}=\inf\{t:|E_r(t)|>\eta n\}$, so that up to the stopping time we always have $|E_r(t)|\le\eta n$. Let $B_{i,r}$
+count the within-level broadenings of coordinate $i$ at range $r$, that is, the number of times $i$'s argmax set grows while
+$i$ sits at range $r$, counted before the horizon $T\wedge\sigma_{r,\eta}$ and before $i$ first climbs to range $r+1$. The
+lemma bounds the falling factorial moments $(B_{i,r})_a=B_{i,r}(B_{i,r}-1)\cdots(B_{i,r}-a+1)$, summed over coordinates, which
+is the form a moment hierarchy consumes.
 
 \begin{lemma}[Broadening cost]\label{lem:bc}
 For every $r\ge2$ and integer $a\ge1$,
@@ -17,23 +25,57 @@ $\E\sum_{i=1}^n (B_{i,r})_a\le n\eta\,(2\tau_+ d^2\eta)^{a}$, uniformly over ada
 \end{lemma}
 
 \begin{proof}[Proof sketch]
-A broadening of $i$ at range $r$ reaches rank $q=(k-1)(r-1)+\maxmult+1$; since $r\ge2$, $i$ has a color of load at most
-$\max-2$, not in its rank-$q$ forbidden set, so by the cover certificate of the rank-greedy rule some other supported
-coordinate $j\ne i$ covers it, and any coordinate of range $\le r-1$ has post-rank $\le(k-1)(r-1)+1<q$; hence $i$ and a
-distinct $j$ both lie in $S_t\cap E_r(t-1)$. Bounding $B_{i,r}$ by the count $Y_i$ of arrivals with $i\in S_t$ and
-$(S_t\setminus\{i\})\cap E_r(t-1)\ne\varnothing$, the per-step conditional probability is $\le(d/n)\cdot(d|E_r|/n)\le2d^2\eta/n=:p$
-while $|E_r|\le\eta n$. Sequential conditioning over $a$ ordered times, with at most $\eta n$ eligible targets at the first,
-gives $\E\sum_i(Y_i)_a\le a!\binom T a n\eta\,p^{a}\le n\eta(Tp)^{a}\le n\eta(2\tau_+ d^2\eta)^{a}$. Future supports stay
-i.i.d.\ uniform $d$-sets, so the bound is uniform over stopping times.
+The argument is a charging argument followed by a sequential second-moment count. The point of the charging step is to show
+that a broadening of $i$ can only happen when some \emph{other} coordinate that has already reached range $r$ is present in
+the same support, so that broadenings are rare events tied to coincidences of two high-range coordinates.
+
+Consider a broadening of $i$ at range $r$. By the definition of the rank, such a broadening reaches rank
+$q=(k-1)(r-1)+\maxmult+1$. Because $r\ge2$, the coordinate $i$ has at least one color whose load is at most $\max-2$, and
+this color lies outside the rank-$q$ forbidden set, so the rank-greedy rule would otherwise have used it. The cover
+certificate of the rank-greedy rule then forces some other supported coordinate $j\ne i$ to cover $i$ at this step: the
+broadening can only be the chosen move if a competing high-rank coordinate is present to block the cheaper alternatives. Any
+coordinate of range at most $r-1$ has post-move rank at most $(k-1)(r-1)+1$, which is strictly less than $q$, so the covering
+coordinate $j$ cannot have range below $r$; it must already lie in $E_r(t-1)$. Hence both $i$ and a distinct $j$ lie in
+$S_t\cap E_r(t-1)$ at the time of the broadening. This is the charge: every broadening of $i$ is charged to the simultaneous
+presence of $i$ and some already-range-$r$ coordinate $j$ in the support.
+
+It follows that $B_{i,r}$ is dominated by the count $Y_i$ of arrival steps at which $i\in S_t$ and
+$(S_t\setminus\{i\})\cap E_r(t-1)\ne\varnothing$, that is, steps where $i$ and at least one other range-$r$ coordinate share
+the support. We now bound the factorial moments of $Y_i$. At any fixed step, the support $S_t$ is a uniform $d$-subset, so
+the probability that $i\in S_t$ is $d/n$, and conditionally the probability that the remaining $d-1$ slots also meet the set
+$E_r(t-1)$ of size $|E_r|\le\eta n$ is at most $d|E_r|/n$. The per-step conditional probability is therefore at most
+$(d/n)\cdot(d|E_r|/n)\le 2d^2\eta/n=:p$. To bound $\E\sum_i(Y_i)_a$ we expand the falling factorial as a sum over ordered
+$a$-tuples of distinct contributing steps and condition sequentially: at the first of the $a$ steps there are at most $\eta n$
+eligible coordinates $i$ to anchor the tuple, and each subsequent step contributes a factor of at most $p$. Summing the
+$\binom T a$ choices of step-set with the $a!$ orderings gives
+$\E\sum_i(Y_i)_a\le a!\binom T a\,n\eta\,p^{a}\le n\eta\,(Tp)^{a}\le n\eta\,(2\tau_+ d^2\eta)^{a}$, where in the last step we
+used $T\le\tau_+ n$ to write $Tp\le 2\tau_+ d^2\eta$. Because the supports at future steps remain i.i.d.\ uniform $d$-sets
+regardless of the past, the per-step bound $p$ does not depend on the history, so the whole estimate is uniform over the
+adaptive stopping-time epoch, as claimed.
 \end{proof}
 
-Combined with the level-raising cover bound, \Cref{lem:bc} yields the symmetric range recurrence $\eta_{r+1}\lesssim(C\eta_r)^k$,
-hence $\eta\le e^{-ck^{j}}$ and a union over $n$ coordinates needs $j\gtrsim\loglog n/\log k$: this is the $\log k$ gap of
-\Cref{sec:open}, and it is intrinsic to permutation-invariant statistics (the skip configuration there).
+It is worth seeing how this clean estimate nonetheless produces the $\log k$ gap. Combined with the level-raising cover
+bound, which says a coordinate reaches range $r+1$ only after accumulating enough range-$r$ broadenings, \Cref{lem:bc} feeds
+into a symmetric range recurrence. The factorial-moment bound $n\eta(2\tau_+d^2\eta)^a$ behaves like the moments of a Poisson
+variable of mean $\Th(d^2\eta)$, and demanding $k$ such broadenings to force a raise turns this into
+$\eta_{r+1}\lesssim(C\eta_r)^k$ for the fraction $\eta_r$ at range $r$. Iterating gives $\eta\le e^{-ck^{j}}$ after $j$
+levels, so making this beat a union bound over the $n$ coordinates requires $k^{j}\gtrsim\log n$, that is
+$j\gtrsim\loglog n/\log k$, while the bracket only allows $j$ up to $\loglog n/k$. The discrepancy is the $\log k$ gap of
+\Cref{sec:open}. As explained there, the gap is intrinsic to any permutation-invariant statistic, since the skip
+configuration forces the full $k^{r}$ branching that the symmetric recurrence records; the estimate above is tight, and the
+loss is in the symmetry of the statistic and not in the bound.
 
 \paragraph{The phase conveyor.}
-Consider the asymmetric \emph{LeftGap} rule: with $g_{i,c}=x_{i,c}-\min_b x_{i,b}$ and $h_c=\max_{i\in S_t}g_{i,c}$, pick the
-color minimizing $(h_c,c)$ lexicographically, and represent $g_{i,c}\ge\ell$ by a token of phase $k(\ell-1)+c$.
+We turn to the asymmetric route and the construction that defeats its expectation-level form. The asymmetric rule we analyze
+is \emph{LeftGap}, the color-sensitive analogue of Always-Go-Left. For a coordinate $i$ and color $c$ write
+$g_{i,c}=x_{i,c}-\min_b x_{i,b}$ for the gap of color $c$ above the minimum load on $i$, and let $h_c=\max_{i\in S_t}g_{i,c}$
+be the largest such gap over the current support. LeftGap picks the color $c$ that minimizes the pair $(h_c,c)$
+lexicographically, so it prefers colors with small maximum gap and breaks ties toward the lowest color index, the
+``leftmost'' direction. To track how gaps propagate we encode the event $g_{i,c}\ge\ell$ as a token of phase
+$k(\ell-1)+c$, so that phases increase first through the color index $c$ within a fixed gap level $\ell$ and then jump to the
+next level. In a typical instance the number of coordinates reaching a high phase obeys the staggered-Fibonacci recurrence
+$F_k$, and the conjectured bound would follow from an expectation-level tail on the number of high-phase tokens. The
+proposition shows that no such expectation-level tail can hold.
 
 \begin{proposition}[No expectation-level tail for LeftGap]\label{prop:conveyor}
 For $k=d\ge3$ and every $q\ge1$ there is a deterministic sequence of $q$ exactly-$k$-sparse supports on which LeftGap creates
@@ -43,10 +85,23 @@ $k=\lfloor\Hscale^2/(2\log\Hscale)\rfloor$ exceeds $e^{-cF_k(m)}$ at $u=kB+m$ fo
 $\E Z_{kB+m}\le Cnd\,e^{-cF_k(m)}$ holds on a window reaching $m=\Th(\Hscale)$.
 \end{proposition}
 
-The conveyor recycles three core coordinates plus fresh fillers; after $r$ cycles it maintains the invariant
-$g_a=(0,r,\dots,r)$, $g_{b_1}=(r,0,\dots,0)$, $g_{b_j}=r(e_1+e_j)$, and one more cycle advances the maximum phase by exactly
-$k$ (linearly, not Fibonacci). Its probability is $\binom nk^{-q}=\exp(-(\log n)\Hscale^{\Oh(1)})\ll n^{-A}$ for every $A$,
-so it does not contradict a high-probability bound and is not an online lower bound; it refutes only the expectation tail and
-the stopping-time-uniform mixed-profile factorization. The corrected, sufficient statement for \Cref{prob:growing} is a
-truncated bound $\Pr(Z_{kB+m}>0)\le Cnd\,e^{-cF_k(m)}+n^{-A}$, whose proof would require a cycle-aware ``fold-or-Fibonacci''
-count that charges every coordinate reuse to enough independent earlier births; this remains open.
+The mechanism behind the proposition is a cycle invariant that lets a fixed set of coordinates be reused indefinitely. The
+conveyor keeps three core coordinates alive, an anchor $a$ and two carriers $b_1$ and $b_j$, and feeds in fresh filler
+coordinates each cycle. After $r$ completed cycles it maintains the gap profiles $g_a=(0,r,\dots,r)$,
+$g_{b_1}=(r,0,\dots,0)$, and $g_{b_j}=r(e_1+e_j)$. These profiles are arranged so that LeftGap, following its leftmost
+tie-breaking, is forced to advance exactly one of the carriers each cycle while restoring the others, and one more cycle
+advances the maximum phase by exactly $k$. The advance is therefore linear in the number of cycles and not Fibonacci: the
+conveyor manufactures one full level of $k$ phases per cycle using only the recycled cores plus $\Oh(k)$ fillers, instead of
+the exponentially many coordinates a typical instance would spend. This is exactly why it inflates the expectation past the
+$e^{-cF_k(m)}$ that the asymmetric approach needs.
+
+The construction is, however, vanishingly rare. Realizing the prescribed sequence of $q$ exactly-$k$-sparse supports has
+probability $\binom nk^{-q}=\exp(-(\log n)\Hscale^{\Oh(1)})$, which is smaller than $n^{-A}$ for every fixed $A$. So the
+conveyor does not contradict any high-probability bound, and it is not an online lower bound; what it refutes is the
+expectation-level tail, and with it the stopping-time-uniform mixed-profile factorization that an expectation argument would
+rely on. This pins down what a correct argument must look like. The corrected, sufficient statement for \Cref{prob:growing}
+is the truncated bound $\Pr(Z_{kB+m}>0)\le Cnd\,e^{-cF_k(m)}+n^{-A}$, which adds an explicit $n^{-A}$ slack to absorb the rare
+conveyor and so is consistent with both the conveyor and the conjecture. Proving it would require a cycle-aware
+``fold-or-Fibonacci'' count: an accounting that, every time a coordinate is reused, charges the reuse to enough genuinely
+independent earlier births that the recycled conveyor cannot be assembled cheaply. Producing such a count is exactly the
+content of the open problem, and it remains open.

@@ -155,7 +155,7 @@ $\log_2 k$, and a class is built by recursively splitting the column set at each
 key accounting fact is attenuation: an error committed at a node with $q$ leaves below it is a discrepancy spread over a
 class of size $\Th(qT/k)$, so by the time the recursion has narrowed down to one leaf that error has been divided by
 $\Th(q)$. Because the densities along a root-to-leaf path are geometrically spaced and the $q$'s halve at each step, the
-attenuated per-node errors form a convergent series rather than a growing sum, and the series totals exactly $\Psifn(\lam,\log k)$
+attenuated per-node errors form a convergent series and not a growing sum, and the series totals exactly $\Psifn(\lam,\log k)$
 with no stray factor of $\log d$, $\sqrt{\log d}$, or $\loglog n$. This cancellation is the reason the offline value collapses
 to the clean Poisson spread, and it is the technical heart of the whole section.
 
