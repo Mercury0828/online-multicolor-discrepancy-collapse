@@ -59,10 +59,30 @@ and bounded-occupancy behaviour of $k$ independent Poisson loads (see \Cref{sec:
     \dfrac{\log k}{\loglog k}, & \lam=\Th(1).
   \end{cases}
 \end{equation}
-The two non-constant summands of \eqref{eq:Psi} agree at the seam $\lam\asymp\Lscale$ (both are $\Th(\Lscale)$), so
-$\Psifn$ is continuous in $(\lam,\Lscale)$ and is always at least $1$.
+It is worth reading off the three cases one at a time, because each one is the answer to the same question asked at a
+different density. The question is: by how much does the largest of $k$ independent $\Pois(\lam)$ loads exceed the typical
+load $\lam$? In the dense regime $\lam\gtrsim\log k$ each load is already concentrated to within $\Th(\sqrt\lam)$ of its
+mean, so the maximum over $k$ of them sits about $\sqrt{\log k}$ standard deviations out, and the spread is the Gaussian
+value $\sqrt{\lam\log k}$. As $\lam$ drops below $\log k$ the Poisson tail stops looking Gaussian: the relevant deviation
+$t$ is now large compared with the mean, the tail decays like $e^{-t\log(t/\lam)}$ instead of $e^{-t^2/\lam}$, and solving
+for the $t$ at which the expected number of colors past $\lam+t$ falls to one gives the Bennett value
+$(\log k)/\log\big((\log k)/\lam\big)$. Pushing $\lam$ all the way to $\Th(1)$ freezes this at its extreme: the spread is
+$(\log k)/\loglog k$, the largest occupancy of $k$ balls thrown into one bin, which no longer depends on $\lam$ at all.
+The two non-constant summands of \eqref{eq:Psi} are these two answers, and they are written so that whichever regime one is
+in, the larger summand is the one that governs.
 
-We will also use a per-coordinate \emph{rank} that records both the range and how many colors attain the maximum.
+The seam between the Gaussian and Bennett pieces sits at $\lam\asymp\Lscale$. There both $\sqrt{\lam\Lscale}$ and
+$\Lscale/\log(e+\Lscale/\lam)$ are $\Th(\Lscale)$, so the two summands meet at the same order and neither has a corner: the
+$\log(e+\cdot)$ in the denominator is exactly the device that lets the second summand decay smoothly from $\Th(\Lscale)$ at
+the seam up toward the bounded-occupancy plateau as $\lam$ shrinks. Consequently $\Psifn$ is continuous in $(\lam,\Lscale)$,
+the maximum of its two parts tracks the true Poisson spread across all three regimes, and the leading $1$ keeps $\Psifn\ge1$
+even when both deviations are tiny.
+
+We will also use a per-coordinate \emph{rank} that records both the range and how many colors attain the maximum. The range
+alone is a blunt instrument for a recursion: two profiles can have the same range while one is a lone spike and the other
+has many colors tied at the top, and these behave differently when split further. The rank below folds the integer range
+together with the multiplicity of the maximum into a single monotone quantity, so that the dominant term $(k-1)(\rangeop-1)$
+recovers the range up to the additive correction $\maxmult\in[1,k]$ and the displayed inequality reads the range back out.
 For a profile $x\in\Z_{\ge0}^k$ with range $\rangeop(x)$ and maximum multiplicity $\maxmult(x):=|\arg\max_c x_c|$, set
 \begin{equation}\label{eq:rank}
   \rank(x)\ :=\
@@ -77,7 +97,11 @@ For a profile $x\in\Z_{\ge0}^k$ with range $\rangeop(x)$ and maximum multiplicit
 \subsection{Negative association and strong Rayleigh measures}\label{sec:NA}
 
 The offline upper bound rests on a single draw of the random incidence matrix being well behaved for every column
-subset simultaneously. The tool is negative association.
+subset simultaneously. We want to control sums of many incidence entries and to take a union over exponentially many
+events on \emph{one} sample, which means we cannot afford the positive correlations that an independence assumption would
+have ruled out for free. The columns of $\mu_{d,n}$ are independent, but within a column the $n$ coordinates are not: fixing
+$d$ ones makes the entries compete, so a one in one coordinate makes a one elsewhere slightly less likely. This competition
+is the helpful direction, and negative association is the tool that makes it usable.
 
 \begin{definition}[Negative association~\cite{JoagDevProschan1983}]\label{def:NA}
 Random variables $(Y_1,\dots,Y_m)$ are \emph{negatively associated} (NA) if for every two disjoint index sets
@@ -87,13 +111,21 @@ $I,J\subseteq[m]$ and every pair of coordinatewise-nondecreasing functions $f,g$
 \]
 \end{definition}
 
-We use three standard facts. First, the indicator vector of a uniformly random $d$-subset of $[n]$ is strongly
-Rayleigh, hence NA across the $n$ coordinates~\cite{BorceaBrandenLiggett2009}. Second, a vector formed by concatenating
-independent NA vectors is NA. Third, if $(Z_1,\dots,Z_m)$ is NA and $g_1,\dots,g_r$ are coordinatewise-nondecreasing
-functions acting on \emph{disjoint} blocks of the coordinates, then $(g_1(Z),\dots,g_r(Z))$ is NA. The single
-consequence we need is that NA grants the upper-tail moment-generating-function factorization
+We use three standard facts, and they chain together exactly to fit the structure of the incidence matrix. First, the
+indicator vector of a uniformly random $d$-subset of $[n]$ is strongly Rayleigh, hence NA across the $n$
+coordinates~\cite{BorceaBrandenLiggett2009}. Strong Rayleigh is the strongest of the common negative-dependence notions,
+and the point of invoking it is that it is robust: it is preserved under the operations we are about to perform, whereas a
+bare NA hypothesis can be fragile. Second, a vector formed by concatenating independent NA vectors is NA, which is what lets
+us pass from a single column to the whole matrix, since the columns are drawn independently. Third, if
+$(Z_1,\dots,Z_m)$ is NA and $g_1,\dots,g_r$ are coordinatewise-nondecreasing functions acting on \emph{disjoint} blocks of
+the coordinates, then $(g_1(Z),\dots,g_r(Z))$ is NA; applied with $g_i$ the row-count over a fixed column subset, this hands
+us the joint negative association of the quantities the structural lemma actually controls. The single consequence we need
+out of all this is that NA grants the upper-tail moment-generating-function factorization
 $\E\big[\prod_i e^{tY_i}\big]\le\prod_i\E\big[e^{tY_i}\big]$ for $t>0$ and nondecreasing $Y_i$, exactly as for
-independent variables; the relevant closure properties are recalled in \Cref{app:prelims}.
+independent variables. That one inequality is what we use: it is the only place independence would otherwise have entered,
+and it is precisely the step that turns a per-coordinate tail bound into a Chernoff bound for the sum, so that the union
+over column subsets goes through on a single draw. We never need a matching lower-tail or two-sided statement, only this
+upper-tail factorization. The relevant closure properties are recalled in \Cref{app:prelims}.
 
 \subsection{Partial coloring and Poisson tails}\label{sec:tools}
 
@@ -106,7 +138,14 @@ $|\langle v_j,\,x-x_0\rangle|\le c_j\|v_j\|_2$ for every $j$. A threshold $c_j=0
 $\langle v_j,\,x-x_0\rangle=0$ exactly.
 \end{lemma}
 
-The offline lower bound and the broadening analysis use the Bennett--Poisson tail. For $X\sim\Pois(\mu)$ and $t\ge0$,
+The Lovett--Meka lemma is the workhorse of the upper bound: it produces a partial coloring meeting many linear constraints
+at once, and the threshold $c_j=0$ option is what we use to pin part sizes exactly while the nonzero thresholds keep the row
+counts under control. We invoke it repeatedly, peeling off half the alive columns each time.
+
+The offline lower bound and the broadening analysis use the Bennett--Poisson tail. This is the quantitative form of the two
+regimes already seen in $\Psifn$: the small-deviation branch $t^2/\mu$ is the Gaussian rate that drives the
+$\sqrt{\lam\Lscale}$ summand, and the large-deviation branch $t\log(1+t/\mu)$ is the Bennett rate that drives the second
+summand. For $X\sim\Pois(\mu)$ and $t\ge0$,
 \begin{equation}\label{eq:poisson-tail}
   -\log\Pr\big(X\ge \mu+t\big)\ \asymp\
   \begin{cases}

@@ -1,16 +1,25 @@
 % sec4-online.tex -- Online fixed-k: P2 lower + multicolor A-T upper. Full proofs -> appC.
 \section{The online value for fixed $k$}\label{sec:online}
 
-Online, the picture is the opposite of \Cref{thm:offline}: more colors do not help in the fixed-$k$ regime.
+Online, the picture is the opposite of \Cref{thm:offline}. In the offline setting extra colors give the algorithm more
+room to balance and the discrepancy drops as $k$ grows; online, the colors must be committed one arrival at a time with no
+view of the future, and this freedom evaporates. In the fixed-$k$ regime more colors do not help: the online value sits at
+$\Th(\loglog n)$ for every constant $k$, the same order it takes at $k=2$. The reason, made precise below, is that the
+adversary can fold the $k$ colors back down to two by a fixed signing and recover the two-color lower bound, while the
+algorithm cannot use the extra colors to push the discrepancy below the two-color barrier.
 
 \begin{theorem}[Online, fixed $k$]\label{thm:online}
 For every fixed $k\ge 2$, $\ondisc_k=\Th(\loglog n)$ \whp, independent of $d$ in the range $2\le d\le\Hscale^2/\log\Hscale$.
 \end{theorem}
 
-The lower bound is \Cref{lem:online-lower} and holds for all $k$; the upper bound is \Cref{lem:online-upper} and also holds
-for all $k$, giving $\ondisc_k=\Th(\loglog n)$ once $k$ is constant. The two-color case $k=2$ is the theorem of
-Altschuler and Tikhomirov~\cite{AT2025}; our contribution is that both bounds extend to every $k$, and that the upper bound
-stays $\Oh(\loglog n)$ even as $k$ grows.
+The two bounds are proved separately and then combined. The lower bound is \Cref{lem:online-lower} and holds for all $k$;
+the upper bound is \Cref{lem:online-upper} and also holds for all $k$. Together they pin the online value at
+$\ondisc_k=\Th(\loglog n)$ once $k$ is constant, with no dependence on the sparsity $d$ across the whole range
+$2\le d\le\Hscale^2/\log\Hscale$. The two-color case $k=2$ is the theorem of Altschuler and Tikhomirov~\cite{AT2025}. Our
+contribution is that both bounds extend to every $k$: the lower bound by a signing that projects $k$ colors onto two, and the
+upper bound by a $k$-color seed-and-repair algorithm whose analysis reduces, color count and all, to the two-color analysis
+of \cite{AT2025}. In particular the upper bound stays $\Oh(\loglog n)$ even as $k$ grows, so adding colors never raises the
+online value.
 
 \subsection{The lower bound}\label{sec:online-lower}
 
@@ -19,14 +28,21 @@ For all $k\ge 2$, $\ondisc_k\ge\Om(\loglog n/k)$.
 \end{lemma}
 
 \paragraph{Idea.}
-Project the $k$ colors onto two groups by a fixed signing $\xi:[k]\to\{+1,-\rho\}$ and apply the two-color online lower
-bound \cite{AT2025}. For even $k$, split $[k]$ into equal halves with $\xi\equiv+1$ on one and $\xi\equiv-1$ on the other;
-for any coordinate, $|\sum_c\xi(c)x_{i,c}|\le (k/2)\,\rangeop_i$, so an online $k$-coloring induces an online two-coloring of
-discrepancy at most $(k/2)\,\rangeop_i$, and the two-color bound $\Om(\loglog n)$ forces $\rangeop_i\ge\Om(\loglog n/k)$. For
-odd $k=2a+1$ the asymmetric weighting $\xi\equiv 1$ on the size-$(a+1)$ part and $\xi\equiv -(a+1)/a$ on the size-$a$ part is
-zero-sum; after rescaling the action set is $\{+1,-\rho\}$ with $\rho=a/(a+1)\in[\tfrac12,1]$, and the two-color recurrence of \cite{AT2025} is
-insensitive to $\rho\in[\tfrac12,1]$ up to a constant factor at most $2$, so the same bound follows
-(\Cref{app:online-lower-full}).
+The lower bound says that no online $k$-coloring can beat $\Om(\loglog n/k)$, so for constant $k$ the online value is
+$\Om(\loglog n)$. The mechanism is to hide a two-color problem inside the $k$-color one. Project the $k$ colors onto two
+groups by a fixed signing $\xi:[k]\to\{+1,-\rho\}$ and apply the two-color online lower bound \cite{AT2025} to the projected
+process. For even $k$, split $[k]$ into equal halves with $\xi\equiv+1$ on one and $\xi\equiv-1$ on the other. The signed sum
+$\sum_c\xi(c)x_{i,c}$ at any coordinate is a difference between a sum of $k/2$ loads and another sum of $k/2$ loads, and since
+all $k$ loads lie within $\rangeop_i$ of one another, $|\sum_c\xi(c)x_{i,c}|\le (k/2)\,\rangeop_i$. Thus an online
+$k$-coloring induces, through $\xi$, an online two-coloring whose discrepancy is at most $(k/2)\,\rangeop_i$. The two-color
+bound $\Om(\loglog n)$ applies to this induced coloring and forces $(k/2)\,\rangeop_i\ge\Om(\loglog n)$, that is
+$\rangeop_i\ge\Om(\loglog n/k)$. For odd $k=2a+1$ an equal split is impossible, so we use the asymmetric zero-sum weighting
+$\xi\equiv 1$ on the size-$(a+1)$ part and $\xi\equiv -(a+1)/a$ on the size-$a$ part, which still has $\sum_c\xi(c)=0$. After
+rescaling so that the positive step is $+1$, the action set is $\{+1,-\rho\}$ with $\rho=a/(a+1)\in[\tfrac12,1]$. The
+two-color recurrence of \cite{AT2025} drives its lower bound through $\Th(\loglog n)$ stages, and each stage grows by a fixed
+amount that does not depend on the exact step ratio as long as it stays in the band $[\tfrac12,1]$; the only effect of
+$\rho\ne 1$ is a constant factor at most $2$ in the number of stages. So the same $\Om(\loglog n)$ bound follows for odd $k$
+as well (\Cref{app:online-lower-full}).
 
 \subsection{The upper bound}\label{sec:online-upper}
 
@@ -36,22 +52,37 @@ $T=\Th(n)$ the constant changes only).
 \end{lemma}
 
 \paragraph{The algorithm.}
-Pre-sample seed colors $\widetilde\chi_t\sim\Unif[k]$. Let $E_t$ be the set of coordinates whose range has reached $64\Hscale$
-by time $t$ (a coordinate, once in $E$, stays). On arrival $t$ with support $S_t$: if there is a \emph{unique} coordinate
-$i^*\in S_t\cap E_{t-1}$ whose range strictly exceeds that of every other $j\in S_t$, assign $i^*$ a color attaining
-$\min_c x_{i^*,c}(t-1)$; otherwise assign the seed color $\widetilde\chi_t$.
+The upper bound is achieved by a seed-and-repair algorithm: color almost everything by a fixed random seed, and step in only
+to repair the rare coordinate that has drifted dangerously high. Before any arrivals, pre-sample seed colors
+$\widetilde\chi_t\sim\Unif[k]$, one per future arrival, independently. These would already give a good coloring on their own,
+and the repair rule only intervenes to control the few coordinates whose range grows large under the seed. Track the
+\emph{exceptional set} $E_t$, the set of coordinates whose range has reached $64\Hscale$ by time $t$; once a coordinate
+enters $E$ it stays, so $E_t$ is nondecreasing. On arrival $t$ with support $S_t$, look for a single coordinate that is both
+already exceptional and the clear leader of its support: if there is a \emph{unique} coordinate $i^*\in S_t\cap E_{t-1}$
+whose range strictly exceeds that of every other $j\in S_t$, assign $i^*$ a color that attains the minimum load
+$\min_c x_{i^*,c}(t-1)$ at that coordinate. In every other case (no exceptional coordinate in the support, or no unique
+strict maximum) assign the seed color $\widetilde\chi_t$ and leave the seed coloring untouched. The point of the
+minimum-load assignment is that incrementing a least-loaded color cannot raise the spread between the largest and smallest
+loads, so the repair never increases the range of the coordinate it repairs, for any $k$: the new load is at most the old
+maximum, so the maximum does not move, and the minimum can only rise. A coordinate can therefore cross to a higher range
+level only on an arrival where it is \emph{not} the unique strict maximum of its support, which means some other
+already-exceptional coordinate is present in the same arrival to absorb the blame.
 
 \paragraph{Idea.}
-Assigning a minimum-load color never raises that coordinate's range, so a coordinate can only cross a range level when it is
-\emph{not} the unique strict maximum of its support, which forces another already-exceptional coordinate to be present in the
-same arrival. The proof has three parts (\Cref{app:online-upper-full}). A maximal Bernstein bound shows the seed-only range
-exceeds $32\Hscale$ with probability at most $d^{-28}$; the relevant martingale has variance $\le 2Td/(nk)$, so larger $k$
-only helps, and the worst case $k=2$ clears $d^{-28}$ with a constant-factor margin. A category argument, carried over from
-the two-color proof of \cite{AT2025} verbatim (it uses only independence of future supports, sparsity of the seed-exceptional
-set, and the implication ``actual color $\ne$ seed $\Rightarrow$ the support contains an already-exceptional coordinate'',
-none of which mentions the number of colors), shows the exceptional set has size at most $n d^{-5}$. A double-exponential
-recurrence on the level sets $M(t,r)=\{i:\max_{s\le t}\rangeop_i(s)\ge 65\Hscale+3r\}$ then collapses by $r=2\Hscale$, giving
-$\max_{t,i}\rangeop_i<80\Hscale$.
+The whole analysis turns on the observation just made: assigning a minimum-load color never raises that coordinate's range,
+so a coordinate can only cross a range level when it is \emph{not} the unique strict maximum of its support, and that forces
+another already-exceptional coordinate to be present in the same arrival. This is the one structural fact the rest of the
+argument needs, and it holds for every $k$. The proof has three parts (\Cref{app:online-upper-full}). Part~1 controls the
+seed alone: a maximal Bernstein bound shows the seed-only range exceeds $32\Hscale$ with probability at most $d^{-28}$. The
+relevant martingale has predictable variance at most $2Td/(nk)$, so spreading the seed over more colors only shrinks the
+variance and larger $k$ only helps; the worst case is $k=2$, and even there the bound clears $d^{-28}$ with a constant-factor
+margin in the exponent. Parts~2 and~3 are the category and level-set arguments, carried over from the two-color proof of
+\cite{AT2025} verbatim. The category argument uses only the independence of future supports, the sparsity of the
+seed-exceptional set, and the implication ``actual color $\ne$ seed $\Rightarrow$ the support contains an already-exceptional
+coordinate''; none of these mentions the number of colors, because the deviation of the true color from the seed is a binary
+event and the charging does not care which of the $k$ colors was used. It shows the exceptional set has size at most
+$n d^{-5}$. A double-exponential recurrence on the level sets $M(t,r)=\{i:\max_{s\le t}\rangeop_i(s)\ge 65\Hscale+3r\}$ then
+collapses the count to zero by $r=2\Hscale$, giving $\max_{t,i}\rangeop_i<80\Hscale$ and hence $\Oh(\loglog n)$.
 
 \medskip
 \Cref{thm:online} follows by combining \Cref{lem:online-lower,lem:online-upper}.

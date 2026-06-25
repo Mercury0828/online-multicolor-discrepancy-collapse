@@ -3,46 +3,80 @@
 
 \subsection{The lower bound (\Cref{lem:online-lower})}\label{app:online-lower-full}
 
-Fix a signing $\xi:[k]\to\R$ with $\sum_c\xi(c)=0$ and apply it coordinatewise to an online $k$-coloring: at each step the
-sign assigned to the arrival is $\xi(\chi(t))$, a function of the (online) color, hence itself online. The resulting signed
-sum at coordinate $i$ is $\sum_c\xi(c)x_{i,c}$. For the even split ($\xi=\pm1$ on equal halves), $\sum_c\xi(c)x_{i,c}$ is a
-difference of two sums of $k/2$ loads, each within $\rangeop_i$ of the others, so $|\sum_c\xi(c)x_{i,c}|\le(k/2)\rangeop_i$.
-This is a valid online $\pm1$-balancing of the same arrivals (a uniform $d$-sparse stream), so the two-color online lower
-bound $\Om(\loglog n)$ of \cite{AT2025} gives $(k/2)\max_{t,i}\rangeop_i\ge\Om(\loglog n)$, i.e.\ $\ondisc_k\ge\Om(\loglog n/k)$.
+The goal is to transfer the known two-color online lower bound to $k$ colors with only a $1/k$ loss, by collapsing the $k$
+colors onto two through a fixed signing and showing that the collapsed process is a legitimate two-color online problem. Fix a
+signing $\xi:[k]\to\R$ with $\sum_c\xi(c)=0$ and apply it coordinatewise to an online $k$-coloring: at each step the sign
+assigned to the arrival is $\xi(\chi(t))$, which is a function of the online color $\chi(t)$ and is therefore itself an online
+decision, made with no view of the future. The resulting signed sum at coordinate $i$ is $\sum_c\xi(c)x_{i,c}$, a linear
+image of the load vector. Because $\xi$ is zero-sum this signed sum measures only how unevenly the loads are spread, not
+their common level, which is exactly what the range controls.
 
-For odd $k=2a+1$, take $\xi\equiv1$ on a part $P_+$ of size $a+1$ and $\xi\equiv-\tfrac{a+1}{a}$ on $P_-$ of size $a$ (zero-sum).
-After rescaling, the induced online process uses step sizes in $\{+1,-\rho\}$ with $\rho=a/(a+1)\in[\tfrac12,1]$. The
-two-color lower bound of \cite{AT2025} is driven by a recurrence on the spread that, at each of its $\Th(\loglog n)$ stages,
-grows by a constant amount independent of the step size within the band $[\tfrac12,1]$; the only effect of $\rho\ne1$ is a
-constant factor $\le2$ in the stage count. Hence $\Om(\loglog n)$ persists for the projected process and
+For the even split ($\xi=\pm1$ on equal halves), $\sum_c\xi(c)x_{i,c}$ is the difference between a sum of $k/2$ loads and
+another sum of $k/2$ loads. Each of the $k$ loads lies within $\rangeop_i$ of every other, so pairing up the positive and
+negative terms bounds the difference termwise and gives $|\sum_c\xi(c)x_{i,c}|\le(k/2)\rangeop_i$. The signed process is a
+valid online $\pm1$-balancing of the same arrivals, which form a uniform $d$-sparse stream of exactly the kind the two-color
+bound is stated for. The two-color online lower bound $\Om(\loglog n)$ of \cite{AT2025} therefore applies to it and forces
+the signed discrepancy to be $\Om(\loglog n)$; combined with the inequality above this yields
+$(k/2)\max_{t,i}\rangeop_i\ge\Om(\loglog n)$, that is $\ondisc_k\ge\Om(\loglog n/k)$.
+
+For odd $k=2a+1$ the colors cannot be split into two equal halves, so an exactly balanced $\pm1$ signing is unavailable.
+Instead take $\xi\equiv1$ on a part $P_+$ of size $a+1$ and $\xi\equiv-\tfrac{a+1}{a}$ on a part $P_-$ of size $a$; the total
+weight is $(a+1)\cdot1+a\cdot(-\tfrac{a+1}{a})=0$, so the signing is again zero-sum and the same range argument bounds the
+signed discrepancy by a constant times $\rangeop_i$. After rescaling so that the positive step has size $+1$, the induced
+online process takes step sizes in $\{+1,-\rho\}$ with $\rho=a/(a+1)\in[\tfrac12,1]$, an unbalanced but still online
+two-coloring. The two-color lower bound of \cite{AT2025} is driven by a recurrence on the spread that runs for
+$\Th(\loglog n)$ stages and grows by a constant amount at each stage. That per-stage growth does not depend on the exact step
+ratio as long as it stays in the band $[\tfrac12,1]$, because both step sizes are within a factor $2$ of one another and the
+recurrence only uses that the two steps are comparable. The only effect of $\rho\ne1$ is to change the number of stages by a
+constant factor at most $2$. Hence the $\Om(\loglog n)$ bound persists for the projected process, and
 $\ondisc_k\ge\Om(\loglog n/k)$ for odd $k$ as well. \qed
 
 \subsection{The upper bound (\Cref{lem:online-upper})}\label{app:online-upper-full}
 
-Write $\Hscale=\loglog n$. Let $\widetilde x_{i,c}(t)$ be the loads under the pure-seed coloring ($\chi\equiv\widetilde\chi$)
-and $\widetilde R_i(t)$ the seed-only range. A coordinate--arrival pair $(i,t)$ is a \emph{modified incidence} if $i\in S_t$
-and the algorithm's color differs from $\widetilde\chi_t$; by construction the color differs only when the repair branch
-fires, which requires a coordinate $i^*\in S_t\cap E_{t-1}$. Since range is $2$-Lipschitz in $\ell_\infty$,
-$|R_i(t)-\widetilde R_i(t)|\le 2\,\|x_i(t)-\widetilde x_i(t)\|_\infty\le 2\cdot(\#\text{ modified incidences at }i)$.
+The plan is to compare the actual coloring against the pure seed coloring, show that the seed alone keeps every range small,
+and then show that the few repairs needed on top of the seed change each range by only a controlled amount. Write
+$\Hscale=\loglog n$. Let $\widetilde x_{i,c}(t)$ be the loads under the pure-seed coloring ($\chi\equiv\widetilde\chi$), the
+coloring obtained by always following the seed and never repairing, and let $\widetilde R_i(t)$ be the resulting seed-only
+range. The two colorings agree except where the algorithm steps in, and we measure that gap by counting interventions. A
+coordinate--arrival pair $(i,t)$ is a \emph{modified incidence} if $i\in S_t$ and the algorithm's color differs from
+$\widetilde\chi_t$; by construction the color differs only when the repair branch fires, and that branch requires a
+coordinate $i^*\in S_t\cap E_{t-1}$ to repair. Each modified incidence at $i$ moves one of the load coordinates of $x_i$ by
+one relative to the seed, so $\|x_i(t)-\widetilde x_i(t)\|_\infty$ is at most the number of modified incidences at $i$. Since
+the range is $2$-Lipschitz in $\ell_\infty$, this gives
+$|R_i(t)-\widetilde R_i(t)|\le 2\,\|x_i(t)-\widetilde x_i(t)\|_\infty\le 2\cdot(\#\text{ modified incidences at }i)$. So once
+we bound the seed range and the number of modified incidences, we bound the actual range.
 
 \paragraph{Part 1: seed tail.}
-Fix $i$ and colors $a\ne b$, and let $\widetilde D_{i,a,b}(t)=\sum_{s\le t}\1[i\in S_s]\big(\1[\widetilde\chi_s=a]-\1[\widetilde\chi_s=b]\big)$,
-a martingale with increments in $\{-1,0,1\}$ and predictable variance $\langle\widetilde D\rangle_T\le\sum_s\Pr(i\in S_s)\Pr(\widetilde\chi_s\in\{a,b\})=2Td/(nk)=:V$.
-By the Freedman/Bernstein maximal inequality,
-$\Pr(\max_t\widetilde D_{i,a,b}\ge 32\Hscale)\le\exp(-\tfrac{(32\Hscale)^2/2}{V+32\Hscale/3})$. The seed range exceeds
-$32\Hscale$ only if some pair $(a,b)$ has $\widetilde D_{i,a,b}\ge 32\Hscale$, so a union over $\le k^2$ pairs gives
-$\Pr(\max_t\widetilde R_i\ge 32\Hscale)\le k^2\exp(-\tfrac{512\Hscale^2}{V+\Oh(\Hscale)})$. In the worst case $k=2$,
-$d=\Hscale^2/\log\Hscale$: $V=\Hscale^2/\log\Hscale$ dominates the $\Oh(\Hscale)$ term, the exponent is $\approx512\log\Hscale$,
-and the bound is $\Hscale^{-512+o(1)}\le d^{-28}$ (since $d^{-28}=\Hscale^{-56+o(1)}$): a factor-$\approx 9$ margin in the
-exponent. Increasing $k$ lowers $V$ and only helps. Thus
+The first job is to show that the seed coloring by itself almost never lets any coordinate's range reach $32\Hscale$, so the
+repairs only ever have to deal with a sparse set of coordinates. The range at $i$ is a maximum over color pairs of the gap
+between two loads, so we track each pair separately. Fix a coordinate $i$ and two colors $a\ne b$, and let
+$$\widetilde D_{i,a,b}(t)=\sum_{s\le t}\1[i\in S_s]\big(\1[\widetilde\chi_s=a]-\1[\widetilde\chi_s=b]\big),$$
+which is the running difference between the load of color $a$ and the load of color $b$ at coordinate $i$ under the seed.
+Because the seed colors are independent and each contributes $+1$, $-1$, or $0$, this is a martingale with increments in
+$\{-1,0,1\}$. Its predictable variance is bounded by summing the per-step second moments: each step contributes only when
+$i\in S_s$ and the seed color is $a$ or $b$, so
+$\langle\widetilde D\rangle_T\le\sum_s\Pr(i\in S_s)\Pr(\widetilde\chi_s\in\{a,b\})=2Td/(nk)=:V$, using that $i$ is in a random
+$d$-sparse support with probability $d/n$ and that $\Pr(\widetilde\chi_s\in\{a,b\})=2/k$. The Freedman/Bernstein maximal
+inequality, applied to a martingale with bounded increments and variance $V$, then gives
+$\Pr(\max_t\widetilde D_{i,a,b}\ge 32\Hscale)\le\exp(-\tfrac{(32\Hscale)^2/2}{V+32\Hscale/3})$. The seed range at $i$ exceeds
+$32\Hscale$ only if some ordered pair of colors $(a,b)$ has $\widetilde D_{i,a,b}\ge 32\Hscale$, so a union bound over the at
+most $k^2$ pairs gives $\Pr(\max_t\widetilde R_i\ge 32\Hscale)\le k^2\exp(-\tfrac{512\Hscale^2}{V+\Oh(\Hscale)})$, where
+$512\Hscale^2=(32\Hscale)^2/2$. It remains to check that the worst case still clears the target. The variance $V=2Td/(nk)$ is
+largest when $k$ is smallest and $d$ is largest, so take $k=2$ and $d=\Hscale^2/\log\Hscale$ (with $T=n$): then
+$V=\Hscale^2/\log\Hscale$, which dominates the $\Oh(\Hscale)$ term in the denominator, the exponent is
+$\approx 512\Hscale^2/V=512\log\Hscale$, and the bound becomes $\Hscale^{-512+o(1)}$. Since
+$d^{-28}=\Hscale^{-56+o(1)}$, this is comfortably below $d^{-28}$, with a factor of roughly $9$ to spare in the exponent.
+Increasing $k$ only lowers $V$ and makes the tail smaller, so the bound holds for every $k$. Thus
 \begin{equation}\label{eq:seed-tail}
   \Pr(\max_t\widetilde R_i\ge 32\Hscale)\ \le\ d^{-28}.
 \end{equation}
 
 \paragraph{Parts 2--3: exceptional set and decay, by reduction to the two-color analysis.}
-The remaining two steps are exactly the category and level-set analysis of \cite{AT2025}, which we invoke as a black box.
-Their analysis applies to any online algorithm built from a random seed coloring together with a deterministic repair rule
-satisfying:
+With the seed under control, the remaining work is to show that the exceptional coordinates stay sparse and that their ranges
+cannot pile up much beyond $64\Hscale$. These are exactly the category and level-set analysis of \cite{AT2025}, and the key
+point of this paper is that we do not have to redo them: they go through unchanged once two structural properties of the
+repair rule are in place. We invoke them as a black box. Their analysis applies to any online algorithm built from a random
+seed coloring together with a deterministic repair rule satisfying:
 \begin{itemize}
   \item[(i)] the repair never raises the range of the coordinate it repairs; and
   \item[(ii)] the assigned color differs from the seed only on arrivals whose support contains a coordinate already at range
@@ -50,22 +84,32 @@ satisfying:
 \end{itemize}
 Under (i)--(ii) and the seed tail \eqref{eq:seed-tail}, \cite[exceptional-set lemma]{AT2025} gives $|E_T|\le n d^{-5}$ \whp,
 and \cite[level-set lemma]{AT2025} gives, for $M(t,r)=\{i:\max_{s\le t}\rangeop_i(s)\ge 65\Hscale+3r\}$,
-$|M(T,r)|\le n(\log n)^{-2\cdot 2^r}$, which is empty by $r=\lceil 2\Hscale\rceil$, whence $\max_{t,i}\rangeop_i<80\Hscale$.
-Both lemmas use only the independence of future supports, the seed tail, and (i)--(ii); the number of colors enters nowhere
-(the category depth is indexed by arrivals, not colors, and the level-set recurrence counts same-arrival exceptional
-helpers).
+$|M(T,r)|\le n(\log n)^{-2\cdot 2^r}$. This bound shrinks doubly exponentially in $r$, so the level set is empty once
+$r=\lceil 2\Hscale\rceil$, and at that point no coordinate has range $\ge 65\Hscale+3\cdot 2\Hscale$; in particular
+$\max_{t,i}\rangeop_i<80\Hscale$. The reason both lemmas transfer is that they only ever use the independence of future
+supports, the seed tail \eqref{eq:seed-tail}, and properties (i)--(ii); at no point do they look at how many colors there
+are. The category construction in \cite{AT2025} indexes its depth by arrivals, not by colors, and the level-set recurrence
+counts, for each coordinate that climbs a level, an exceptional helper that was co-present in the same arrival. Both
+mechanisms are about which arrivals touch which coordinates, so the color count enters nowhere.
 
 It remains to check that our $k$-color algorithm satisfies (i)--(ii). For (i): a minimum-load color of $i^*$ is, by
-definition, a coordinate of $x_{i^*}$ attaining the minimum, and incrementing a minimum coordinate cannot increase
-$\max_c x_{i^*,c}-\min_c x_{i^*,c}$ for any $k$ (when several colors tie for the minimum, any one works). For (ii): the
-assigned color equals the seed $\widetilde\chi_t$ unless the repair branch fires, and that branch fires only when
-$S_t\cap E_{t-1}\ne\varnothing$, i.e.\ when the support contains a coordinate already at range $\ge 64\Hscale$. Both
-properties are statements about the algorithm's control flow and the range function, with no dependence on $k$. Hence the
-two lemmas of \cite{AT2025} apply verbatim, and $\max_{t,i}\rangeop_i<80\Hscale$ \whp. \qed
+definition, a color $c$ at which $x_{i^*,c}(t-1)$ attains the minimum $\min_c x_{i^*,c}(t-1)$. Incrementing that coordinate
+raises it from the minimum to at most the second-smallest load, which is still no larger than $\max_c x_{i^*,c}$, so the
+maximum load does not move; the minimum can only go up. Hence $\max_c x_{i^*,c}-\min_c x_{i^*,c}$ does not increase, and this
+holds for any $k$ (when several colors tie for the minimum, incrementing any one of them works the same way). For (ii): the
+assigned color equals the seed $\widetilde\chi_t$ unless the repair branch fires, and that branch fires only when there is a
+unique strict maximum $i^*\in S_t\cap E_{t-1}$, in particular only when $S_t\cap E_{t-1}\ne\varnothing$, i.e.\ when the
+support contains a coordinate already at range $\ge 64\Hscale$. Both properties are statements about the algorithm's control
+flow and the range function, with no dependence on $k$. Hence the two lemmas of \cite{AT2025} apply verbatim, and
+$\max_{t,i}\rangeop_i<80\Hscale$ \whp. \qed
 
 \begin{remark}
 The reduction is the natural one: the only place the number of colors could matter is the repair, and a minimum-load repair
-is range-non-increasing for every $k$. The modified-incidence count that drives \cite{AT2025}'s category recursion charges
-each deviation of the actual coloring from the seed to a co-present exceptional coordinate, and this charging is unchanged by
-$k$ because it depends only on the binary event ``actual color $\ne$ seed'', not on which color was used.
+is range-non-increasing for every $k$. It is worth saying why the modified-incidence charging is insensitive to $k$. The
+category recursion of \cite{AT2025} needs to pay for every place where the actual coloring deviates from the seed, and it
+pays by charging each such deviation to a coordinate that was already exceptional and present in the same arrival. By
+property (ii), every deviation comes with such a co-present exceptional coordinate, so the charge always has somewhere to
+land. What the charging looks at is purely the binary event ``actual color $\ne$ seed''; it never asks which of the $k$
+colors was actually used, so replacing two colors by $k$ colors leaves the count, and the recursion built on it, exactly the
+same.
 \end{remark}

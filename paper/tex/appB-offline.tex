@@ -83,80 +83,197 @@ $\lam=\Th(1)$. \qed
 
 \subsection{The structural lemma (\Cref{lem:structural})}\label{app:structural-full}
 
+The structural lemma asserts that, simultaneously for every subset $S$ of columns, the row loads $r_i(S)$ are not too
+concentrated on any small set of rows. The proof has the shape one expects for a statement of this kind. We first show that
+a single row is unlikely to be heavily loaded, controlling the expected number of overloaded rows by a moment computation;
+we then upgrade this expectation bound to a high-probability statement using a tail inequality that survives the dependence
+between rows; finally we pay for the union over all $\binom{T}{s}$ choices of $S$ and over all $s$. The one structural
+ingredient that makes the upgrade possible is negative association, which lets us treat the row loads as if they were
+independent for the purpose of upper-tail bounds.
+
 \paragraph{Negative association.}
-The indicator vector of a uniform $d$-subset of $[n]$ is strongly Rayleigh, hence NA across coordinates
-\cite{BorceaBrandenLiggett2009}. Concatenating the $s$ independent columns of $S$ gives an NA vector on $\{(i,t):i\in[n],t\in S\}$,
-and each $r_i(S)=\sum_{t\in S}A_{it}$ is a nondecreasing function of the disjoint block $\{(i,t):t\in S\}$, so by closure
-under nondecreasing functions of disjoint blocks $\{r_i(S)\}_{i\in[n]}$ is NA (\Cref{app:prelims}).
+We begin by recording why the row loads are negatively associated, since this is what licenses the Chernoff-type
+factorization used below. The indicator vector of a uniform $d$-subset of $[n]$ is strongly Rayleigh, and strong Rayleigh
+measures are negatively associated across coordinates \cite{BorceaBrandenLiggett2009}. The $s$ columns indexed by $S$ are
+drawn independently, so concatenating their indicator vectors gives a negatively associated vector on the product index set
+$\{(i,t):i\in[n],t\in S\}$; independence of the blocks preserves NA. Now each row load $r_i(S)=\sum_{t\in S}A_{it}$ is a
+nondecreasing function of the block $\{(i,t):t\in S\}$, and distinct rows $i$ depend on disjoint blocks. Negative
+association is closed under taking nondecreasing functions of disjoint blocks of variables, so the family
+$\{r_i(S)\}_{i\in[n]}$ is itself NA (\Cref{app:prelims}). This is exactly the property we need: for nondecreasing functions
+of the $r_i$, the upper tail of a sum factorizes as if the rows were independent.
 
 \paragraph{The two tail estimates.}
-Fix $S$, $s=|S|$. Each $r_i(S)\sim\Bin(s,d/n)$ with mean $\mu_s$. Fix a large constant $B$.
+Fix $S$ and write $s=|S|$. Each row load $r_i(S)$ is a sum of $s$ independent $\Bin(1,d/n)$ indicators, so
+$r_i(S)\sim\Bin(s,d/n)$ with mean $\mu_s=ds/n$. Fix a large constant $B$; it will be tuned at the very end so that the union
+bound closes. The level above which a row counts as overloaded changes character depending on whether the mean $\mu_s$ is
+above or below the logarithmic budget $\ell_s$, so we treat the two regimes separately. In each case we exhibit a
+nonnegative variable $Y_i$, a nondecreasing function of $r_i$, whose expectation is at most $e^{-(B-1)\ell_s}$; this is the
+per-row input the high-probability step consumes.
 
-\emph{Dense case $\mu_s\ge\ell_s$.} Let $Y_i=\exp(-K^2\mu_s\ell_s/(16\,r_i))\1[r_i>0]$. Splitting at $r_i=b\mu_s$ for a
-constant $b$: on $\{0<r_i\le b\mu_s\}$, $Y_i\le e^{-K^2\ell_s/(16 b)}$; on $\{r_i>b\mu_s\}$, $Y_i\le 1$ and a Chernoff bound
-gives $\Pr(r_i>b\mu_s)\le e^{-c_b\mu_s}\le e^{-c_b\ell_s}$. Choosing $b$ with $c_b\ge B$, then $K$ with $K^2/(16b)\ge B$, yields
-$\E Y_i\le 2e^{-B\ell_s}\le e^{-(B-1)\ell_s}$.
+\emph{Dense case $\mu_s\ge\ell_s$.} Here the natural overload scale is the multiplicative one, so we use a soft exponential
+test variable in place of a hard threshold. Let $Y_i=\exp(-K^2\mu_s\ell_s/(16\,r_i))\1[r_i>0]$, which is increasing in
+$r_i$ and bounded by $1$. Split on whether $r_i$ exceeds $b\mu_s$ for a constant $b$ to be chosen. On the event
+$\{0<r_i\le b\mu_s\}$ the exponent $-K^2\mu_s\ell_s/(16 r_i)$ is at most $-K^2\mu_s\ell_s/(16 b\mu_s)=-K^2\ell_s/(16b)$, so
+$Y_i\le e^{-K^2\ell_s/(16 b)}$ there. On the complementary event $\{r_i>b\mu_s\}$ we only use $Y_i\le 1$, but this event is
+itself rare: a multiplicative Chernoff bound for $\Bin(s,d/n)$ gives $\Pr(r_i>b\mu_s)\le e^{-c_b\mu_s}\le e^{-c_b\ell_s}$,
+the last step using $\mu_s\ge\ell_s$. Combining the two events, $\E Y_i\le e^{-K^2\ell_s/(16b)}+e^{-c_b\ell_s}$. We now fix
+constants in order: choose $b$ large enough that $c_b\ge B$, and then choose $K$ large enough that $K^2/(16b)\ge B$. Both
+summands are then at most $e^{-B\ell_s}$, so $\E Y_i\le 2e^{-B\ell_s}\le e^{-(B-1)\ell_s}$, where the factor $2$ is absorbed
+by lowering the exponent by one (valid since $\ell_s\ge 1$).
 
-\emph{Sparse case $\mu_s<\ell_s$.} Let $Y_i=\1[r_i>K\Psifn(\mu_s,\ell_s)]$. Bennett's binomial tail at deviation
-$t=K\Psifn$ has exponent $\ge B\ell_s$: for $\ell_s/\mu_s=\Oh(1)$ the Gaussian part gives $\gtrsim t^2/\mu_s\gtrsim K^2\ell_s$;
-for $\ell_s/\mu_s\to\infty$ the dominant summand $K\ell_s/\log(e+\ell_s/\mu_s)$ feeds $t\log(t/\mu_s)\gtrsim K\ell_s$ (the
-denominator of $\Psifn$ cancels the $\log(t/\mu_s)\asymp\log(\ell_s/\mu_s)$ amplification, and the ``$1$'' in $\Psifn$ handles
-$\mu_s\to0$). Hence $\E Y_i=\Pr(r_i>K\Psifn)\le e^{-B\ell_s}$.
+\emph{Sparse case $\mu_s<\ell_s$.} Here the relevant overload scale is the additive deviation $\Psifn(\mu_s,\ell_s)$, so we
+use a hard threshold. Let $Y_i=\1[r_i>K\Psifn(\mu_s,\ell_s)]$, again nondecreasing in $r_i$. Its expectation is precisely
+the probability that the binomial load exceeds the threshold $t=K\Psifn$, which we bound by Bennett's inequality, showing
+its exponent is at least $B\ell_s$. There are two sub-regimes governed by $\ell_s/\mu_s$. When $\ell_s/\mu_s=\Oh(1)$ the
+deviation $t$ is comparable to $\sqrt{\mu_s\ell_s}$, the Gaussian part of Bennett's exponent applies, and it contributes
+$\gtrsim t^2/\mu_s\gtrsim K^2\ell_s$. When $\ell_s/\mu_s\to\infty$ the threshold is dominated by the Poissonian summand
+$K\ell_s/\log(e+\ell_s/\mu_s)$ of $\Psifn$, and the Bennett exponent $t\log(t/\mu_s)\gtrsim K\ell_s$: the amplification
+$\log(t/\mu_s)\asymp\log(\ell_s/\mu_s)$ is exactly cancelled by the denominator $\log(e+\ell_s/\mu_s)$ built into $\Psifn$,
+while the additive ``$1$'' inside $\Psifn$ keeps the bound meaningful as $\mu_s\to0$. In both sub-regimes the exponent is at
+least $B\ell_s$ once $K$ is large in terms of $B$, so $\E Y_i=\Pr(r_i>K\Psifn)\le e^{-B\ell_s}$.
 
 \paragraph{From expectation to high probability, and the union.}
-In both cases each $Y_i$ is a nondecreasing function of $r_i$, so $e^{tY_i}$ is nondecreasing and NA gives the upper-tail
-factorization. With $M=\sum_i\E Y_i\le n e^{-B\ell_s}$ and $a=s/64$,
+We now turn the per-row expectation bound into control of the number of overloaded rows, and then pay for all subsets. In
+both cases $Y_i$ is a nondecreasing function of $r_i$, hence so is $e^{tY_i}$ for $t\ge 0$, and negative association lets us
+bound the moment generating function of $\sum_i Y_i$ by the product of the individual ones, exactly as under independence;
+this is the upper-tail factorization. The count $\sum_i Y_i$ has mean $M=\sum_i\E Y_i\le n e^{-B\ell_s}$, and we ask that it
+not exceed $a=s/64$. The standard Chernoff bound for a sum of $\{0,1\}$ (or $[0,1]$) variables with this factorization
+gives
 \[
   \Pr\Big(\sum_i Y_i>a\Big)\ \le\ \Big(\tfrac{eM}{a}\Big)^{a}\ \le\ \big(64e\,(n/s)\,e^{-B\ell_s}\big)^{s/64}\ \le\ e^{-cB\,s\ell_s},
 \]
-using $\log(n/s)\le\ell_s+\Oh(1)$ (here $T=\Th(n)$). Since $\binom{T}{s}\le(eT/s)^s=e^{s\ell_s}$, union-bounding over $s=1,\dots,T$,
+where the middle step substitutes $M\le n e^{-B\ell_s}$ and $a=s/64$, and the last step uses $\log(n/s)\le\ell_s+\Oh(1)$
+(which holds because $T=\Th(n)$, so $\log(n/s)$ and $\ell_s=\log(eT/s)$ differ by $\Oh(1)$); the factor $64e\,(n/s)$ is thus
+$e^{\Oh(\ell_s)}$ and is swallowed by the dominant $e^{-Bs\ell_s/64}$, leaving an exponent $cB\,s\ell_s$ for an absolute
+constant $c$. This says that for a \emph{fixed} $S$ the probability that more than $s/64$ rows are overloaded is at most
+$e^{-cB\,s\ell_s}$. It remains to union over $S$. The number of $s$-subsets is $\binom{T}{s}\le(eT/s)^s=e^{s\ell_s}$, so
+summing the failure probability over all subsets of each size $s=1,\dots,T$,
 \[
   \Pr(\text{some }S\text{ fails})\ \le\ \sum_{s=1}^{T} e^{s\ell_s}\,e^{-cB\,s\ell_s}\ =\ \sum_{s=1}^{T} e^{-(cB-1)s\ell_s}.
 \]
-The function $s\ell_s=s\log(eT/s)$ is increasing on $[1,T]$, so $s\ell_s\ge\ell_1=\log(eT)$ for every $s$; hence each term is
-at most $(eT)^{-(cB-1)}$ and the sum is at most $T(eT)^{-(cB-1)}$, which is $o(1)$ once $cB>2$. The constant $K$ is the
-$K(B)$ from the tail estimates above. \qed
+Here the enumeration cost $e^{s\ell_s}$ and the per-subset bound $e^{-cB\,s\ell_s}$ carry the \emph{same} weight $s\ell_s$,
+which is what makes a single constant $B$ suffice across all scales. The function $s\ell_s=s\log(eT/s)$ is increasing on
+$[1,T]$, so $s\ell_s\ge\ell_1=\log(eT)$ for every $s$; hence each term is at most $(eT)^{-(cB-1)}$, and the sum of at most
+$T$ such terms is at most $T(eT)^{-(cB-1)}$. This is $o(1)$ once $cB>2$, which fixes the choice of $B$, and the constant $K$
+is the $K(B)$ produced by the tail estimates above. \qed
 
 \subsection{The splitting lemma (\Cref{lem:split})}\label{app:split-full}
 
-Run \Cref{lem:LM} from $x^{(0)}_t=2a/s-1$ ($t\in S$); a sign vector $\sigma\in\{-1,1\}^S$ with $\sum_t\sigma_t=2a-s$
-corresponds to $Y=\{t:\sigma_t=1\}$, $|Y|=a$. Always include the all-ones vector with threshold $0$, an exact equality that
-preserves $\sum_t$ at every iteration. Let $A$ denote the current alive set, $m=|A|$, $\mu_A=dm/n$, $\ell_A=\log(eT/m)$.
+The goal of the splitting lemma is to halve a column set $S$ into a part $Y$ of size $a$ so that every row load is split
+almost perfectly in proportion, with only an additive $\Psifn$ error. We obtain $Y$ by partial coloring: we run the
+Lovett--Meka walk, which finds a sign vector that lands on the boundary of a body cut out by a handful of linear
+constraints, and we tune those constraints, one per row, so that the rows whose loads we must control are kept on
+near-equality faces while the rest are free to move. The size constraint is enforced by one extra equality. The walk is
+then summed over $\Oh(\log m)$ halving stages, and the per-stage errors form a geometric series that collapses to a single
+$\Psifn$ term.
 
-\emph{Dense phase ($\mu_A\ge\ell_A$).} For each row with $r_i(A)>0$ set $c_i=K\sqrt{\mu_A\ell_A}/\sqrt{r_i(A)}$. By
-\eqref{eq:struct-dense}, $\sum_i e^{-c_i^2/16}\le m/64$, leaving room for the all-ones constraint ($1+m/64\le m/16$ once
-$m\ge 22$). Each iteration changes row $i$ by at most $c_i\|v_i\|_2=c_i\sqrt{r_i(A)}=K\sqrt{\mu_A\ell_A}$.
+Run \Cref{lem:LM} from the starting point $x^{(0)}_t=2a/s-1$ ($t\in S$), so that the target average sign encodes the
+intended split size; a sign vector $\sigma\in\{-1,1\}^S$ with $\sum_t\sigma_t=2a-s$ corresponds to the set
+$Y=\{t:\sigma_t=1\}$ of size $|Y|=a$. To pin the cardinality we always include the all-ones constraint vector with
+threshold $0$, which forces an exact equality $\sum_t\sigma_t^{(\text{step})}=0$ on the increment at every iteration and so
+preserves $\sum_t$ throughout the walk; this is what guarantees $|Y|=a$ on exit, not merely in expectation. Let $A$
+denote the current alive set of columns, $m=|A|$, and write $\mu_A=dm/n$, $\ell_A=\log(eT/m)$ for the running mean and
+logarithmic budget. The Lovett--Meka guarantee is that the walk reaches a face on which at least a constant fraction of the
+coordinates are frozen to $\pm1$, provided the constraints leave enough slack; the constraints we impose are exactly the
+overload tests of the structural lemma, with locally-tuned thresholds, and we verify the slack in each phase.
 
-\emph{Sparse phase ($\mu_A<\ell_A$).} Set $U_A=K\Psifn(\mu_A,\ell_A)$. By \eqref{eq:struct-sparse} at most $m/64$ rows have
-$r_i(A)>U_A$; constrain those with threshold $0$ and \emph{release} the rest. A released row has at most $U_A$ alive
-incidences, so its total future change is at most $2U_A$.
+\emph{Dense phase ($\mu_A\ge\ell_A$).} In this phase we constrain every nonempty row by a soft Gaussian-width budget scaled
+to its own load. For each row with $r_i(A)>0$ set the constraint coefficient $c_i=K\sqrt{\mu_A\ell_A}/\sqrt{r_i(A)}$, so that
+heavily loaded rows are held more tightly. The Lovett--Meka feasibility condition is that $\sum_i e^{-c_i^2/16}$ be a small
+fraction of $m$, and this is precisely the dense structural estimate: by \eqref{eq:struct-dense}, $\sum_i e^{-c_i^2/16}\le
+m/64$. This leaves room for the one extra all-ones equality constraint, since $1+m/64\le m/16$ as soon as $m\ge 22$, so the
+total constrained budget stays below the threshold the walk requires. Each iteration moves $\sigma$ along a unit Gaussian
+step inside the body, so it changes the load of row $i$ by at most $c_i\|v_i\|_2=c_i\sqrt{r_i(A)}=K\sqrt{\mu_A\ell_A}$,
+where the $\sqrt{r_i(A)}$ in $\|v_i\|_2$ cancels the $\sqrt{r_i(A)}$ in the denominator of $c_i$. The per-row, per-stage
+change is therefore the uniform bound $K\sqrt{\mu_A\ell_A}$, independent of $i$.
 
-\emph{Stage-summing.} The alive set halves each iteration; writing the shrink as $e^{-u}$, $\mu(u)=\mu_0 e^{-u}$,
-$\ell(u)=\ell_0+u$. Since $e^{-u/2}\sqrt{\ell_0+u}$ is nonincreasing for $\ell_0\ge 1$,
-$\sum_{\text{dense}}\sqrt{\mu_A\ell_A}\le C\sqrt{\mu_0\ell_0}$. For the sparse thresholds, $\sup_{\text{sparse}}\Psifn(\mu_A,\ell_A)\le C\Psifn(\mu_0,\ell_0)$:
-if $\mu_0\le\ell_0$ this is monotone; if $\mu_0>\ell_0$ the sparse phase starts at $u_*\le\log(\mu_0/\ell_0)$, where
-$\ell_*=\ell_0+u_*\le\ell_0+\log(\mu_0/\ell_0)\le C\sqrt{\mu_0\ell_0}$, and we rebase. The process stops with $\Oh(1)$ alive
-variables, finished by brute force at cost $\Oh(1)$, absorbed by the ``$1$'' in $\Psifn$. Cardinality is exact up to an
-$\Oh(1)$ cleanup swap, which changes each $r_i(Y)$ by at most $1\le\Psifn$. Dividing the signed discrepancy by $2$ gives the
-claim. \qed
+\emph{Sparse phase ($\mu_A<\ell_A$).} Here loads are small and we use a hard threshold. Set $U_A=K\Psifn(\mu_A,\ell_A)$. By
+the sparse structural estimate \eqref{eq:struct-sparse}, at most $m/64$ rows have $r_i(A)>U_A$. We constrain exactly those
+overloaded rows, with threshold $0$ so the walk does not increase their loads, and we \emph{release} all the remaining rows,
+imposing no constraint on them. A released row had at most $U_A$ alive incidences to begin with, so no matter how its
+incidences are colored across this and all later stages, its load can change by at most $U_A$ in each of the two halves,
+hence by at most $2U_A$ in total. Releasing such rows costs nothing because their entire future deviation is already bounded
+by $2U_A=\Oh(\Psifn(\mu_A,\ell_A))$.
+
+\emph{Stage-summing.} It remains to add the per-stage changes along the whole recursion and check that the total is still
+$\Oh(\Psifn(\mu_0,\ell_0))$, with no logarithmic blow-up from the number of stages. The alive set halves at each stage, so
+after $u$ natural-log steps of halving the mean has shrunk geometrically; writing the shrink factor as $e^{-u}$ we have
+$\mu(u)=\mu_0 e^{-u}$ and $\ell(u)=\ell_0+u$, since halving the column count adds a bounded amount to the logarithm at each
+stage. For the dense stages, the per-stage change is $K\sqrt{\mu_A\ell_A}=K\sqrt{\mu(u)\ell(u)}=K e^{-u/2}\sqrt{\ell_0+u}$.
+The function $e^{-u/2}\sqrt{\ell_0+u}$ is nonincreasing in $u$ for $\ell_0\ge 1$ (the exponential decay dominates the slow
+growth of the square root), so summing it over the discrete halving stages is bounded by its value at the start times a
+geometric factor, giving $\sum_{\text{dense}}\sqrt{\mu_A\ell_A}\le C\sqrt{\mu_0\ell_0}$. The geometric decay is what
+prevents a factor of the number of stages from appearing. For the sparse thresholds, what we need is
+$\sup_{\text{sparse}}\Psifn(\mu_A,\ell_A)\le C\Psifn(\mu_0,\ell_0)$, since a released row's contribution is $\Oh$ of a single
+such threshold. If $\mu_0\le\ell_0$ then the whole recursion is sparse and $\Psifn(\mu_A,\ell_A)$ is monotone in the stage,
+so the supremum is attained at the start and equals $\Psifn(\mu_0,\ell_0)$. If $\mu_0>\ell_0$, the recursion begins dense
+and only enters the sparse phase once $\mu(u)$ has dropped below $\ell(u)$, which happens at some stage
+$u_*\le\log(\mu_0/\ell_0)$; at that point $\ell_*=\ell_0+u_*\le\ell_0+\log(\mu_0/\ell_0)\le C\sqrt{\mu_0\ell_0}$, so the
+sparse phase effectively restarts from a budget already controlled by $\sqrt{\mu_0\ell_0}\le C\Psifn(\mu_0,\ell_0)$, and we
+rebase the sparse bound there. The recursion stops once $\Oh(1)$ variables remain alive, at which point the residual
+coloring is found by brute force at cost $\Oh(1)$ per row; this constant is absorbed by the additive ``$1$'' inside
+$\Psifn$. Finally, the cardinality is exact up to an $\Oh(1)$ cleanup swap to repair any unit imbalance, and such a swap
+changes each $r_i(Y)$ by at most $1\le\Psifn$. Dividing the resulting signed discrepancy by $2$ converts the symmetric
+$\pm1$ split into the two-sided load bound claimed. \qed
 
 \subsection{The recursive color-tree (\Cref{lem:offline-upper})}\label{app:tree-full}
 
-For a node $v$ with $q_v$ leaves and size $M_v$, \Cref{lem:split} gives children $w$ with
-$r_i(w)=(M_w/M_v)r_i(v)+e_i(w)$ and $|e_i(w)|\le C\Psifn(dM_v/n,\log(eT/M_v))$. For a $q$-leaf node, $dM_v/n=\Th(\lam q)$ and
-$\log(eT/M_v)=\Th(1+\log(k/q))=:\ell_q$. The map $r_i(\cdot)\mapsto$ leaf scales the additive error at a $q$-node by the
-product of the child fractions down to the leaf, which telescopes to $\Th(1/q)$. Summing along the root-to-leaf path,
+We build the $k$-coloring by repeatedly halving the column set with \Cref{lem:split}, forming a balanced binary tree whose
+leaves are the $k$ color classes. The key point is bookkeeping: each split introduces a fresh additive error into the row
+loads, but that error is then carried down to the leaf scaled by the fraction of columns that survive, and these fractions
+multiply to a small number. We track one row $i$ and one root-to-leaf path, write the leaf load as the ideal proportional
+load plus the accumulated error, and show the accumulated error sums to a single $\Psifn$ with no extra logarithmic factor
+from the depth of the tree.
+
+For a node $v$ with $q_v$ leaves below it and column set of size $M_v$, applying \Cref{lem:split} produces children $w$
+whose loads satisfy $r_i(w)=(M_w/M_v)r_i(v)+e_i(w)$, where the first term is the perfectly proportional split and the
+additive error obeys $|e_i(w)|\le C\Psifn(dM_v/n,\log(eT/M_v))$ by the splitting lemma. We index nodes by the number $q$ of
+leaves they subtend. For a $q$-leaf node the relevant parameters are $dM_v/n=\Th(\lam q)$, since such a node holds a
+$\Th(q/k)$ fraction of all columns and $\lam=\Th(dk/n)/k$, and $\log(eT/M_v)=\Th(1+\log(k/q))=:\ell_q$. So the error
+injected at a $q$-node is $\Oh(\Psifn(\Th(\lam q),\ell_q))$.
+
+Now follow this error to the leaf. Passing the recursion $r_i(w)=(M_w/M_v)r_i(v)+e_i(w)$ down the path expresses the leaf
+load $x_{i,c}$ as the ideal load $\tfrac{m_c}{T}\deg(i)$ plus a sum of the injected errors, each multiplied by the product
+of the child-fractions $M_{(\cdot)}/M_{(\cdot)}$ on the remaining path from that node to the leaf. Along a balanced path
+those fractions are each $\Th(1/2)$ and they telescope: the product of the fractions from a $q$-node down to the leaf is the
+ratio of the leaf's column count to the $q$-node's column count, which is $\Th(1/q)$. Hence the error born at a $q$-node
+reaches the leaf attenuated by $\Th(1/q)$. Summing the attenuated errors along the root-to-leaf path,
 \[
   \Big|x_{i,c}-\tfrac{m_c}{T}\deg(i)\Big|\ \le\ C\sum_{q\text{ on path}}\frac{\Psifn(\Th(\lam q),\ell_q)}{q}
-  \ =\ C\Big(\underbrace{\sum_q\tfrac1q}_{\Oh(1)}+\sqrt\lam\sum_q\sqrt{\tfrac{\ell_q}{q}}+\sum_q\frac{\ell_q}{q\,\log(e+\ell_q/(\lam q))}\Big).
+  \ =\ C\Big(\underbrace{\sum_q\tfrac1q}_{\Oh(1)}+\sqrt\lam\sum_q\sqrt{\tfrac{\ell_q}{q}}+\sum_q\frac{\ell_q}{q\,\log(e+\ell_q/(\lam q))}\Big),
 \]
-The $q$'s are $k,k/2,\dots,2$ (geometric). \emph{Square-root term:} $\sum_q\sqrt{\ell_q/q}$ with $\ell_q=1+\log(k/q)$ is
-dominated by the small-$q$ end and is $\Oh(\sqrt{\Lscale})$, so the term is $\Oh(\sqrt{\lam\Lscale})$. \emph{Bennett term:} if
-$\lam\ge\Lscale$ each summand has denominator $\ge1$ and the sum is $\Oh(\Lscale)=\Oh(\sqrt{\lam\Lscale})$. If $\lam<\Lscale$,
-put $A=\Lscale/\lam$ and split at $q=\sqrt A$: for $q\le\sqrt A$, $\ell_q\asymp\Lscale$ and $\log(e+\ell_q/(\lam q))\ge c\log(e+A)$,
-giving $\Oh(\Lscale/\log(e+A))$; for $q>\sqrt A$, drop the denominator and $\sum_{q>\sqrt A}\ell_q/q\le C\Lscale/\sqrt A=C\sqrt{\lam\Lscale}$.
-Hence the Bennett term is $\Oh(\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam))$. Adding the three pieces gives
-$\Oh(\Psifn(\lam,\Lscale))$ with $\Lscale=\log(ek)$. Finally $|(m_c/T)\deg(i)-(m_{c'}/T)\deg(i)|\le\deg(i)/T\le 1$
-because the $m_c$ differ by at most one, so $\rangeop_i\le 2\max_c|x_{i,c}-(m_c/T)\deg(i)|+1=\Oh(\Psifn(\lam,\log k))$ at
-every coordinate, and the construction is deterministic given $A$ (the structural event of \Cref{lem:structural} already
-covers every alive set chosen by the recursion, so no further randomness is spent). \qed
+where the three groups come from expanding $\Psifn(\Th(\lam q),\ell_q)=\Th(1)+\Th(\sqrt{\lam q\,\ell_q})+\Th(\lam
+q\,\ell_q/(\lam q\log(e+\ell_q/(\lam q))))$ and dividing each piece by $q$: the constant ``$1$'' inside $\Psifn$ gives
+$\sum_q 1/q$, the Gaussian part $\sqrt{\lam q\,\ell_q}/q=\sqrt\lam\sqrt{\ell_q/q}$ gives the middle sum, and the Bennett part
+$(\lam q)\ell_q/(\lam q\cdot\log(e+\ell_q/(\lam q)))$ divided by $q$ gives the last sum after cancelling $\lam q$. The
+values of $q$ along the path are the geometric sequence $k,k/2,\dots,2$, so each of the three sums is a geometric-type sum
+that we now evaluate.
+
+The first sum is harmless: $\sum_q 1/q$ over the geometric sequence $k,k/2,\dots,2$ is a convergent geometric series, hence
+$\Oh(1)$.
+
+\emph{Square-root term.} We must bound $\sum_q\sqrt{\ell_q/q}$ with $\ell_q=1+\log(k/q)$. As $q$ ranges over
+$k,k/2,\dots,2$, the factor $1/\sqrt q$ decays geometrically while $\sqrt{\ell_q}$ grows only like $\sqrt{\log(k/q)}$, so the
+sum is dominated by its small-$q$ (large-$k/q$) end, where $\ell_q=\Th(\log k)=\Th(\Lscale)$; carrying out the geometric sum
+gives $\sum_q\sqrt{\ell_q/q}=\Oh(\sqrt{\Lscale})$. Multiplying by the prefactor $\sqrt\lam$, the whole square-root term is
+$\Oh(\sqrt{\lam\Lscale})$.
+
+\emph{Bennett term.} We must bound $\sum_q \ell_q/\big(q\,\log(e+\ell_q/(\lam q))\big)$. If $\lam\ge\Lscale$, then for every
+$q\ge1$ we have $\ell_q/(\lam q)\le\Lscale/\lam\le 1$, so the denominator $\log(e+\ell_q/(\lam q))\ge1$, and the sum is at
+most $\sum_q\ell_q/q=\Oh(\Lscale)=\Oh(\sqrt{\lam\Lscale})$, the last equality holding because $\lam\ge\Lscale$. If
+$\lam<\Lscale$, put $A=\Lscale/\lam>1$ and split the path at $q=\sqrt A$. For the small-$q$ part $q\le\sqrt A$ we have
+$\ell_q\asymp\Lscale$ and $\ell_q/(\lam q)\ge\Lscale/(\lam\sqrt A)=\sqrt A$, so $\log(e+\ell_q/(\lam q))\ge c\log(e+A)$, and
+the geometric sum $\sum_{q\le\sqrt A}\ell_q/q$ is $\Oh(\Lscale)$, giving an overall $\Oh(\Lscale/\log(e+A))$ for this part.
+For the large-$q$ part $q>\sqrt A$ we simply drop the denominator (it is $\ge1$) and bound $\sum_{q>\sqrt A}\ell_q/q\le
+C\Lscale/\sqrt A=C\Lscale/\sqrt{\Lscale/\lam}=C\sqrt{\lam\Lscale}$. Adding the two parts, the Bennett term is
+$\Oh(\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam))$.
+
+Adding the three pieces, $\Oh(1)+\Oh(\sqrt{\lam\Lscale})+\Oh(\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam))$, recombines
+exactly into $\Oh(\Psifn(\lam,\Lscale))$ with $\Lscale=\log(ek)$; no extra logarithmic factor survives because the
+attenuation $1/q$ turned each path sum into a geometric series dominated by one endpoint. Finally we pass from per-color
+loads to the range. The ideal loads of two colors differ by
+$|(m_c/T)\deg(i)-(m_{c'}/T)\deg(i)|\le\deg(i)/T\le 1$, because the class sizes $m_c$ differ by at most one and
+$\deg(i)\le T$; therefore $\rangeop_i\le 2\max_c|x_{i,c}-(m_c/T)\deg(i)|+1=\Oh(\Psifn(\lam,\log k))$ at every coordinate
+$i$. The whole construction is deterministic once the incidence matrix $A$ is fixed, because the structural event of
+\Cref{lem:structural} simultaneously covers every alive set the recursion can select, so no further randomness is spent
+beyond drawing $A$. \qed
