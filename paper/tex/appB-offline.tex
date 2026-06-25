@@ -39,24 +39,31 @@ $\Pr\big(\max_c Y_c-\min_c Y_c\le\tfrac14 t^*\big)\le e^{-q}$ with $q\ge k^{1/5}
 \end{lemma}
 
 The proof rests on one standard occupancy input, the comparable-mean extreme-value law: for $m$ independent loads of
-\emph{comparable} mean $\Th(M)$ (means within a factor $2$), the maximum exceeds and the minimum falls below the common level
-by $\Th(\Psifn(M,\log m))$, each single load realizing its deviation with probability $m^{-1/2}$, so both edges hold off an
-event of probability $e^{-\Th(\sqrt m)}$ \cite{ABKU1999,BCSV2006}. (The matching \emph{typical} value
+\emph{comparable} mean $\Th(M)$ (means within a factor $2$), the maximum-minus-minimum is $\ge\Th(\Psifn(M,\log m))$ off an
+event of probability $e^{-\Th(\sqrt m)}$ \cite{ABKU1999,BCSV2006}. Quantitatively: a single load exceeds the common level $M$
+by $\Om(\Psifn(M,\log m))$ with probability $\ge m^{-1/2}$ (rate $\tfrac12\log m$), so the maximum does unless all $m$ loads
+fail, probability $\le(1-m^{-1/2})^m\le e^{-\sqrt m}$; and the minimum is $\le M$ \whp\ (the median load is $M+\Oh(1)$, so
+$\Pr(\min>M)\le 2^{-m}$). The difference is then $\ge\Om(\Psifn(M,\log m))$. (The matching
+\emph{typical} value
 $\rangeop_i=\Th(\Psifn(\lam,\log k))$ \whp\ is the weighted maximum-load law from the same references; \Cref{lem:occ-spread} is
 the lower-tail refinement we need.) We extract a large comparable-mean sub-family and apply this law.
 
 \emph{Heavy bin.} If some $\mu_{c^\dagger}\ge k^{1/4}\lam$, the average constraint $\sum_c\mu_c=k\lam$ forces $\ge\Om(k^{1/4})$
 bins of mean $\le\lam$ (each heavy bin consumes mean $\ge k^{1/4}\lam$). The heavy bin has $Y_{c^\dagger}\ge\mu_{c^\dagger}/2\ge\tfrac12 k^{1/4}\lam$
-by a Chernoff bound (failure $e^{-\Om(k^{1/4}\lam)}$), and the minimum over the $\Om(k^{1/4})$ sub-$\lam$ bins is $\le 2\lam$
-\whp; since $k^{1/4}\lam\ge 8(\lam+t^*)$, $\rangeop_i\ge\tfrac14 k^{1/4}\lam\ge t^*$ with $q=\Om(k^{1/4})$.
+by a Chernoff bound (failure $e^{-\Om(k^{1/4}\lam)}$). Each sub-$\lam$ bin (mean $\le\lam$) is $\le 2\lam$ with probability
+$\ge\tfrac12$ (Markov), so the minimum over the $\Om(k^{1/4})$ independent sub-$\lam$ bins exceeds $2\lam$ with probability
+$\le 2^{-\Om(k^{1/4})}$. Since $k^{1/4}\lam\ge 8(\lam+t^*)$ (as $t^*\le\Psifn(\lam,\log k)=(\log n)^{o(1)}$ and $k^{1/4}\to\infty$),
+$\rangeop_i\ge\tfrac12 k^{1/4}\lam-2\lam\ge\tfrac14 k^{1/4}\lam\ge t^*$ \whp, with $q=\Om(k^{1/4})$.
 
 \emph{No heavy bin.} Otherwise every $\mu_c<k^{1/4}\lam$. Discard bins with $\mu_c<\lam/2$ (they only lower the minimum); the
 rest $H=\{c:\lam/2\le\mu_c<k^{1/4}\lam\}$ carry $\sum_{c\in H}\mu_c>k\lam/2$, so $|H|\ge(k\lam/2)/(k^{1/4}\lam)=k^{3/4}/2$.
 Splitting $[\lam/2,k^{1/4}\lam)$ into $\Oh(\log k)$ dyadic bands, the densest band $B$ has $k'':=|B|\ge|H|/\Oh(\log k)\ge k^{3/4-o(1)}$
 bins of comparable mean $M\in[\lam/2,k^{1/4}\lam)$. Applying the comparable-mean law to $B$ (with $m=k''$, $\log k''=\Th(\log k)$):
-$\max_{c\in B}Y_c-\min_{c\in B}Y_c\ge\tfrac12\Psifn(M,\log k'')\ge\tfrac12\Psifn(\lam/2,\Th(\log k))=\Th(t^*)$ \whp, since
-$\Psifn$ is nondecreasing in its first argument and $M\ge\lam/2$. The failure probability is $e^{-\Th(\sqrt{k''})}=e^{-k^{3/8-o(1)}}$,
-so $q\ge k^{1/5}$. This proves \Cref{lem:occ-spread}.
+$\max_{c\in B}Y_c-\min_{c\in B}Y_c\ge c_1\Psifn(M,\log k'')\ge c_1\Psifn(\lam/2,\Th(\log k))\ge\tfrac14 t^*$ \whp, since
+$\Psifn$ is nondecreasing in its first argument, $M\ge\lam/2$, and $\Psifn(\lam/2,\Th(\log k))\ge c_2\Psifn(\lam,\log k)=c_2 t^*$
+for absolute $c_1,c_2$ (halving $\lam$ and the logarithm changes $\Psifn$ by a constant factor); the constants are absorbed
+into the threshold $\tfrac14 t^*$. The failure probability is $e^{-\Th(\sqrt{k''})}=e^{-k^{3/8-o(1)}}$, so $q\ge k^{1/5}$.
+This proves \Cref{lem:occ-spread}.
 
 Step~2 placed us in the Bernoulli model $B$, whose rows are independent; the events $\{\rangeop_i\le D\}_{i\in[n]}$ depend on
 disjoint rows of $B$, so they are independent and $\Pr_B(\max_i\rangeop_i\le\tfrac14 t^*)\le e^{-qn}$ by \Cref{lem:occ-spread}.
