@@ -28,27 +28,36 @@ coordinate, $Y_c=\sum_{t\in\chi^{-1}(c)}B_{it}\sim\Bin(m_c,p)$, are independent,
 $\Var Y_c=\Th(\mu_c)$ and $\sum_c\mu_c=k\lam$.
 
 \paragraph{Step 3: per-coordinate spread.}
-Fix a coordinate. The $k$ loads are independent with means $\mu_c$ summing to $k\lam$; their spread is exactly the maximum
-load minus minimum load of a weighted balls-into-bins allocation of $k\lam$ balls into $k$ bins. The maximum-load law of such
-an allocation is $\lam+\Th(\Psifn(\lam,\log k))$ \cite{ABKU1999,BCSV2006}, and the minimum load is $\Oh(\lam)$, so
-$\rangeop_i=\Th(\Psifn(\lam,\log k))$ \whp. We need the lower tail of this fact with an explicit per-coordinate rate
-$q=k^{\Om(1)}$, which we obtain by a heavy/light split (set $\tau=k^{1/4}$ and $t^*=\Th(\Psifn(\lam,\log k))$).
+Fix a coordinate. The $k$ loads are independent with means $\mu_c$ summing to $k\lam$, and the range $\rangeop_i=\max_c Y_c-\min_c Y_c$
+is the max-minus-min load of a weighted balls-into-bins allocation of (in expectation) $k\lam$ balls into $k$ bins. Write
+$t^*=\Th(\Psifn(\lam,\log k))$ for the Poisson deviation of the inversion above. We use the following lower tail of the
+occupancy spread.
 
-\emph{Heavy bin ($\max_c\mu_c\ge\tau$).} The heaviest bin has load $\ge\mu_{c^\dagger}/2\ge\tau/2$ by a Chernoff bound with
-failure $e^{-\Th(\tau)}$, while $\min_c Y_c\le\lam+t^*\le\tau/4$ (the lightest bin has mean $\le\lam$ and $\tau\gg\lam+t^*$).
-Thus $\rangeop_i\ge\tau/4\ge t^*$ off an event of probability $e^{-\Th(\tau)}$, giving $q=\Th(k^{1/4})$.
+\begin{lemma}[Occupancy spread, lower tail]\label{lem:occ-spread}
+Let $Y_1,\dots,Y_k$ be independent with $Y_c\sim\Bin(m_c,p)$, $\mu_c=m_c p$, $\sum_c\mu_c=k\lam$, and $\lam=\Th(d/k)$. Then
+$\Pr\big(\max_c Y_c-\min_c Y_c\le\tfrac14 t^*\big)\le e^{-q}$ with $q\ge k^{1/5}$.
+\end{lemma}
 
-\emph{All bins light ($\mu_c<\tau$).} Bins with $\mu_c<\lam/2$ carry total mean $<k\lam/2$, so $H=\{c:\mu_c\ge\lam/2\}$ has
-$|H|\ge(k\lam/2)/\tau=:k'$, each with $\mu_c\in[\lam/2,\tau)$. Split $[\lam/2,\tau)$ into $\Oh(\log(\tau/\lam))=\Oh(\log k)$
-dyadic bands; the densest band $B$ has $|B|\ge k'/\Oh(\log k)=:k''$, with means in a common $[M,2M]$, $M\ge\lam/2$. Over the
-$k''$ comparable-mean bins the occupancy extreme value gives $\max_{c\in B}Y_c-\min_{c\in B}Y_c\ge\Psifn(M,\log k)\ge t^*$
-\whp\ (the spread at occupancy $M\ge\lam/2$ is at least that at $\lam$): when $M\to\infty$ the matching upper and lower
-deviations are $\Th(\Psifn(M,\log k))$ with single-bin probability $k^{-1/2}$, and when $M=\Th(1)$ the minimum is $0$ \whp\
-and the maximum reaches $\Th(\log k/\loglog k)=t^*$. The failure probability is $e^{-\Th(k''k^{-1/2})}$. Since
-$k''=\Th(k\lam/(\tau\log k))=k^{1-o(1)}/\tau$ and $\tau=k^{1/4}$, $q=k''k^{-1/2}=k^{1/4-o(1)}\ge k^{1/5}$.
+The matching \emph{typical} value $\max_c Y_c-\min_c Y_c=\Th(\Psifn(\lam,\log k))$ \whp\ is the weighted balls-into-bins
+maximum-load law \cite{ABKU1999,BCSV2006} (the maximum is $\lam+\Th(t^*)$ and the minimum is $\Oh(\lam)$); \Cref{lem:occ-spread}
+is its lower-tail refinement, with the explicit rate $q=k^{\Om(1)}$ that we need against the $k^T$-coloring union. We sketch
+the rate; the comparable-mean extreme-value input is standard and is the one place where the occupancy literature is invoked
+quantitatively.
 
-Both cases give $\Pr(\rangeop_i\le\tfrac14 t^*)\le e^{-q}$ with $q\ge k^{1/5}$. Negative association of $\{Y_c\}$ across the
-$n$ coordinates (\Cref{sec:NA}) gives $\Pr_B(\max_i\rangeop_i\le\tfrac14 t^*)\le e^{-qn}$. Set $D=\tfrac14 t^*=\Th(\Psifn)$.
+Discard bins with $\mu_c<\lam/2$ (they only lower the minimum); the rest, $H=\{c:\mu_c\ge\lam/2\}$, carry $\sum_{c\in H}\mu_c>k\lam/2$.
+Partition $[\lam/2,\infty)$ into dyadic bands $[M,2M]$. Some band $B$ holds bins of total mean $\ge\tfrac12\sum_{c\in H}\mu_c/\#\text{bands}$;
+restricting to bands with $M\le k^{1/4}\lam$ (a bin of mean $>k^{1/4}\lam$ overflows by $\ge\tfrac12 k^{1/4}\lam\ge t^*$ on its
+own, with the many sub-$\lam$ bins giving $\min_c Y_c=\Oh(\lam)$, so that case is immediate with $q=\Th(k^{1/4})$), there are
+$\Oh(\log k)$ bands, so the densest has $|B|=:k''\ge k^{1-o(1)}$ bins of comparable mean $M\in[\lam/2,k^{1/4}\lam]$. Within $B$
+the loads are independent with means in $[M,2M]$, and $\max_{c\in B}Y_c-\min_{c\in B}Y_c\ge\tfrac14 t^*$ \whp: if $M\ge t^*$
+the means alone span $\ge M\ge t^*$ once the loads concentrate within $\Oh(\sqrt{M\log k})\le\tfrac14 M$ of their means; if
+$M<t^*$ (so $M=\Th(\lam)$, the Bennett/bounded regime) the band level fluctuates two-sidedly by $\Th(\Psifn(M,\log k))=\Th(t^*)$,
+each bin reaching its deviation with probability $k^{-1/2}$ (rate $\tfrac12\log k$, keeping $t^*=\Th(\Psifn)$) and at least one
+bin emptying when $\lam=\Oh(1)$. Either way the failure probability is $e^{-\Th(k''\,k^{-1/2})}=e^{-k^{1/2-o(1)}}$, so
+$q\ge k^{1/5}$.
+
+By \Cref{lem:occ-spread} and the independence of distinct coordinates under negative association (\Cref{sec:NA}),
+$\Pr_B(\max_i\rangeop_i\le\tfrac14 t^*)\le e^{-qn}$ with $q=k^{\Om(1)}$. Set $D=\tfrac14 t^*=\Th(\Psifn)$.
 
 \paragraph{Step 4: union over colorings.}
 Step 3 gives a per-coordinate rate $q\ge k^{1/5}$. Combining Steps 2--3 and union-bounding over the at most $k^T$ colorings,
