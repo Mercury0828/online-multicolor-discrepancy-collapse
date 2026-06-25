@@ -37,20 +37,23 @@ An Occupancy Threshold and an Online--Offline Separation}
 \input{sec0-abstract}
 \end{abstract}
 
-\input{sec1-intro}        % Results / separation / techniques / related work (folded in)
-\input{sec2-prelims}      % model, notation, negative association, Lovett-Meka, Poisson tails
-\input{sec3-offline}      % offdisc_k = Theta(Psi): lower (Poisson) + the 3-ingredient upper
-\input{sec4-online}       % ondisc_k = Theta(loglog n) fixed k: P2 lower + multicolor A-T upper
-\input{sec5-separation}   % the online-vs-offline separation + the growing-k bracket
+% ---- Extended-abstract part (first ~10 pages): story + proof overview + statements ----
+\input{sec1-intro}        % problem, results, separation, related work
+\input{sec-overview}      % technical overview (the proof ideas of T1/T2/T3)
+\input{sec2-prelims}      % model, scales, negative association, Lovett-Meka, Poisson tails
+\input{sec3-offline}      % T1 statement + the three offline ingredients (lemma statements)
+% ---- Full proofs in the body ----
+\input{appB-offline}      % full proof of the offline characterization (T1)
+\input{sec4-online}       % T2 statement + the seed-and-repair transplant
+\input{appC-online}       % full proof of the online bounds (T2)
+\input{sec5-separation}   % the online-offline separation (T3) + growing-k bracket
 \input{sec6-open}         % the growing-k frontier (open problem)
 
 \bibliographystyle{plain}
 \bibliography{refs}
 
 \appendix
-\input{appA-prelims}      % additional preliminaries
-\input{appB-offline}      % full deferred proofs of Section 3
-\input{appC-online}       % full deferred proofs of Section 4 (the A-T category recursion in full)
-\input{appD-bc}           % the broadening-cost lemma + growing-k details
+\input{appA-prelims}      % deferred: NA closure facts + Poisson-tail derivation
+\input{appD-bc}           % deferred: broadening-cost lemma + phase conveyor (open-problem support)
 
 \end{document}

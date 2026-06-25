@@ -1,0 +1,82 @@
+\section{Technical overview}\label{sec:overview}
+
+This section explains the proofs of \Cref{thm:offline,thm:online,thm:separation} and the growing-$k$ obstruction at the level
+of ideas, before the formal development in \Cref{sec:offline,sec:online,sec:separation,sec:open}. The two theorems pull in
+opposite directions, and the contrast is the conceptual core of the paper: \emph{offline}, more colors let one spread the
+load and the discrepancy falls to an occupancy threshold; \emph{online}, the irrevocable commitment freezes a
+$\Th(\loglog n)$ barrier that more colors cannot break.
+
+\subsection{The offline upper bound: a recursive color-tree with no log loss}\label{sec:ov-offline-upper}
+
+Fix one draw of the incidence matrix $A\in\{0,1\}^{n\times T}$ and ask for a single $k$-coloring whose every coordinate range
+is $\Oh(\Psifn(\lam,\log k))$. The naive approach---color the $T$ columns by an optimal partition---fails because the optimal
+partition depends on $A$, and controlling it for all coordinates at once seems to need a union bound that costs a factor of
+$\log n$. Our construction avoids this in three steps.
+
+\paragraph{A structural lemma for \emph{all} subsets at once.}
+The first idea is to certify, from the single draw of $A$, that the matrix is simultaneously well behaved for \emph{every}
+subset $S$ of columns: for all $S$ at once, the coordinate counts $r_i(S)=\sum_{t\in S}A_{it}$ have small upper tails at the
+occupancy scale of $S$ (\Cref{lem:structural}). The reason one can afford the union over all $2^T$ subsets is negative
+association: the indicator vector of a uniform $d$-subset is strongly Rayleigh \cite{BorceaBrandenLiggett2009}, so the counts
+$\{r_i(S)\}_i$ are negatively associated and their exponential moments factorize as if independent
+\cite{JoagDevProschan1983,DubhashiRanjan1998}. The union over subsets of size $s$ contributes $\binom{T}{s}=e^{s\ell_s}$ with
+$\ell_s=\log(eT/s)$, while each subset fails with probability $e^{-cB\,s\ell_s}$; since $s\ell_s$ is increasing in $s$ and at
+least $\log(eT)$, the whole union is $o(1)$. This is what lets the later recursion reuse the \emph{same} randomness at every
+node without ever paying again.
+
+\paragraph{Density-sensitive exact splitting.}
+The second idea is a splitting primitive: given a class of $m$ columns, partition it into two prescribed sub-sizes so that
+every coordinate's count splits in proportion, up to the occupancy-scale error $\Psifn(\mu,\ell)$ of the class
+(\Cref{lem:split}). We run the Lovett--Meka partial-coloring walk \cite{LovettMeka2015} with \emph{locally tuned} thresholds:
+a coordinate of count $r_i$ in the class gets a Gaussian or Bennett threshold matched to its own density, which is why the
+error is the density-sensitive $\Psifn$ rather than a uniform $\sqrt{m}$. An all-ones equality constraint with threshold $0$
+keeps the two sub-sizes exact at every iteration, so the recursion never accumulates rounding drift.
+
+\paragraph{The color-tree path sum.}
+The third idea composes the splittings along a balanced binary tree of depth $\log_2 k$: the root is all $T$ columns, each
+node splits into its two children by \Cref{lem:split}, and the $k$ leaves are the color classes. A coordinate's final
+deviation from its ideal load $(m_c/T)\deg(i)$ is the sum of the splitting errors along its root-to-leaf path. The key
+computation (\Cref{app:tree-full}) is that an error incurred at a node with $q$ leaves below it is attenuated by $\Oh(1/q)$
+when pushed to the leaf, and the resulting geometric path sum reassembles \emph{exactly} into $\Psifn(\lam,\log k)$---with no
+spurious factor of $\log d$ or $\loglog n$. This is the technical heart of the paper: the three summands of $\Psifn$ (Gaussian,
+Bennett, and the bounded-occupancy term) emerge from the three regimes of the per-node error, and the tree adds them without
+loss.
+
+\subsection{The offline lower bound: an occupancy spread}\label{sec:ov-offline-lower}
+
+The matching lower bound is a first-moment argument over colorings. Passing from the exact-$d$-sparse model to independent
+Bernoulli entries costs a factor $(\Oh(\sqrt d))^T=e^{\Oh(n\log d)}$, dominated by the entropy $e^{\Th(n\log k)}$ of the
+$k^T$ colorings. For a fixed coloring the $k$ loads at a coordinate are independent with means $\mu_c$ summing to $k\lam$, and
+the range is the maximum-minus-minimum load of a weighted balls-into-bins allocation. Its typical value is exactly
+$\Th(\Psifn(\lam,\log k))$---the (weighted) maximum-load law \cite{ABKU1999,BCSV2006,RaabSteger1998}---and what we need is the
+matching lower tail with an explicit per-coordinate rate $q=k^{\Om(1)}$, uniform over all mean profiles, so that the product
+over the $n$ independent rows beats the coloring union. We obtain it by a heavy/light split on the means
+(\Cref{lem:occ-spread}): either one bin is heavy enough to overflow on its own, or a dyadic band of $k^{1-o(1)}$
+comparable-mean bins realizes the occupancy extreme value. The hypothesis $k\ge C_0\log^5(dk)$ is precisely what makes
+$q=k^{\Om(1)}$ exceed the $\log(dk)$ entropy cost.
+
+\subsection{The online upper bound: a $k$-free transplant of seed-and-repair}\label{sec:ov-online}
+
+For the online direction we extend the seed-and-repair scheme of Altschuler and Tikhomirov \cite{AT2025}. Their two-color
+algorithm assigns a random seed sign and then, on each arrival, \emph{repairs} only the single most exceptional coordinate by
+flipping toward its minority. We replace the sign by a $k$-coloring: color each arrival by a random seed color, and repair the
+uniquely-largest exceptional coordinate of the arrival by assigning it a \emph{minimum-load} color. The conceptual point is
+that two properties of this rule are \emph{independent of the number of colors}: a minimum-load assignment never raises the
+repaired coordinate's range (for any $k$), and the assigned color differs from the seed only when the arrival already contains
+an exceptional coordinate. These are exactly the two hypotheses under which the Altschuler--Tikhomirov category and level-set
+analysis runs, so we invoke that analysis as a black box (\Cref{sec:online}) and verify only the transplant. The one genuinely
+$k$-dependent estimate is the seed tail---the probability that a random $k$-coloring leaves a coordinate exceptional---which we
+bound directly and which scopes the result to $k$ up to a power of $d$. The upper bound $\Oh(\loglog n)$ in fact holds for all
+$k$; the lower bound $\Om(\loglog n)$ for fixed $k$ projects the two-color lower bound through a balanced or, for odd $k$,
+asymmetric zero-sum signing of the colors.
+
+\subsection{The separation and the growing-$k$ frontier}\label{sec:ov-sep}
+
+\Cref{thm:offline,thm:online} immediately give the separation: for fixed $k$ the online value is $\Th(\loglog n)$ while the
+offline value collapses to $\Th(\sqrt d)=o(\loglog n)$ under the sparsity cap. For growing $k$ the two endpoints
+$\max\{\Psifn(\lam,\log k),\loglog n/k\}$ and $\loglog n$ no longer coincide, and pinning the exact order is open. We reduce it
+to a single high-probability lemma about an asymmetric online rule and show (\Cref{sec:open}) that the natural symmetric,
+permutation-invariant approach provably cannot reach it: a phase-conveyor construction refutes the expectation-level tail that
+a symmetric potential would need. The obstruction is the same staggered-Fibonacci mechanism that separates \emph{Always-Go-Left}
+from greedy load balancing \cite{Vocking2003}, which is why we conjecture the answer is
+$\Th(\max\{\Psifn(\lam,\log k),\loglog n/k\})$ and that reaching it requires an asymmetric rule.
