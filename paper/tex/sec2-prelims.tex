@@ -1,0 +1,118 @@
+\section{Preliminaries}\label{sec:prelims}
+
+We write $[k]=\{1,\dots,k\}$, $\log$ for the natural logarithm, and $\Hscale:=\loglog n$.
+For an integer $a\ge 0$ and a real $y$ we use the falling factorial $(y)_a:=y(y-1)\cdots(y-a+1)$.
+Throughout, ``\whp'' means with probability $1-o(1)$ as $n\to\infty$, and constants hidden in
+$\Oh(\cdot),\Om(\cdot),\Th(\cdot)$ are absolute unless a dependence is shown.
+
+\subsection{The model and the two discrepancy quantities}\label{sec:model}
+
+We work in the average-case online vector balancing model of Altschuler and Tikhomirov~\cite{AT2025},
+extended from two colors to $k$ colors.
+
+\begin{definition}[The sparse i.i.d.\ model $\mu_{d,n}$]\label{def:model}
+Fix integers $n,d,k$ and $T=\Th(n)$, with $2\le d\le \Hscale^2/\log\Hscale$ and $2\le k$.
+The arrivals $v_1,\dots,v_T\in\{0,1\}^n$ are drawn independently and uniformly from the set of $0/1$ vectors
+with exactly $d$ ones; equivalently, the \emph{support} $\supp(v_t)\subseteq[n]$ is a uniformly random
+$d$-subset, independent across $t$.
+\end{definition}
+
+The sparsity bound $d\le \Hscale^2/\log\Hscale=(\loglog n)^2/\log\log\log n$ is the regime in which the two-color
+value is independent of $d$~\cite{AT2025}; we keep it throughout.
+A coloring assigns each arrival a color $\chi(t)\in[k]$. In the \emph{online} model the assignment is irrevocable
+and made knowing only $v_1,\dots,v_t$; in the \emph{offline} model the coloring may depend on all of $v_1,\dots,v_T$.
+For color $c\in[k]$ let $\load_c(t)=\sum_{s\le t:\ \chi(s)=c}v_s\in\Z_{\ge0}^n$ be its load. For coordinate $i\in[n]$
+the \emph{profile} is $x_i(t)=(\load_{1,i}(t),\dots,\load_{k,i}(t))$, and the \emph{pairwise range} is
+\[
+  \rangeop_i(t)\ :=\ \max_{c\in[k]}\load_{c,i}(t)\ -\ \min_{c\in[k]}\load_{c,i}(t).
+\]
+The discrepancy of a coloring is $\max_{t\le T,\ i\in[n]}\rangeop_i(t)$, the largest pairwise color-load imbalance
+over all prefixes and coordinates. We study its optimal value:
+\[
+  \ondisc_k(\mu_{d,n})\ :=\ \min_{\text{online }\chi}\ \max_{t,i}\rangeop_i(t),
+  \qquad
+  \offdisc_k(\mu_{d,n})\ :=\ \min_{\text{offline }\chi}\ \max_{t,i}\rangeop_i(t),
+\]
+each understood \whp\ (and, where stated, in expectation). We abbreviate $\ondisc_k=\ondisc_k(\mu_{d,n})$ and
+$\offdisc_k=\offdisc_k(\mu_{d,n})$. Since every online coloring is also an offline coloring,
+$\ondisc_k\ge\offdisc_k$ always.
+
+\subsection{Scales and the threshold function}\label{sec:scales}
+
+Two scales drive the paper. The \emph{occupancy}
+\[
+  \lam\ :=\ \frac{Td}{nk}\ =\ \Th\!\left(\frac{d}{k}\right)
+\]
+is the expected number of arrivals of a fixed color that cover a fixed coordinate, and
+$\Lscale:=\log(ek)$. The offline value is governed by the threshold function
+\begin{equation}\label{eq:Psi}
+  \Psifn(\lam,\Lscale)\ :=\ 1\ +\ \sqrt{\lam\Lscale}\ +\ \frac{\Lscale}{\log\!\big(e+\Lscale/\lam\big)}.
+\end{equation}
+The three summands separate three regimes of $\Psifn(\lam,\log k)$, corresponding to the Gaussian, large-deviation,
+and bounded-occupancy behaviour of $k$ independent Poisson loads (see \Cref{sec:offline-lower}):
+\begin{equation}\label{eq:Psi-regimes}
+  \Psifn(\lam,\log k)\ \asymp\
+  \begin{cases}
+    \sqrt{\lam\log k}, & \lam\gtrsim\log k,\\[2pt]
+    \dfrac{\log k}{\log\big((\log k)/\lam\big)}, & 1\ll\lam\ll\log k,\\[6pt]
+    \dfrac{\log k}{\loglog k}, & \lam=\Th(1).
+  \end{cases}
+\end{equation}
+The two non-constant summands of \eqref{eq:Psi} agree at the seam $\lam\asymp\Lscale$ (both are $\Th(\Lscale)$), so
+$\Psifn$ is continuous in $(\lam,\Lscale)$ and is always at least $1$.
+
+We will also use a per-coordinate \emph{rank} that records both the range and how many colors attain the maximum.
+For a profile $x\in\Z_{\ge0}^k$ with range $\rangeop(x)$ and maximum multiplicity $\maxmult(x):=|\arg\max_c x_c|$, set
+\begin{equation}\label{eq:rank}
+  \rank(x)\ :=\
+  \begin{cases}
+    0, & \rangeop(x)=0,\\
+    (k-1)(\rangeop(x)-1)+\maxmult(x), & \rangeop(x)\ge 1,
+  \end{cases}
+  \qquad\text{so that}\qquad
+  \rangeop(x)\ \le\ 1+\frac{\rank(x)}{k-1}.
+\end{equation}
+
+\subsection{Negative association and strong Rayleigh measures}\label{sec:NA}
+
+The offline upper bound rests on a single draw of the random incidence matrix being well behaved for every column
+subset simultaneously. The tool is negative association.
+
+\begin{definition}[Negative association~\cite{JoagDevProschan1983}]\label{def:NA}
+Random variables $(Y_1,\dots,Y_m)$ are \emph{negatively associated} (NA) if for every two disjoint index sets
+$I,J\subseteq[m]$ and every pair of coordinatewise-nondecreasing functions $f,g$,
+\[
+  \E\!\big[f(Y_I)\,g(Y_J)\big]\ \le\ \E\big[f(Y_I)\big]\,\E\big[g(Y_J)\big].
+\]
+\end{definition}
+
+We use three standard facts. First, the indicator vector of a uniformly random $d$-subset of $[n]$ is strongly
+Rayleigh, hence NA across the $n$ coordinates~\cite{BorceaBrandenLiggett2009}. Second, a vector formed by concatenating
+independent NA vectors is NA. Third, if $(Z_1,\dots,Z_m)$ is NA and $g_1,\dots,g_r$ are coordinatewise-nondecreasing
+functions acting on \emph{disjoint} blocks of the coordinates, then $(g_1(Z),\dots,g_r(Z))$ is NA. The single
+consequence we need is that NA grants the upper-tail moment-generating-function factorization
+$\E\big[\prod_i e^{tY_i}\big]\le\prod_i\E\big[e^{tY_i}\big]$ for $t>0$ and nondecreasing $Y_i$, exactly as for
+independent variables; the relevant closure properties are recalled in \Cref{app:prelims}.
+
+\subsection{Partial coloring and Poisson tails}\label{sec:tools}
+
+The offline construction halves color classes with the partial-coloring lemma of Lovett and Meka.
+
+\begin{lemma}[Lovett--Meka partial coloring~\cite{LovettMeka2015}]\label{lem:LM}
+Let $x_0\in[-1,1]^m$ and let $v_1,\dots,v_r\in\R^m$ have thresholds $c_1,\dots,c_r\ge 0$ with
+$\sum_{j} e^{-c_j^2/16}\le m/16$. Then there is $x\in[-1,1]^m$ with at least $m/2$ coordinates in $\{-1,1\}$ and
+$|\langle v_j,\,x-x_0\rangle|\le c_j\|v_j\|_2$ for every $j$. A threshold $c_j=0$ enforces the linear equality
+$\langle v_j,\,x-x_0\rangle=0$ exactly.
+\end{lemma}
+
+The offline lower bound and the broadening analysis use the Bennett--Poisson tail. For $X\sim\Pois(\mu)$ and $t\ge0$,
+\begin{equation}\label{eq:poisson-tail}
+  -\log\Pr\big(X\ge \mu+t\big)\ \asymp\
+  \begin{cases}
+    t^2/\mu, & t\lesssim\mu,\\
+    t\,\log(1+t/\mu), & t\gtrsim\mu.
+  \end{cases}
+\end{equation}
+Equating the rate in \eqref{eq:poisson-tail} to $\Lscale$ and solving for $t$ yields
+$t\asymp\sqrt{\lam\Lscale}+\Lscale/\log(e+\Lscale/\lam)$, the two non-constant summands of $\Psifn$; this is the
+calculation behind \eqref{eq:Psi-regimes} (carried out in \Cref{sec:offline-lower}).

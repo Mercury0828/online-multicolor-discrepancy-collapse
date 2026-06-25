@@ -1,0 +1,55 @@
+% Multicolor Discrepancy of Sparse Random Vectors: An Occupancy Threshold and an Online-Offline Separation
+% Target: SODA 2027 (THEORY class, no page limit; full proofs in appendix; lightweight double-blind -- ANONYMIZED).
+% Final submission uses the SIAM article class (siamart220329); this preamble keeps a portable fallback so it
+% compiles without the SIAM macros installed. Switch \documentclass to siamart220329 at submission.
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+\usepackage{cleveref}
+
+% ---- theorem environments ----
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+% ---- notation macros (single source of truth; see notation.tex) ----
+\input{notation}
+
+\title{Multicolor Discrepancy of Sparse Random Vectors:\\
+An Occupancy Threshold and an Online--Offline Separation}
+\date{}
+% ANONYMIZED for double-blind review: no author block, no first-person self-citation.
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+% WRITTEN LAST. No formulas / specific constants here; single takeaway; scope + the load-bearing conventions.
+\input{sec0-abstract}
+\end{abstract}
+
+\input{sec1-intro}        % Results / separation / techniques / related work (folded in)
+\input{sec2-prelims}      % model, notation, negative association, Lovett-Meka, Poisson tails
+\input{sec3-offline}      % offdisc_k = Theta(Psi): lower (Poisson) + the 3-ingredient upper
+\input{sec4-online}       % ondisc_k = Theta(loglog n) fixed k: P2 lower + multicolor A-T upper
+\input{sec5-separation}   % the online-vs-offline separation + the growing-k bracket
+\input{sec6-open}         % the growing-k frontier (open problem)
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\appendix
+\input{appA-prelims}      % additional preliminaries
+\input{appB-offline}      % full deferred proofs of Section 3
+\input{appC-online}       % full deferred proofs of Section 4 (the A-T category recursion in full)
+\input{appD-bc}           % the broadening-cost lemma + growing-k details
+
+\end{document}

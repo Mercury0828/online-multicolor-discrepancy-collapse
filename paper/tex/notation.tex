@@ -1,0 +1,36 @@
+% notation.tex -- single source of truth for macros (symbol discipline; define-once).
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\Pr}{\mathbb{P}}          % probability (\Pr is a built-in operator; renew it)
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Bin}{\mathrm{Bin}}
+\newcommand{\Pois}{\mathrm{Pois}}
+\newcommand{\Unif}{\mathrm{Unif}}
+\newcommand{\whp}{w.h.p.\@}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\supp}{\mathrm{supp}}
+\DeclareMathOperator{\polylog}{polylog}
+
+% ---- the model and the two quantities ----
+\newcommand{\ondisc}{\mathrm{ondisc}}     % optimal online value
+\newcommand{\offdisc}{\mathrm{offdisc}}   % optimal offline value
+\newcommand{\colorset}{[k]}
+\newcommand{\load}{S}                     % color-class load vector
+\newcommand{\rangeop}{R}                  % coordinate pairwise range R_i
+\newcommand{\maxmult}{s}                  % |argmax| multiplicity
+\newcommand{\rank}{\rho}                  % rank rho = (k-1)(R-1)+s
+
+% ---- scales ----
+\newcommand{\lam}{\lambda}                % occupancy lambda = Td/(nk) = Theta(d/k)
+\newcommand{\Lscale}{L}                   % L = log(ek)
+\newcommand{\Hscale}{H}                   % H = loglog n
+\newcommand{\Psifn}{\Psi}                 % Psi(lambda,L) = 1 + sqrt(lambda L) + L/log(e+L/lambda)
+
+% ---- shorthands ----
+\newcommand{\loglog}{\log\log}
+\newcommand{\Oh}{O}
+\newcommand{\Om}{\Omega}
+\newcommand{\Th}{\Theta}
