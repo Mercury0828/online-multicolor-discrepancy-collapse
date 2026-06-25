@@ -6,6 +6,15 @@
 > Style gate after each section (`.agent/AI_STYLE_CHECKLIST.md`): zero AI-tokens, 说人话, NO defensive prose, "rather than" banned,
 > no em-dash glue, every bound pulled from the frozen proof, cross-section number echo.
 
+## LENGTH + REFS (2026-06-25, second pass)
+- **Now 32 pages**, compiles clean (0 undefined). Restructured per SODA's "first 10pp must convey the core ideas":
+  intro (+results table) → **Technical Overview** (new: proof ideas of T1/T2/T3 + growing-k obstruction) → prelims →
+  T1 statements ≈ first ~10pp (extended-abstract part); then **full proofs in the body** (offline, online), separation,
+  open problem; appendix = deferred NA/Poisson facts + broadening-cost/conveyor.
+- **refs.bib: 18 → 44 entries, every one web-verified (arXiv/DOI/DBLP) and every one cited** in the four-lineage §1.3.
+- Style gate clean: 0 "rather than", 0 em-dash glue. Target band 30–40pp met.
+- Relay prompt for the one cited-as-standard occupancy lemma: `rounds/RELAY_occupancy_lemma.md` (hand to GPT-5.5-Pro).
+
 ## ACCEPTANCE STATUS (2026-06-25) — full draft + Codex review convergence
 - **Compiles clean**: `latexmk main.tex` → 17pp, exit 0, 0 undefined refs/citations after bibtex.
 - **All sections + full-proof appendices + intro + abstract written.** Title/headline/structure as decided below.
