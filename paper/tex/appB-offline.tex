@@ -38,26 +38,29 @@ Let $Y_1,\dots,Y_k$ be independent with $Y_c\sim\Bin(m_c,p)$, $\mu_c=m_c p$, $\s
 $\Pr\big(\max_c Y_c-\min_c Y_c\le\tfrac14 t^*\big)\le e^{-q}$ with $q\ge k^{1/5}$.
 \end{lemma}
 
-The matching \emph{typical} value $\max_c Y_c-\min_c Y_c=\Th(\Psifn(\lam,\log k))$ \whp\ is the weighted balls-into-bins
-maximum-load law \cite{ABKU1999,BCSV2006} (the maximum is $\lam+\Th(t^*)$ and the minimum is $\Oh(\lam)$); \Cref{lem:occ-spread}
-is its lower-tail refinement, with the explicit rate $q=k^{\Om(1)}$ that we need against the $k^T$-coloring union. We sketch
-the rate; the comparable-mean extreme-value input is standard and is the one place where the occupancy literature is invoked
-quantitatively.
+The proof rests on one standard occupancy input, the comparable-mean extreme-value law: for $m$ independent loads of
+\emph{comparable} mean $\Th(M)$ (means within a factor $2$), the maximum exceeds and the minimum falls below the common level
+by $\Th(\Psifn(M,\log m))$, each single load realizing its deviation with probability $m^{-1/2}$, so both edges hold off an
+event of probability $e^{-\Th(\sqrt m)}$ \cite{ABKU1999,BCSV2006}. (The matching \emph{typical} value
+$\rangeop_i=\Th(\Psifn(\lam,\log k))$ \whp\ is the weighted maximum-load law from the same references; \Cref{lem:occ-spread} is
+the lower-tail refinement we need.) We extract a large comparable-mean sub-family and apply this law.
 
-Discard bins with $\mu_c<\lam/2$ (they only lower the minimum); the rest, $H=\{c:\mu_c\ge\lam/2\}$, carry $\sum_{c\in H}\mu_c>k\lam/2$.
-Partition $[\lam/2,\infty)$ into dyadic bands $[M,2M]$. Some band $B$ holds bins of total mean $\ge\tfrac12\sum_{c\in H}\mu_c/\#\text{bands}$;
-restricting to bands with $M\le k^{1/4}\lam$ (a bin of mean $>k^{1/4}\lam$ overflows by $\ge\tfrac12 k^{1/4}\lam\ge t^*$ on its
-own, with the many sub-$\lam$ bins giving $\min_c Y_c=\Oh(\lam)$, so that case is immediate with $q=\Th(k^{1/4})$), there are
-$\Oh(\log k)$ bands, so the densest has $|B|=:k''\ge k^{1-o(1)}$ bins of comparable mean $M\in[\lam/2,k^{1/4}\lam]$. Within $B$
-the loads are independent with means in $[M,2M]$, and $\max_{c\in B}Y_c-\min_{c\in B}Y_c\ge\tfrac14 t^*$ \whp: if $M\ge t^*$
-the means alone span $\ge M\ge t^*$ once the loads concentrate within $\Oh(\sqrt{M\log k})\le\tfrac14 M$ of their means; if
-$M<t^*$ (so $M=\Th(\lam)$, the Bennett/bounded regime) the band level fluctuates two-sidedly by $\Th(\Psifn(M,\log k))=\Th(t^*)$,
-each bin reaching its deviation with probability $k^{-1/2}$ (rate $\tfrac12\log k$, keeping $t^*=\Th(\Psifn)$) and at least one
-bin emptying when $\lam=\Oh(1)$. Either way the failure probability is $e^{-\Th(k''\,k^{-1/2})}=e^{-k^{1/2-o(1)}}$, so
-$q\ge k^{1/5}$.
+\emph{Heavy bin.} If some $\mu_{c^\dagger}\ge k^{1/4}\lam$, the average constraint $\sum_c\mu_c=k\lam$ forces $\ge\Om(k^{1/4})$
+bins of mean $\le\lam$ (each heavy bin consumes mean $\ge k^{1/4}\lam$). The heavy bin has $Y_{c^\dagger}\ge\mu_{c^\dagger}/2\ge\tfrac12 k^{1/4}\lam$
+by a Chernoff bound (failure $e^{-\Om(k^{1/4}\lam)}$), and the minimum over the $\Om(k^{1/4})$ sub-$\lam$ bins is $\le 2\lam$
+\whp; since $k^{1/4}\lam\ge 8(\lam+t^*)$, $\rangeop_i\ge\tfrac14 k^{1/4}\lam\ge t^*$ with $q=\Om(k^{1/4})$.
 
-By \Cref{lem:occ-spread} and the independence of distinct coordinates under negative association (\Cref{sec:NA}),
-$\Pr_B(\max_i\rangeop_i\le\tfrac14 t^*)\le e^{-qn}$ with $q=k^{\Om(1)}$. Set $D=\tfrac14 t^*=\Th(\Psifn)$.
+\emph{No heavy bin.} Otherwise every $\mu_c<k^{1/4}\lam$. Discard bins with $\mu_c<\lam/2$ (they only lower the minimum); the
+rest $H=\{c:\lam/2\le\mu_c<k^{1/4}\lam\}$ carry $\sum_{c\in H}\mu_c>k\lam/2$, so $|H|\ge(k\lam/2)/(k^{1/4}\lam)=k^{3/4}/2$.
+Splitting $[\lam/2,k^{1/4}\lam)$ into $\Oh(\log k)$ dyadic bands, the densest band $B$ has $k'':=|B|\ge|H|/\Oh(\log k)\ge k^{3/4-o(1)}$
+bins of comparable mean $M\in[\lam/2,k^{1/4}\lam)$. Applying the comparable-mean law to $B$ (with $m=k''$, $\log k''=\Th(\log k)$):
+$\max_{c\in B}Y_c-\min_{c\in B}Y_c\ge\tfrac12\Psifn(M,\log k'')\ge\tfrac12\Psifn(\lam/2,\Th(\log k))=\Th(t^*)$ \whp, since
+$\Psifn$ is nondecreasing in its first argument and $M\ge\lam/2$. The failure probability is $e^{-\Th(\sqrt{k''})}=e^{-k^{3/8-o(1)}}$,
+so $q\ge k^{1/5}$. This proves \Cref{lem:occ-spread}.
+
+Step~2 placed us in the Bernoulli model $B$, whose rows are independent; the events $\{\rangeop_i\le D\}_{i\in[n]}$ depend on
+disjoint rows of $B$, so they are independent and $\Pr_B(\max_i\rangeop_i\le\tfrac14 t^*)\le e^{-qn}$ by \Cref{lem:occ-spread}.
+Set $D=\tfrac14 t^*=\Th(\Psifn)$.
 
 \paragraph{Step 4: union over colorings.}
 Step 3 gives a per-coordinate rate $q\ge k^{1/5}$. Combining Steps 2--3 and union-bounding over the at most $k^T$ colorings,
@@ -66,7 +69,7 @@ Step 3 gives a per-coordinate rate $q\ge k^{1/5}$. Combining Steps 2--3 and unio
   \ =\ \exp\!\big(\Oh(n\log(dk))-\Om(n\,k^{1/5})\big).
 \]
 By the hypothesis $k\ge C_0\log^5(dk)$, $k^{1/5}\ge C_0^{1/5}\log(dk)$ dominates the $\Oh(\log(dk))$ per-coordinate cost, so
-the probability is $\exp(-\Om(n\,k^{1/5}))=o(1)$. Therefore $\offdisc_k\ge D+1\ge c\,\Psifn(\lam,\log k)$ \whp. The three
+the probability is $\exp(-\Om(n\,k^{1/5}))=o(1)$. Therefore $\offdisc_k>D=\tfrac14 t^*\ge c\,\Psifn(\lam,\log k)$ \whp. The three
 regimes \eqref{eq:Psi-regimes} are the three behaviours of $t^*(\lam,\log k)$: Gaussian $\sqrt{\lam\log k}$ for
 $\lam\gtrsim\log k$, the Bennett term $\log k/\log((\log k)/\lam)$ for $1\ll\lam\ll\log k$, and $\log k/\loglog k$ for
 $\lam=\Th(1)$. \qed
