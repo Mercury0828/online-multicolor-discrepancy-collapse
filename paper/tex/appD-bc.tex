@@ -33,23 +33,37 @@ Consider a broadening of $i$ at range $r$. By the definition of the rank, such a
 $q=(k-1)(r-1)+\maxmult+1$. Because $r\ge2$, the coordinate $i$ has at least one color whose load is at most $\max-2$, and
 this color lies outside the rank-$q$ forbidden set, so the rank-greedy rule would otherwise have used it. The cover
 certificate of the rank-greedy rule then forces some other supported coordinate $j\ne i$ to cover $i$ at this step: the
-broadening can only be the chosen move if a competing high-rank coordinate is present to block the cheaper alternatives. Any
-coordinate of range at most $r-1$ has post-move rank at most $(k-1)(r-1)+1$, which is strictly less than $q$, so the covering
-coordinate $j$ cannot have range below $r$; it must already lie in $E_r(t-1)$. Hence both $i$ and a distinct $j$ lie in
-$S_t\cap E_r(t-1)$ at the time of the broadening. This is the charge: every broadening of $i$ is charged to the simultaneous
-presence of $i$ and some already-range-$r$ coordinate $j$ in the support.
+broadening can only be the chosen move if a competing high-rank coordinate is present to block the cheaper alternatives.
+Concretely, the rule moves $i$ to its broadening color only when every color of rank below $q$ on $i$ is already claimed by a
+co-present coordinate that ranks at least as high, and the rank-cover certificate names, for each such blocked color, a
+distinct witness $j$ in the support whose own rank meets or exceeds the rank that color would otherwise have produced. We read
+off the range of any such witness. Any coordinate of range at most $r-1$ has post-move rank at most
+$(k-1)(r-1)+1$, since its range factor contributes at most $(k-1)(r-1)$ and its multiplicity factor at most $1$ before the
+move; this is strictly less than $q=(k-1)(r-1)+\maxmult+1$ for $\maxmult\ge1$. So a witness of range below $r$ cannot block a
+rank-$q$ color, and the covering coordinate $j$ must already lie in $E_r(t-1)$. Hence both $i$ and a distinct $j$ lie in
+$S_t\cap E_r(t-1)$ at the time of the broadening, and the witness $j$ is determined by the certificate, so distinct
+broadenings of $i$ within the same arrival are charged to distinct witnesses. This is the charge: every broadening of $i$ is
+charged to the simultaneous presence of $i$ and some already-range-$r$ coordinate $j$ in the support.
 
 It follows that $B_{i,r}$ is dominated by the count $Y_i$ of arrival steps at which $i\in S_t$ and
 $(S_t\setminus\{i\})\cap E_r(t-1)\ne\varnothing$, that is, steps where $i$ and at least one other range-$r$ coordinate share
 the support. We now bound the factorial moments of $Y_i$. At any fixed step, the support $S_t$ is a uniform $d$-subset, so
-the probability that $i\in S_t$ is $d/n$, and conditionally the probability that the remaining $d-1$ slots also meet the set
-$E_r(t-1)$ of size $|E_r|\le\eta n$ is at most $d|E_r|/n$. The per-step conditional probability is therefore at most
-$(d/n)\cdot(d|E_r|/n)\le 2d^2\eta/n=:p$. To bound $\E\sum_i(Y_i)_a$ we expand the falling factorial as a sum over ordered
-$a$-tuples of distinct contributing steps and condition sequentially: at the first of the $a$ steps there are at most $\eta n$
-eligible coordinates $i$ to anchor the tuple, and each subsequent step contributes a factor of at most $p$. Summing the
-$\binom T a$ choices of step-set with the $a!$ orderings gives
-$\E\sum_i(Y_i)_a\le a!\binom T a\,n\eta\,p^{a}\le n\eta\,(Tp)^{a}\le n\eta\,(2\tau_+ d^2\eta)^{a}$, where in the last step we
-used $T\le\tau_+ n$ to write $Tp\le 2\tau_+ d^2\eta$. Because the supports at future steps remain i.i.d.\ uniform $d$-sets
+the probability that $i\in S_t$ is $d/n$, and conditionally on $i\in S_t$ the remaining $d-1$ slots are a uniform
+$(d-1)$-subset of the other $n-1$ coordinates; the probability that these slots meet the set $E_r(t-1)$ of size
+$|E_r|\le\eta n$ is, by a union bound over the $d-1\le d$ slots, at most $(d-1)\,|E_r|/(n-1)\le d|E_r|/n$. The per-step
+conditional probability of a charged step is therefore at most $(d/n)\cdot(d|E_r|/n)\le 2d^2\eta/n=:p$, where the factor $2$
+absorbs the $n/(n-1)$ correction. To bound $\E\sum_i(Y_i)_a$ we expand the falling factorial
+$(Y_i)_a=\sum y$ as a sum over ordered $a$-tuples of \emph{distinct} contributing steps for coordinate $i$, so that
+$\sum_i(Y_i)_a$ counts ordered $a$-tuples of distinct steps each charged to a common coordinate $i$. We condition sequentially
+on the steps in increasing time order. At the first of the $a$ steps the anchoring coordinate $i$ must lie in
+$E_r(t-1)\subseteq E_r$, so there are at most $|E_r|\le\eta n$ choices for it; each of the $a$ steps then contributes the
+per-step charge probability at most $p$ for the pair $(i,j)$ to be co-present. Summing the $\binom T a$ choices of unordered
+step-set with the $a!$ orderings gives
+\[
+  \E\sum_i(Y_i)_a\ \le\ a!\binom T a\,n\eta\,p^{a}\ \le\ T^a\,n\eta\,p^{a}\ =\ n\eta\,(Tp)^{a}\ \le\ n\eta\,(2\tau_+ d^2\eta)^{a},
+\]
+where the middle step uses $a!\binom T a\le T^a$ and the last step uses $T\le\tau_+ n$ to write
+$Tp\le T\cdot 2d^2\eta/n\le 2\tau_+ d^2\eta$. Because the supports at future steps remain i.i.d.\ uniform $d$-sets
 regardless of the past, the per-step bound $p$ does not depend on the history, so the whole estimate is uniform over the
 adaptive stopping-time epoch, as claimed.
 \end{proof}
@@ -87,18 +101,35 @@ $\E Z_{kB+m}\le Cnd\,e^{-cF_k(m)}$ holds on a window reaching $m=\Th(\Hscale)$.
 
 The mechanism behind the proposition is a cycle invariant that lets a fixed set of coordinates be reused indefinitely. The
 conveyor keeps three core coordinates alive, an anchor $a$ and two carriers $b_1$ and $b_j$, and feeds in fresh filler
-coordinates each cycle. After $r$ completed cycles it maintains the gap profiles $g_a=(0,r,\dots,r)$,
-$g_{b_1}=(r,0,\dots,0)$, and $g_{b_j}=r(e_1+e_j)$. These profiles are arranged so that LeftGap, following its leftmost
-tie-breaking, is forced to advance exactly one of the carriers each cycle while restoring the others, and one more cycle
-advances the maximum phase by exactly $k$. The advance is therefore linear in the number of cycles and not Fibonacci: the
-conveyor manufactures one full level of $k$ phases per cycle using only the recycled cores plus $\Oh(k)$ fillers, instead of
-the exponentially many coordinates a typical instance would spend. This is exactly why it inflates the expectation past the
-$e^{-cF_k(m)}$ that the asymmetric approach needs.
+coordinates each cycle. After $r$ completed cycles it maintains the gap profiles
+\[
+  g_a=(0,r,\dots,r),\qquad g_{b_1}=(r,0,\dots,0),\qquad g_{b_j}=r(e_1+e_j),
+\]
+so the anchor carries a high gap on every color except the first, carrier $b_1$ carries a high gap on the first color alone,
+and carrier $b_j$ carries a high gap on the two colors $1$ and $j$. These profiles are arranged so that LeftGap, following its
+leftmost tie-breaking, is forced to advance exactly one of the carriers each cycle while restoring the others. We trace one
+cycle. When a fresh arrival presents the core together with $\Oh(k)$ fillers, the value $(h_c,c)$ that LeftGap minimizes is
+realized at the unique color where the three core profiles leave the smallest maximum gap; the leftmost tie-break sends the
+move to the first color that is not already saturated on the anchor, which by the shape of $g_a,g_{b_1},g_{b_j}$ is always the
+designated carrier color of that cycle. The move raises that carrier's gap by one on its color and leaves the other two cores
+restorable by the fillers, which soak up the off-color increments and are then discarded. Cycling through the colors
+$c=1,\dots,k$ in turn advances the carriers one color at a time, and one full pass of $k$ such cycles advances the maximum
+phase by exactly $k$, that is, by one full gap level. The advance is therefore linear in the number of cycles and not
+Fibonacci: the conveyor manufactures one full level of $k$ phases per cycle-pass using only the recycled cores plus $\Oh(k)$
+fillers per cycle, so $\Oh(kq)$ coordinates suffice to reach phase $q$, instead of the exponentially many coordinates a
+typical instance would spend, where the high-phase count grows only as the staggered-Fibonacci $F_k$. This is exactly why it
+inflates the expectation past the $e^{-cF_k(m)}$ that the asymmetric approach needs.
 
-The construction is, however, vanishingly rare. Realizing the prescribed sequence of $q$ exactly-$k$-sparse supports has
-probability $\binom nk^{-q}=\exp(-(\log n)\Hscale^{\Oh(1)})$, which is smaller than $n^{-A}$ for every fixed $A$. So the
+The construction is, however, vanishingly rare. Each of the $q$ arrivals must present exactly the prescribed
+exactly-$k$-sparse support, and a fixed $k$-subset is the realized support of one uniform arrival with probability
+$\binom nk^{-1}$; since the $q$ arrivals are independent, realizing the whole prescribed sequence has probability
+\[
+  \binom nk^{-q}\ =\ \exp\!\big(-q\log\tbinom nk\big)\ =\ \exp(-(\log n)\,\Hscale^{\Oh(1)}),
+\]
+using $\log\binom nk=\Th(k\log n)$ and $q,k=\Hscale^{\Oh(1)}$, which is smaller than $n^{-A}$ for every fixed $A$. So the
 conveyor does not contradict any high-probability bound, and it is not an online lower bound; what it refutes is the
-expectation-level tail, and with it the stopping-time-uniform mixed-profile factorization that an expectation argument would
+expectation-level tail, because the expectation $\E Z_u$ sums over all instances and so collects the rare conveyor's huge
+contribution undamped, and with it the stopping-time-uniform mixed-profile factorization that an expectation argument would
 rely on. This pins down what a correct argument must look like. The corrected, sufficient statement for \Cref{prob:growing}
 is the truncated bound $\Pr(Z_{kB+m}>0)\le Cnd\,e^{-cF_k(m)}+n^{-A}$, which adds an explicit $n^{-A}$ slack to absorb the rare
 conveyor and so is consistent with both the conveyor and the conjecture. Proving it would require a cycle-aware

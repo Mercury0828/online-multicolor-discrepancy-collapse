@@ -3,20 +3,37 @@
 
 \paragraph{Negative association: the closure properties we use.}
 We use two standard closure properties of negatively associated (NA) families, both from the original treatment of
-\cite{JoagDevProschan1983}, together with the one tail inequality they imply. Recall that a random vector is NA if, for every
-pair of disjoint index sets and every pair of coordinatewise-nondecreasing functions of the corresponding subvectors, the two
-resulting functions are nonpositively correlated. The two closure properties we need are the following.
+\cite{JoagDevProschan1983}, together with the one tail inequality they imply. Recall that a random vector $Z=(Z_1,\dots,Z_m)$
+is NA if, for every pair of disjoint index sets $I,J\subseteq[m]$ and every pair $f,g$ of coordinatewise-nondecreasing
+functions of the corresponding subvectors $Z_I,Z_J$,
+\[
+  \E\big[f(Z_I)\,g(Z_J)\big]\ \le\ \E\big[f(Z_I)\big]\,\E\big[g(Z_J)\big],
+\]
+so the two resulting functions are nonpositively correlated. We record four facts. The first two are background that pins down
+the meaning, and the second two are the closure steps the row-load argument actually invokes.
 
-The first (property P7, closure under independent union) says that NA is preserved by concatenating independent NA vectors:
-if $X$ and $Y$ are each NA and are independent of each other, then the stacked vector $(X,Y)$ is NA. The reason is that any
-two monotone functions on disjoint index sets either read coordinates of a single block, where the NA of that block applies,
-or split across the two blocks, where independence makes the covariance vanish; in every case the defining inequality holds.
+The base case (P1, independence implies NA) is that a vector of mutually independent coordinates is NA: for independent
+$Z_I,Z_J$ on disjoint blocks the covariance in the display is exactly zero, so the inequality holds with equality. This is the
+seed from which the structured NA vectors below are built.
 
-The second (property P6, monotone functions of disjoint blocks) says that NA is preserved under taking nondecreasing
-functions of disjoint groups of coordinates: if $(Z_1,\dots,Z_m)$ is NA and $g_1,\dots,g_r$ are coordinatewise-nondecreasing
-functions, each depending only on its own \emph{disjoint} block of indices, then $(g_1(Z),\dots,g_r(Z))$ is again NA. This is
-immediate from the definition, since any monotone function of a subcollection of the $g_i$ is itself a monotone function of a
-union of the underlying disjoint blocks.
+The factorization fact (P4, upper-tail MGF) is the single analytic consequence we use downstream and is stated separately at
+the end of this paragraph; it follows from the defining inequality applied inductively to the nondecreasing functions
+$e^{tZ_i}$.
+
+The first closure step we apply (property P7 of \cite{JoagDevProschan1983}, here (P2), closure under independent union) says
+that NA is preserved by concatenating independent NA vectors: if $X$ and $Y$ are each NA and are independent of each other,
+then the stacked vector $(X,Y)$ is NA. The reason is that any two monotone functions on disjoint index sets either read
+coordinates of a single block, where the NA of that block applies, or split across the two blocks, where independence makes
+the covariance vanish; in every case the defining inequality holds. Combining (P1) and (P2) one gets that a concatenation of
+independent NA blocks is NA, which is how a product structure enters.
+
+The second closure step (property P6 of \cite{JoagDevProschan1983}, here (P3), monotone functions of disjoint blocks) says
+that NA is preserved under taking nondecreasing functions of disjoint groups of coordinates: if $(Z_1,\dots,Z_m)$ is NA and
+$g_1,\dots,g_r$ are coordinatewise-nondecreasing functions, each depending only on its own \emph{disjoint} block of indices,
+then $(g_1(Z),\dots,g_r(Z))$ is again NA. This is immediate from the definition, since any monotone function of a
+subcollection of the $g_i$ is itself a monotone function of a union of the underlying disjoint blocks, and that union is
+disjoint from the corresponding union for the complementary subcollection, so the defining inequality for the $g_i$ is a
+special case of the defining inequality for $Z$.
 
 These two facts are exactly what is needed to certify that the row loads of a random column-sampled matrix are NA. Fix a
 subset $S$ of $s$ columns. The columns are sampled independently, and within a single column the entries form an NA vector
@@ -26,14 +43,19 @@ $[n]\times S$. Now apply (P6) with the functions $g_i(\cdot)=\sum_{t\in S}A_{it}
 only the block $\{(i,t):t\in S\}$, these blocks are disjoint across the rows $i$, and each $g_i$ is nondecreasing in its
 entries, so the hypotheses of (P6) hold and the row-load vector $\{r_i(S)\}_{i\in[n]}$ is NA.
 
-The single inequality we actually invoke downstream is the upper-tail (MGF) direction of NA: for nondecreasing functions
-$f_1,\dots,f_n$ and any $t>0$,
+The single inequality we actually invoke downstream is the upper-tail (MGF) direction of NA, fact (P4): for nondecreasing
+functions $f_1,\dots,f_n$ of the NA coordinates $Y_1,\dots,Y_n$ and any $t>0$,
 \[
   \E\Big[\textstyle\prod_i f_i(Y_i)\Big]\ \le\ \prod_i\E[f_i(Y_i)],
 \]
-which is the statement that the moment generating function of a sum of NA coordinates factorizes as an upper bound. It is the
-direction of NA that makes Chernoff-type bounds go through as if the coordinates were independent. We must check that we apply
-it with the inequality pointing the right way, that is, with genuinely nondecreasing $f_i$. In both estimates of
+which is the statement that the moment generating function of a sum of NA coordinates factorizes as an upper bound. To see how
+it follows from the definition, peel off one factor at a time: write $\prod_{i\le n}f_i(Y_i)=f_n(Y_n)\cdot\prod_{i<n}f_i(Y_i)$
+and note that $\prod_{i<n}f_i(Y_i)$ is a nondecreasing function of the block $\{Y_i:i<n\}$, while $f_n(Y_n)$ is a
+nondecreasing function of the disjoint singleton $\{Y_n\}$. The defining inequality applied to this split gives
+$\E[\prod_{i\le n}f_i(Y_i)]\le\E[\prod_{i<n}f_i(Y_i)]\,\E[f_n(Y_n)]$, and induction on $n$ closes the product. Taking
+$f_i(\cdot)=e^{t\,(\cdot)}$, which is nondecreasing for $t>0$, yields the factorization $\E[e^{t\sum_iY_i}]\le\prod_i\E[e^{t
+Y_i}]$. It is the direction of NA that makes Chernoff-type bounds go through as if the coordinates were independent. We must
+check that we apply it with the inequality pointing the right way, that is, with genuinely nondecreasing $f_i$. In both estimates of
 \Cref{app:structural-full} the summand $Y_i$ is a nondecreasing function of the load $r_i$: for the dense estimate it is
 $\exp(-c/r)\1[r>0]$, which increases as $r$ increases (a larger load makes the exponential closer to $1$ and keeps the
 indicator on); for the sparse estimate it is the threshold indicator $\1[r>U]$, which is also nondecreasing in $r$. Hence in
@@ -62,6 +84,12 @@ exponent to $-\mu\,h(t/\mu)$ with
 \[
   h(u)\ =\ (1+u)\log(1+u)-u\ \ge\ 0 .
 \]
+To see the collapse of the exponent in detail, substitute $e^{\theta}=1+t/\mu$ into $\mu(e^{\theta}-1)-\theta(\mu+t)$. The
+first term becomes $\mu(t/\mu)=t$, and the second becomes $\log(1+t/\mu)\,(\mu+t)$, so the exponent equals
+\[
+  t-(\mu+t)\log\!\Big(1+\frac t\mu\Big)\ =\ -\mu\Big[\big(1+\tfrac t\mu\big)\log\big(1+\tfrac t\mu\big)-\tfrac t\mu\Big]\ =\ -\mu\,h(t/\mu),
+\]
+which is the rate function written out: $\mu\,h(t/\mu)=(\mu+t)\log(1+t/\mu)-t$.
 Thus $\Pr(X\ge\mu+t)\le\exp(-\mu\,h(t/\mu))$, which is the upper bound quoted in \eqref{eq:poisson-tail}. The function $h$ is
 nonnegative because $h(0)=0$ and $h'(u)=\log(1+u)\ge0$, so it is increasing on $[0,\infty)$. A matching lower bound of the
 same exponential order holds for $\mu\ge1$ and $t\le\mu^{2}$ by the local central limit theorem, which gives the Poisson
@@ -69,13 +97,22 @@ point mass at $\mu+t$ up to polynomial factors and lets one sum the tail with no
 estimate tight and not merely an upper bound.
 
 The two regimes of \eqref{eq:poisson-tail} are read off from the behavior of $h$. For small deviations, $u\le1$, a Taylor
-expansion gives $h(u)=\tfrac12 u^2-\tfrac16u^3+\cdots\asymp u^2$, so the bound is the Gaussian one
-$\exp(-\Th(t^2/\mu))$. For large deviations, $u\ge1$, the leading term is $h(u)\asymp u\log(1+u)$, so the bound becomes the
-Poissonian $\exp(-\Th(t\log(1+t/\mu)))$, which decays faster than any Gaussian. The crossover at $u\asymp1$, that is at
-$t\asymp\mu$, is exactly the point where the deviation stops being typical-scale and the heavier Poisson tail takes over.
+expansion of $h(u)=(1+u)\log(1+u)-u$ around $u=0$, using $\log(1+u)=u-\tfrac12u^2+\tfrac13u^3-\cdots$, gives
+$h(u)=\tfrac12 u^2-\tfrac16u^3+\cdots\asymp u^2$, so with $u=t/\mu$ the rate is $\mu\,h(t/\mu)\asymp\mu\cdot(t/\mu)^2=t^2/\mu$
+and the bound is the Gaussian one $\exp(-\Th(t^2/\mu))$. For large deviations, $u\ge1$, the leading term is $h(u)\asymp
+u\log(1+u)$, so $\mu\,h(t/\mu)\asymp\mu\cdot(t/\mu)\log(1+t/\mu)=t\log(1+t/\mu)$ and the bound becomes the Poissonian
+$\exp(-\Th(t\log(1+t/\mu)))$, which decays faster than any Gaussian. The two expressions $t^2/\mu$ and $t\log(1+t/\mu)$ agree
+in order at $u\asymp1$, since there $\log(1+u)\asymp u$ makes $t\log(1+t/\mu)\asymp t\cdot(t/\mu)=t^2/\mu$. This crossover at
+$u\asymp1$, that is at $t\asymp\mu$, is exactly the point where the deviation stops being typical-scale and the heavier
+Poisson tail takes over.
 
-The same estimate transfers verbatim to the binomial. For $X\sim\Bin(m,p)$ with mean $\mu=mp$, Bennett's inequality gives the
-identical $\exp(-\mu\,h(t/\mu))$ upper tail, and the matching lower bound of the same order holds once the variance is at
-least constant, $mp(1-p)\ge1$, so that the local central limit theorem applies. This variance condition holds throughout our
+The same estimate transfers verbatim to the binomial, by the same Chernoff optimization. For $X\sim\Bin(m,p)$ with mean
+$\mu=mp$, the moment generating function is $\E[e^{\theta X}]=(1-p+pe^{\theta})^m$, and $\log\E[e^{\theta X}]=m\log(1-p+pe^
+{\theta})\le m\,p(e^{\theta}-1)=\mu(e^{\theta}-1)$, using $\log(1+x)\le x$ with $x=p(e^{\theta}-1)$. Thus the binomial
+cumulant generating function is dominated by the Poisson one of the same mean, the optimization over $\theta$ goes through
+unchanged, and Bennett's inequality gives the identical $\exp(-\mu\,h(t/\mu))$ upper tail. This is the binomial-to-Poisson
+transfer: the binomial tail is never heavier than the Poisson tail of the matching mean. The matching lower bound of the same
+order holds once the variance is at least constant, $mp(1-p)\ge1$, so that the local central limit theorem applies and
+supplies the Poisson point mass at $\mu+t$ up to polynomial factors. This variance condition holds throughout our
 application, because the relevant binomial means are $\Th(\lam)=\Om(1)$ in the regime $k\le d$, and the success probabilities
 are bounded away from $1$, so $mp(1-p)=\Th(\lam)\ge1$.
