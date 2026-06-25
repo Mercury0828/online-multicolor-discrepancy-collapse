@@ -1,3 +1,13 @@
+> **STATUS: RESOLVED (2026-06-25).** GPT-5.5-Pro returned a complete self-contained proof and a necessary correction:
+> the lemma is FALSE for `λ≪1` (all-zero event has prob `e^{−Θ(kλ)}=e^{−Θ(d)}`), so the offline lower bound needs the
+> explicit hypothesis **`λ≥1`** (equivalently `k≤Td/n`; holds for all `k≤d` once `T≥n`). The fix is now typeset in
+> Appendix B: a reverse-Cramér estimate (`lem:reverse-cramer`), a comparable-mean spread lemma (`lem:comparable`), and the
+> heavy/no-heavy reduction (`0.9λ` cutoff) giving rate `e^{−ck^{1/4}}` (≥ `k^{1/5}`, so hypothesis `k≥C₀log⁵(dk)` stands).
+> None of ABKU/BCSV/Raab–Steger/Talwar–Wieder give it as a black box; the appendix proof is now self-contained.
+> The paper no longer has any "cited-as-standard" step. Below is the original relay prompt, kept for the record.
+
+---
+
 # Relay to GPT-5.5-Pro — close the one cited-as-standard lemma (offline lower bound)
 
 **Context for you (GPT-5.5-Pro).** We have a complete SODA submission proving, in the Altschuler–Tikhomirov

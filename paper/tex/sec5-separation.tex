@@ -80,12 +80,12 @@ online coloring is in particular an offline one) with the online lower and upper
 \Cref{lem:online-lower,lem:online-upper} gives the following bracket.
 
 \begin{corollary}[Growing-$k$ bracket]\label{cor:bracket}
-For $C_0\log^5(dk)\le k\le d$ with $d,k=(\log n)^{o(1)}$,
+For $C_0\log^5(dk)\le k\le d$ with $d,k=(\log n)^{o(1)}$ and $\lam\ge1$,
 \[
   \max\!\Big\{\,\Psifn(\lam,\log k),\ \frac{\loglog n}{k}\,\Big\}\ \le\ \ondisc_k\ \le\ \loglog n\qquad\whp.
 \]
-(The floor $\loglog n/k$ alone, from \Cref{lem:online-lower}, needs no lower bound on $k$; the $\Psifn$ floor uses
-\Cref{thm:offline} and hence its hypothesis $k\ge C_0\log^5(dk)$.)
+(The floor $\loglog n/k$ alone, from \Cref{lem:online-lower}, needs no condition on $k$; the $\Psifn$ floor uses
+\Cref{thm:offline} and hence its hypotheses $k\ge C_0\log^5(dk)$ and $\lam\ge1$.)
 \end{corollary}
 
 The two endpoints of this bracket can be far apart, and which of the two floors dominates depends on the size of $k$

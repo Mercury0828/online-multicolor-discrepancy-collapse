@@ -14,8 +14,11 @@
 - **refs.bib: 69 entries, all web-verified, all cited.**
 - Proofs deepened to full self-verifiable derivations (color-tree path-sum per regime; LM budget; Freedman seed-tail;
   NA closure facts; fixed-k offline Theta(sqrt d) with anticoncentration; BC charging + conveyor invariant).
-- Offline lower-bound lemma `lem:occ-spread` left intact (still the one "correct-modulo-cited-occupancy-law" step;
-  relay prompt at `rounds/RELAY_occupancy_lemma.md` for GPT-5.5-Pro).
+- Offline lower-bound lemma `lem:occ-spread` is now **fully self-contained** (GPT-5.5-Pro resolution typeset): reverse
+  Cramér `lem:reverse-cramer` + comparable-mean spread `lem:comparable` + heavy/no-heavy reduction, rate `e^{−ck^{1/4}}`.
+  Necessary correction applied: added hypothesis **`λ≥1`** (the lemma is false for `λ≪1`; `λ≥1` ⟺ `k≤Td/n`, holds for all
+  `k≤d` once `T≥n`) to T1 / intro / `cor:bracket`. The paper no longer has any cited-as-standard step. Relay archived
+  at `rounds/RELAY_occupancy_lemma.md` (marked RESOLVED).
 - CAVEAT: the deepening passes added new explicit derivations around the (preserved) statements; these merit one more
   Codex correctness pass before submission.
 

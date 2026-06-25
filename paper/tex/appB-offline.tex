@@ -28,46 +28,98 @@ coordinate, $Y_c=\sum_{t\in\chi^{-1}(c)}B_{it}\sim\Bin(m_c,p)$, are independent,
 $\Var Y_c=\Th(\mu_c)$ and $\sum_c\mu_c=k\lam$.
 
 \paragraph{Step 3: per-coordinate spread.}
-Fix a coordinate. The $k$ loads are independent with means $\mu_c$ summing to $k\lam$, and the range $\rangeop_i=\max_c Y_c-\min_c Y_c$
-is the max-minus-min load of a weighted balls-into-bins allocation of (in expectation) $k\lam$ balls into $k$ bins. Write
-$t^*=\Th(\Psifn(\lam,\log k))$ for the Poisson deviation of the inversion above. We use the following lower tail of the
-occupancy spread.
+Fix a coordinate. The $k$ loads $Y_c\sim\Bin(m_c,p)$ are independent with means $\mu_c$ summing to $k\lam$. Write
+$t^*=\Psifn(\lam,\log k)$. We prove the following lower tail, under the standing hypothesis $\lam\ge 1$.
+
+\begin{remark}[Necessity of $\lam\ge1$]\label{rem:lam-ge-1}
+Some lower bound on $\lam$ is unavoidable. For every profile all $k$ loads vanish together with probability
+$\prod_c(1-p)^{m_c}=(1-p)^T=e^{-(1+o(1))k\lam}$, an event of range $0$, so $\Pr(\rangeop_i\le\tfrac14 t^*)\ge e^{-(1+o(1))k\lam}$.
+Since $k\lam=Tp=\Th(d)$, no bound $e^{-k^{\Om(1)}}$ can hold once $\lam=o(1)$ (equivalently $k=\omega(d)$). We therefore
+assume $\lam\ge1$, which in the range $k\le d$ holds whenever $T\ge n$; it excludes only the top sliver $k=\omega(Td/n)$ of
+the palette.
+\end{remark}
 
 \begin{lemma}[Occupancy spread, lower tail]\label{lem:occ-spread}
-Let $Y_1,\dots,Y_k$ be independent with $Y_c\sim\Bin(m_c,p)$, $\mu_c=m_c p$, $\sum_c\mu_c=k\lam$, and $\lam=\Th(d/k)$. Then
-$\Pr\big(\max_c Y_c-\min_c Y_c\le\tfrac14 t^*\big)\le e^{-q}$ with $q\ge k^{1/5}$.
+Assume $\lam\ge1$ and $p(k\lam+\log^2 k)=o(1)$. Let $Y_1,\dots,Y_k$ be independent with $Y_c\sim\Bin(m_c,p)$, $\mu_c=m_c p\ge0$,
+$\sum_c\mu_c=k\lam$. Then $\Pr\big(\max_c Y_c-\min_c Y_c\le\tfrac14 t^*\big)\le e^{-c k^{1/4}}$ for an absolute $c>0$; in
+particular the rate is at least $k^{1/5}$.
 \end{lemma}
 
-The proof rests on one standard occupancy input, the comparable-mean extreme-value law: for $m$ independent loads of
-\emph{comparable} mean $\Th(M)$ (means within a factor $2$), the maximum-minus-minimum is $\ge\Th(\Psifn(M,\log m))$ off an
-event of probability $e^{-\Th(\sqrt m)}$ \cite{ABKU1999,BCSV2006}. Quantitatively: a single load exceeds the common level $M$
-by $\Om(\Psifn(M,\log m))$ with probability $\ge m^{-1/2}$ (rate $\tfrac12\log m$), so the maximum does unless all $m$ loads
-fail, probability $\le(1-m^{-1/2})^m\le e^{-\sqrt m}$; and the minimum is $\le M$ \whp\ (the median load is $M+\Oh(1)$, so
-$\Pr(\min>M)\le 2^{-m}$). The difference is then $\ge\Om(\Psifn(M,\log m))$. (The matching
-\emph{typical} value
-$\rangeop_i=\Th(\Psifn(\lam,\log k))$ \whp\ is the weighted maximum-load law from the same references; \Cref{lem:occ-spread} is
-the lower-tail refinement we need.) We extract a large comparable-mean sub-family and apply this law.
+The engine is a spread bound for bins of comparable mean, which we prove from a reverse Cram\'er estimate. Write
+$J_\mu(x)=x\log(x/\mu)-x+\mu$ for the Poisson rate.
 
-\emph{Heavy bin.} If some $\mu_{c^\dagger}\ge k^{1/4}\lam$, the average constraint $\sum_c\mu_c=k\lam$ forces $\ge\Om(k^{1/4})$
-bins of mean $\le\lam$ (each heavy bin consumes mean $\ge k^{1/4}\lam$). The heavy bin has $Y_{c^\dagger}\ge\mu_{c^\dagger}/2\ge\tfrac12 k^{1/4}\lam$
-by a Chernoff bound (failure $e^{-\Om(k^{1/4}\lam)}$). Each sub-$\lam$ bin (mean $\le\lam$) is $\le 2\lam$ with probability
-$\ge\tfrac12$ (Markov), so the minimum over the $\Om(k^{1/4})$ independent sub-$\lam$ bins exceeds $2\lam$ with probability
-$\le 2^{-\Om(k^{1/4})}$. Since $k^{1/4}\lam\ge 8(\lam+t^*)$ (as $t^*\le\Psifn(\lam,\log k)=(\log n)^{o(1)}$ and $k^{1/4}\to\infty$),
-$\rangeop_i\ge\tfrac12 k^{1/4}\lam-2\lam\ge\tfrac14 k^{1/4}\lam\ge t^*$ \whp, with $q=\Om(k^{1/4})$.
+\begin{lemma}[Reverse Cram\'er]\label{lem:reverse-cramer}
+Let $X\sim\Bin(N,p)$ with $\mu=Np$, and let $x$ be a nonnegative integer with $p(\mu+x^2/\mu)=o(1)$. Put $q=x/N$,
+$t=\log\frac{q(1-p)}{p(1-q)}$, $\sigma^2=Nq(1-q)$. Then $\Pr(X\ge x)\ge e^{-J_\mu(x)-\Oh(\log(1+|t|\sigma))}$ for $x\ge\mu$,
+and $\Pr(X\le x)\ge e^{-J_\mu(x)-\Oh(\log(1+|t|\sigma))}$ for $x\le\mu$.
+\end{lemma}
 
-\emph{No heavy bin.} Otherwise every $\mu_c<k^{1/4}\lam$. Discard bins with $\mu_c<\lam/2$ (they only lower the minimum); the
-rest $H=\{c:\lam/2\le\mu_c<k^{1/4}\lam\}$ carry $\sum_{c\in H}\mu_c>k\lam/2$, so $|H|\ge(k\lam/2)/(k^{1/4}\lam)=k^{3/4}/2$.
-Splitting $[\lam/2,k^{1/4}\lam)$ into $\Oh(\log k)$ dyadic bands, the densest band $B$ has $k'':=|B|\ge|H|/\Oh(\log k)\ge k^{3/4-o(1)}$
-bins of comparable mean $M\in[\lam/2,k^{1/4}\lam)$. Applying the comparable-mean law to $B$ (with $m=k''$, $\log k''=\Th(\log k)$):
-$\max_{c\in B}Y_c-\min_{c\in B}Y_c\ge c_1\Psifn(M,\log k'')\ge c_1\Psifn(\lam/2,\Th(\log k))\ge\tfrac14 t^*$ \whp, since
-$\Psifn$ is nondecreasing in its first argument, $M\ge\lam/2$, and $\Psifn(\lam/2,\Th(\log k))\ge c_2\Psifn(\lam,\log k)=c_2 t^*$
-for absolute $c_1,c_2$ (halving $\lam$ and the logarithm changes $\Psifn$ by a constant factor); the constants are absorbed
-into the threshold $\tfrac14 t^*$. The failure probability is $e^{-\Th(\sqrt{k''})}=e^{-k^{3/8-o(1)}}$, so $q\ge k^{1/5}$.
-This proves \Cref{lem:occ-spread}.
+\begin{proof}
+Tilt $\Bin(N,p)$ to $Q=\Bin(N,q)$, under which $x$ is the mean. The likelihood ratio is
+$\frac{dP_p}{dQ}(z)=\exp(-N D(q\Vert p)-t(z-x))$ with $D$ the binary relative entropy. A Stirling estimate gives $Q$ at least
+$\tfrac{c}{1+|t|\sigma}$ mass on an adjacent one-sided integer interval where $|t(z-x)|\le1$, so the corresponding $P_p$-mass
+is at least $\tfrac{c}{1+|t|\sigma}e^{-ND(q\Vert p)}$. Finally $ND(q\Vert p)=J_\mu(x)+\Oh(p(\mu+x^2/\mu))=J_\mu(x)+o(1)$.
+\end{proof}
 
-Step~2 placed us in the Bernoulli model $B$, whose rows are independent; the events $\{\rangeop_i\le D\}_{i\in[n]}$ depend on
-disjoint rows of $B$, so they are independent and $\Pr_B(\max_i\rangeop_i\le\tfrac14 t^*)\le e^{-qn}$ by \Cref{lem:occ-spread}.
-Set $D=\tfrac14 t^*=\Th(\Psifn)$.
+\begin{lemma}[Comparable-mean spread]\label{lem:comparable}
+Let $m\to\infty$, $\ell=\log m$, and let $Z_1,\dots,Z_m$ be independent with $Z_j\sim\Bin(N_j,p)$, means $\mu_j\in[M,2M]$,
+$M\ge\tfrac12$, and $p(M+\ell^2)=o(1)$. Then $\Pr\big(\max_j Z_j-\min_j Z_j\le\tfrac25\Psifn(M,\ell)\big)\le e^{-c\sqrt m}$ for
+an absolute $c>0$.
+\end{lemma}
+
+\begin{proof}
+Let $A,B$ index the $h=\lfloor m/2\rfloor$ smallest and largest means; put $a=\max_{j\in A}\mu_j\le b=\min_{j\in B}\mu_j$, so
+$M\le a\le b\le 2M$, and write $\psi=\Psifn(M,\ell)$. With $g(u)=\sqrt u+1/\log(e+1/u)$ (so $\psi/\ell=g(M/\ell)+o(1)$),
+one-variable calculus gives
+\begin{equation}\label{eq:rate-small}
+  J_{u\ell}\big(\tfrac25\ell g(u)\big)\le\tfrac25\ell\quad\text{whenever }\tfrac25 g(u)\ge u,
+\end{equation}
+\begin{equation}\label{eq:rate-large}
+  J_{u\ell}\big(u\ell\pm\tfrac15\ell g(u)\big)\le\tfrac18\ell\quad\text{for }u\ge\tfrac{9}{20}.
+\end{equation}
+
+\emph{Case $a\le\tfrac{9}{20}\ell$.} Each $j\in A$ has $\Pr(Z_j=0)=(1-p)^{N_j}=e^{-(1+o(1))\mu_j}\ge m^{-9/20-o(1)}$, so
+$\Pr(\min_{j\in A}Z_j>0)\le e^{-m^{11/20-o(1)}}$. Let $r=\lceil\tfrac25\psi\rceil$. By \Cref{lem:reverse-cramer} and
+\eqref{eq:rate-small}, each $j\in B$ has $\Pr(Z_j\ge r)\ge m^{-2/5-o(1)}$, so $\Pr(\max_{j\in B}Z_j<r)\le e^{-m^{3/5-o(1)}}$.
+Off these events the minimum is $0$ and the maximum is $\ge r$, giving spread $\ge\tfrac25\psi$. When $\psi>M$ the minimum
+is simply $0$ and is never asked to go negative.
+
+\emph{Case $a>\tfrac{9}{20}\ell$.} Put $s=\tfrac15\psi\le\tfrac15\Psifn(a,\ell)$. By \Cref{lem:reverse-cramer} and
+\eqref{eq:rate-large}, each $j\in A$ has $\Pr(Z_j\le a-s)\ge m^{-1/8-o(1)}$, and each $j\in B$ has $\Pr(Z_j\ge b+s)\ge
+m^{-1/8-o(1)}$ (the displacement-$s$ rate at mean $b\ge a$ is no larger). By independence,
+$\Pr(\min_{j\in A}Z_j>a-s)+\Pr(\max_{j\in B}Z_j<b+s)\le 2e^{-m^{7/8-o(1)}}$. Off these events the spread is
+$\ge(b+s)-(a-s)\ge 2s=\tfrac25\psi$.
+\end{proof}
+
+\begin{proof}[Proof of \Cref{lem:occ-spread}]
+Two cases on the largest mean $\mu_h:=\max_c\mu_c$.
+
+\emph{Heavy bin: $\mu_h\ge k^{1/4}\lam$.} Let $S=\{c:\mu_c\le\lam\}$. From $\sum_c(\mu_c-\lam)=0$,
+$|S|\lam\ge\sum_{c\in S}(\lam-\mu_c)=\sum_{c\notin S}(\mu_c-\lam)\ge\mu_h-\lam$, so $|S|\ge k^{1/4}-1$. A Chernoff bound gives
+$\Pr(Y_h<\mu_h/2)\le e^{-\mu_h/8}\le e^{-k^{1/4}/8}$ (using $\lam\ge1$), and each $c\in S$ has $\Pr(Y_c>2\lam)\le\tfrac12$
+(Markov), so $\Pr(\min_{c\in S}Y_c>2\lam)\le 2^{-|S|}\le e^{-ck^{1/4}}$. Off these events $\rangeop_i\ge\tfrac12 k^{1/4}\lam-2\lam$,
+which exceeds $\tfrac14 t^*$ because $t^*/\lam\le 1+\sqrt{\log k}+\log k=\Oh(\log k)$ for $\lam\ge1$ and $k^{1/4}=\omega(\log k)$.
+
+\emph{No heavy bin: $\mu_h<k^{1/4}\lam$.} Let $H=\{c:\mu_c\ge\tfrac{9}{10}\lam\}$; the discarded bins carry mean
+$<\tfrac{9}{10}k\lam$, so $\sum_{c\in H}\mu_c>\tfrac1{10}k\lam$ and $|H|\ge\tfrac1{10}k^{3/4}$. Split
+$[\tfrac{9}{10}\lam,k^{1/4}\lam)$ into $\Oh(\log k)$ dyadic bands; the densest band $B$ has $m:=|B|\ge ck^{3/4}/\log k=k^{3/4-o(1)}$
+bins of comparable mean $M\in[\tfrac{9}{10}\lam,k^{1/4}\lam)$, with $\ell=\log m\ge\tfrac{7}{10}\log k$. A direct estimate gives
+$\Psifn(M,\ell)\ge\tfrac58\,t^*$: the constant and Gaussian terms only grow, and for the Bennett term
+$\log(e+\tfrac{10}{9}\tfrac{\log k}{\lam})\le(1+\log\tfrac{10}{9})\log(e+\tfrac{\log k}{\lam})$ with
+$\tfrac{7}{10}/(1+\log\tfrac{10}{9})>\tfrac58$. By \Cref{lem:comparable} (whose hypothesis $p(M+\ell^2)=o(1)$ is the assumed
+$p(k\lam+\log^2 k)=o(1)$ since $M\le k\lam$ and $\ell\le\log k$),
+$\Pr(\max_{c\in B}Y_c-\min_{c\in B}Y_c\le\tfrac25\Psifn(M,\ell))\le e^{-c\sqrt m}$, and
+$\tfrac25\Psifn(M,\ell)\ge\tfrac25\cdot\tfrac58\,t^*=\tfrac14 t^*$. The full range dominates the range over $B$, so
+$\Pr(\rangeop_i\le\tfrac14 t^*)\le e^{-c\sqrt m}=e^{-k^{3/8-o(1)}}$.
+
+Both cases give $\Pr(\rangeop_i\le\tfrac14 t^*)\le e^{-ck^{1/4}}$, and $k^{1/4}\ge k^{1/5}$.
+\end{proof}
+
+In our model the two hypotheses of \Cref{lem:occ-spread} hold: $\lam=Td/(nk)\ge1$ in the stated range (\Cref{rem:lam-ge-1}),
+and $p(k\lam+\log^2 k)=\tfrac dn(\Th(d)+\Oh(\log^2 d))=\Oh(d^2/n)=o(1)$ since $d\le\Hscale^2/\log\Hscale$. Step~2 placed us in
+the Bernoulli model $B$, whose rows are independent; the events $\{\rangeop_i\le D\}_{i\in[n]}$ depend on disjoint rows of
+$B$, so they are independent and $\Pr_B(\max_i\rangeop_i\le\tfrac14 t^*)\le e^{-qn}$ by \Cref{lem:occ-spread}. Set
+$D=\tfrac14 t^*=\Th(\Psifn)$.
 
 \paragraph{Step 4: union over colorings.}
 Step 3 gives a per-coordinate rate $q\ge k^{1/5}$. Combining Steps 2--3 and union-bounding over the at most $k^T$ colorings,

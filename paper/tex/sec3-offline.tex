@@ -4,11 +4,12 @@
 This section proves the offline value exactly.
 
 \begin{theorem}[Offline characterization]\label{thm:offline}
-There is an absolute constant $C_0$ such that for $k\le d$, $d,k=(\log n)^{o(1)}$, and $k\ge C_0\log^5(dk)$,
+There is an absolute constant $C_0$ such that for $k\le d$, $d,k=(\log n)^{o(1)}$, $k\ge C_0\log^5(dk)$, and $\lam\ge1$,
 \[
   \offdisc_k\ =\ \Th\big(\Psifn(\lam,\log k)\big)\qquad\whp,
 \]
-with $\lam=Td/(nk)$ and $\Psifn$ as in \eqref{eq:Psi}. (Here $\offdisc_k$ is the final discrepancy, \Cref{sec:model}.)
+with $\lam=Td/(nk)$ and $\Psifn$ as in \eqref{eq:Psi}. (Here $\offdisc_k$ is the final discrepancy, \Cref{sec:model}; the
+occupancy condition $\lam\ge1$ is equivalent to $k\le Td/n$ and holds for all $k\le d$ once $T\ge n$.)
 \end{theorem}
 
 The hypothesis $k\ge C_0\log^5(dk)$ is what lets the per-coordinate spread beat the union over the $k^T$ colorings; it holds
