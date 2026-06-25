@@ -13,12 +13,11 @@ $h(u)=\Th(u^2)$ for $u\le 1$ and $h(u)=\Th(u\log(1+u))$ for $u\ge 1$, we get \eq
 in the regime $t\lesssim\mu$, $t^2/\mu\asymp\Lscale$ gives $t\asymp\sqrt{\mu\Lscale}$; in the regime $t\gtrsim\mu$, setting
 $t=c\,\Lscale/\log(e+\Lscale/\mu)$ and $z=\Lscale/\mu\ge 1$ gives $t\log(1+t/\mu)\asymp \mu\cdot\frac{z}{\log(e+z)}\cdot\log\!\big(1+\tfrac{z}{\log(e+z)}\big)\asymp\mu z=\Lscale$, because $\log(1+z/\log(e+z))\asymp\log(e+z)$ for $z\ge 1$. Hence the deviation at which a single $\Pois(\mu)$ load reaches rate $\Lscale$ is $t^*(\mu,\Lscale)=\Th(\sqrt{\mu\Lscale}+\Lscale/\log(e+\Lscale/\mu))=\Th(\Psifn(\mu,\Lscale))$.
 
-\paragraph{Step 1: many large classes.}
-Fix a coloring $\chi$ with class sizes $m_c=|\chi^{-1}(c)|$. Since $\sum_c m_c=T$, at least $k/2$ colors satisfy
-$m_c\ge T/(2k)$; call these the \emph{large} colors and let $G$ be their set, $|G|\ge k/2$. A large color has
-$\E Y_c=m_c\,d/n=\Th(\lam)$ and $\Var Y_c=\Th(\lam)$. We bound the coordinate range using only the large colors, so no
-balance assumption is needed: $\rangeop_i\ge\max_{c\in G}Y_c-\min_{c\in G}Y_c$, and it suffices to lower-bound the spread of
-the large loads.
+\paragraph{Step 1: means.}
+Fix a coloring with means $\mu_c=m_c d/n$, $\sum_c\mu_c=k\lam$. The loads are independent with $\E Y_c=\mu_c$ and
+$\Var Y_c=\mu_c(1-d/n)=\Th(\mu_c)$. We do not assume balance; instead we lower-bound the range by a dichotomy on the means.
+Throughout, $t^*=t^*(\lam,\log k)=\Th(\Psifn(\lam,\log k))$ is the deviation of the Poisson inversion above, and
+$t^*\ge 4\sqrt{\lam\log k}$ (since $\Psifn\ge\sqrt{\lam\log k}$ and $\log k$ is large).
 
 \paragraph{Step 2: Poissonization.}
 Let $B$ be the $n\times T$ matrix with i.i.d.\ $\Bin(1,p)$ entries, $p=d/n$. Conditioning each column of $B$ on having
@@ -29,26 +28,38 @@ coordinate, $Y_c=\sum_{t\in\chi^{-1}(c)}B_{it}\sim\Bin(m_c,p)$, are independent,
 $\Th(\lam)$.
 
 \paragraph{Step 3: per-coordinate spread.}
-Fix a coordinate. The large loads $\{Y_c\}_{c\in G}$ are independent with means $\Th(\lam)$. Set
-$t^*=t^*(\lam,\log k)=\Th(\Psifn(\lam,\log k))$, the deviation at which a single load reaches rate $\Lscale=\log k$ (the
-inversion above); then $\Pr(Y_c\ge\E Y_c+t^*)\ge k^{-C}$ for a constant $C<1$. Two cases lower-bound the spread.
-\emph{Upper edge.} Since $|G|\ge k/2$ and the loads are independent, the chance that none exceeds its mean by $t^*$ is at
-most $(1-k^{-C})^{k/2}\le e^{-k^{1-C}/2}$, so $\max_{c\in G}Y_c\ge\Th(\lam)+t^*$ \whp.
-\emph{Lower edge.} If $\lam=\Oh(1)$ then $\Pr(Y_c=0)=e^{-\Th(\lam)}=\Th(1)$, so $\Pr(\min_{c\in G}Y_c>0)\le e^{-\Th(k)}$; if
-$\lam\to\infty$ the matching lower tail gives $\Pr(\min_{c\in G}Y_c>\E Y_c-t^*)\le e^{-\Th(k^{1-C})}$ (\Cref{app:prelims}).
-On the complementary event $\rangeop_i\ge t^*=\Th(\Psifn(\lam,\log k))$. Hence, writing $D=\tfrac12 t^*$,
-$\Pr(\rangeop_i\le D)\le e^{-q}$ with $q=\Th(k^{1-C})$. Negative association of $\{Y_c\}$ across the $n$ coordinates
-(\Cref{sec:NA}) gives $\Pr_B(\max_i\rangeop_i\le D)\le e^{-qn}$.
+Fix a coordinate; we show $\Pr(\rangeop_i\le \tfrac14 t^*)\le e^{-q}$ with $q=\Th(\sqrt k)$.
+
+\emph{Case 1: a heavy color.} If $\max_c\mu_c\ge 6(\lam+t^*)$, the heaviest color has mean $\mu\ge 6(\lam+t^*)\ge 6\log k$,
+so by a Chernoff bound $Y\ge\mu/2\ge 3(\lam+t^*)$ \whp. The lightest color has mean $\mu_{\min}\le\lam$, so by the upper tail
+$\min_c Y_c\le\lam+t^*$ \whp. Hence $\rangeop_i\ge 3(\lam+t^*)-(\lam+t^*)=2\lam+2t^*\ge t^*$, with failure probability
+$e^{-\Th(k)}$ (the Chernoff and tail bounds), so $q=\Th(k)$ here.
+
+\emph{Case 2: no heavy color.} Every $\mu_c\le 6(\lam+t^*)$. Colors with $\mu_c<\lam/2$ carry total mean $<k\lam/2$, so
+$H=\{c:\mu_c\ge\lam/2\}$ has $\sum_{c\in H}\mu_c>k\lam/2$ and hence $|H|\ge k\lam/(12(\lam+t^*))=:k'$, each with
+$\mu_c\in[\lam/2,\,6(\lam+t^*)]$. Partition $[\lam/2,6(\lam+t^*)]$ into the $\Oh(\log(1+t^*/\lam))=\Oh(\loglog n)$ dyadic
+bands $[M,2M]$; some band $B\subseteq H$ has $|B|\ge k'/\Oh(\loglog n)=:k''$, with all means in a common $[M,2M]$,
+$M\ge\lam/2$. The loads $\{Y_c\}_{c\in B}$ are independent with comparable means $\Th(M)$, and by \eqref{eq:poisson-tail}
+each exceeds its mean by $t^*$ with probability $\ge k^{-1/2}$ and (for $M\to\infty$) falls $t^*$ below it with the same
+probability; the rate constant is taken so $t^*$ stays $\Th(\Psifn(\lam,\log k))$ (the spread at mean $M\ge\lam$ is at least
+that at mean $\lam$). The extreme values over the $k''$ independent comparable loads therefore satisfy
+$\max_{c\in B}Y_c-\min_{c\in B}Y_c\ge t^*$ \whp: for $\lam\to\infty$ both edges hold with failure $\le 2(1-k^{-1/2})^{k''}$,
+and for $\lam=\Oh(1)$ the minimum is $0$ \whp (as $k''e^{-\Th(M)}\ge1$) while the maximum reaches $t^*$. Hence
+$\Pr(\rangeop_i\le\tfrac14 t^*)\le e^{-k''k^{-1/2}}=e^{-q}$. Since $k''=\Th\!\big(k\lam/((\lam+t^*)\loglog n)\big)$ and
+$t^*=(\log n)^{o(1)}$, $k''=k^{1-o(1)}$, so $q=k''k^{-1/2}=\Th(\sqrt k\,/\,(\log n)^{o(1)})\ge k^{2/5}$.
+
+In both cases $\Pr(\rangeop_i\le\tfrac14 t^*)\le e^{-q}$ with $q=\Th(\sqrt k)$. Negative association of $\{Y_c\}$ across the
+$n$ coordinates (\Cref{sec:NA}) gives $\Pr_B(\max_i\rangeop_i\le\tfrac14 t^*)\le e^{-qn}$. Set $D=\tfrac14 t^*=\Th(\Psifn)$.
 
 \paragraph{Step 4: union over colorings.}
-Taking the rate constant $C=\tfrac12$ in Step 3 gives $q=\Th(\sqrt k)$ (the bounded-occupancy lower edge gives the stronger
-$q=\Th(k)$, but $\Th(\sqrt k)$ holds in all regimes). Combining Steps 2--3 and union-bounding over the at most $k^T$ colorings,
+Step 3 gives a per-coordinate rate $q\ge k^{2/5}$ (Case 2; Case 1 gives the stronger $q=\Th(k)$). Combining Steps 2--3 and
+union-bounding over the at most $k^T$ colorings,
 \[
   \Pr_{\mathrm{exact}}\big(\exists\chi:\ \max_i\rangeop_i(T)\le D\big)\ \le\ (C\sqrt{d+1})^T\,k^T\,e^{-q n}
-  \ =\ \exp\!\big(\Oh(n\log(dk))-\Th(n\sqrt k)\big).
+  \ =\ \exp\!\big(\Oh(n\log(dk))-\Om(n\,k^{2/5})\big).
 \]
-By the hypothesis $k\ge C_0\log^2(dk)$, $\sqrt k\ge\sqrt{C_0}\,\log(dk)$ dominates the $\Oh(\log(dk))$ per-coordinate cost, so
-the probability is $\exp(-\Om(n\sqrt k))=o(1)$. Therefore $\offdisc_k\ge D+1\ge c\,\Psifn(\lam,\log k)$ \whp. The three
+By the hypothesis $k\ge C_0\log^3(dk)$, $k^{2/5}\ge C_0^{2/5}\log^{6/5}(dk)$ dominates the $\Oh(\log(dk))$ per-coordinate
+cost, so the probability is $\exp(-\Om(n\,k^{2/5}))=o(1)$. Therefore $\offdisc_k\ge D+1\ge c\,\Psifn(\lam,\log k)$ \whp. The three
 regimes \eqref{eq:Psi-regimes} are the three behaviours of $t^*(\lam,\log k)$: Gaussian $\sqrt{\lam\log k}$ for
 $\lam\gtrsim\log k$, the Bennett term $\log k/\log((\log k)/\lam)$ for $1\ll\lam\ll\log k$, and $\log k/\loglog k$ for
 $\lam=\Th(1)$. \qed

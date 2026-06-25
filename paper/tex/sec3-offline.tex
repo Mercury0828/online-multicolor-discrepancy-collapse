@@ -4,14 +4,14 @@
 This section proves the offline value exactly.
 
 \begin{theorem}[Offline characterization]\label{thm:offline}
-There is an absolute constant $C_0$ such that for $k\le d$, $d,k=(\log n)^{o(1)}$, and $k\ge C_0\log^2(dk)$,
+There is an absolute constant $C_0$ such that for $k\le d$, $d,k=(\log n)^{o(1)}$, and $k\ge C_0\log^3(dk)$,
 \[
   \offdisc_k\ =\ \Th\big(\Psifn(\lam,\log k)\big)\qquad\whp,
 \]
 with $\lam=Td/(nk)$ and $\Psifn$ as in \eqref{eq:Psi}. (Here $\offdisc_k$ is the final discrepancy, \Cref{sec:model}.)
 \end{theorem}
 
-The hypothesis $k\ge C_0\log^2(dk)$ is what lets the per-coordinate spread beat the union over the $k^T$ colorings; it holds
+The hypothesis $k\ge C_0\log^3(dk)$ is what lets the per-coordinate spread beat the union over the $k^T$ colorings; it holds
 for all but the smallest $k$ in the range, and excludes $k=2$, consistent with the two-color value being $\Th(\sqrt d)$
 rather than $\Th(\Psifn)$.
 
@@ -32,14 +32,14 @@ Fix an offline coloring $\chi$ and suppose every coordinate has range at most $D
 Bernoulli model and use a first-moment bound. Replacing each exactly-$d$ column by $n$ independent $\Bin(1,d/n)$ entries
 and conditioning on exactly $d$ ones recovers $\mu_{d,n}$; the conditioning costs a factor $(\Oh(\sqrt d))^{T}$, which is
 $e^{\Oh(n\log d)}$ and is dominated by the entropy $\Th(n\log k)$ of the union over the at most $k^{T}=e^{\Th(n\log k)}$
-colorings. Under the Bernoulli model the $k$ color-loads at a fixed coordinate are independent, and color $c$'s load is
-$\Bin(m_c,d/n)$ with $m_c=|\chi^{-1}(c)|$; a balance argument (\Cref{app:offline-lower-full}) shows that any coloring with
-all ranges $\le D\le \alpha\lam$ has every class size $m_c=\Th(T/k)$, so each load is approximately $\Pois(\lam)$. For all
-$k$ loads to lie in a window of width $D$, the maximum load may exceed $\lam$ by at most $D$; but by \eqref{eq:poisson-tail}
-the deviation $t$ at which the expected number of exceeding colors drops below one solves rate $=\log k$, giving
-$t\asymp\sqrt{\lam\log k}+\log k/\log(e+\log k/\lam)=\Th(\Psifn)$. Negative association across coordinates makes the
-per-coordinate events combine, and the union over colorings is beaten because $k\ge C\log(dk)$ in this regime. The full
-argument, including the three regimes \eqref{eq:Psi-regimes}, is in \Cref{app:offline-lower-full}.
+colorings. Under the Bernoulli model the $k$ color-loads at a fixed coordinate are independent, color $c$'s load is
+$\Bin(m_c,d/n)$ with mean $\mu_c=m_c d/n$ and $\sum_c\mu_c=k\lam$. The loads spread regardless of balance: either some color
+has mean $\gg\lam$ and its load alone tops the others by $\Psifn$, or a constant fraction of the colors have mean $\Th(\lam)$
+and the extreme value of $k$ Poisson loads spans $\Psifn$. By \eqref{eq:poisson-tail}, the deviation at which the expected
+number of colors exceeding $\mu_c+t$ drops below one solves rate $=\log k$, giving
+$t\asymp\sqrt{\lam\log k}+\log k/\log(e+\log k/\lam)=\Th(\Psifn)$. Negative association across coordinates combines the
+per-coordinate events, and the union over the $k^T$ colorings is beaten because $k\ge C_0\log^3(dk)$. The full argument,
+with the heavy/light dichotomy and the three regimes \eqref{eq:Psi-regimes}, is in \Cref{app:offline-lower-full}.
 
 \subsection{Overview of the upper bound}\label{sec:offline-overview}
 
@@ -108,7 +108,8 @@ the per-stage errors form a convergent geometric sum, bounded in \Cref{app:split
 \subsection{The recursive color-tree}\label{sec:tree}
 
 \begin{lemma}[Upper bound]\label{lem:offline-upper}
-On the event of \Cref{lem:structural}, there is an offline $k$-coloring with $\max_{t,i}\rangeop_i(t)\le C\,\Psifn(\lam,\log k)$.
+On the event of \Cref{lem:structural}, there is an offline $k$-coloring with final discrepancy
+$\max_{i}\rangeop_i(T)\le C\,\Psifn(\lam,\log k)$.
 \end{lemma}
 
 \paragraph{Idea.}
