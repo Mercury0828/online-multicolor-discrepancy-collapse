@@ -54,7 +54,8 @@ $T=\Th(n)$ the constant changes only).
 \paragraph{The algorithm.}
 The upper bound is achieved by a seed-and-repair algorithm: color almost everything by a fixed random seed, and step in only
 to repair the rare coordinate that has drifted dangerously high. Before any arrivals, pre-sample seed colors
-$\widetilde\chi_t\sim\Unif[k]$, one per future arrival, independently. These would already give a good coloring on their own,
+$\widetilde\chi_t\sim\Unif[k]$, one per future arrival, independently; this is private randomness fixed in advance and used
+only when arrival $t$ appears, so the algorithm stays online. These seeds would already give a good coloring on their own,
 and the repair rule only intervenes to control the few coordinates whose range grows large under the seed. Track the
 \emph{exceptional set} $E_t$, the set of coordinates whose range has reached $64\Hscale$ by time $t$; once a coordinate
 enters $E$ it stays, so $E_t$ is nondecreasing. On arrival $t$ with support $S_t$, look for a single coordinate that is both

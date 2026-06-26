@@ -73,7 +73,15 @@ From RW2 (sketches), 20 load-bearing intuition items:
 - [x] 1. writing recheck — done.
 - [x] 2. reference re-verification — done (1 fix).
 - [x] 3. R2 panel + protect-list + BLOCKER/SHOULD-FIX — done. Recompiles clean, 40pp, 0 undefined.
-- NEXT: [ ] 4. sink full proofs to appendix.
+- [x] 4. SINK proofs to appendix — done. New page map: T1 p8, T2 p12, T3 p14, cor:bracket p15, open p16,
+       discussion p17; full proofs in appendix p25+. All proof \Cref pointers resolve as Appendix B/C.
+       NOTE on merits window: all three results are STATED in the intro list + results table on pp.1-2 and
+       the proof ideas in the overview pp.4-5, so the merits are conveyed in the first ~5 pages; the formal
+       restatements T2/T3 sit at p12/p14. If R3 wants the formal statements within p10, tighten §2/§3 prose
+       (escalate-in-report; do not cut protect-list).
+- [~] 5. trim — LIGHT (no length pressure; SODA uncapped): abstract 190w (in range), caption within norm,
+       protect-list constrains cutting. Added sec4 "private randomness ... stays online" appositive (RW1 SF5).
+- [~] 6. exit gate: R3 Codex panel LAUNCHED (background). Joint fixed point pending its verdict.
 
 ## Step status
 - [x] 0. tracking file (this)
