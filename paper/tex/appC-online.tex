@@ -28,7 +28,7 @@ Conditioning on the rule's auxiliary randomness, we may assume it is determinist
 Write $L=\log n$.
 
 \emph{Fresh-block bridge estimate.} Suppose at a history-measurable time $K$ there are disjoint $I^-,I^+\subseteq[n]$ with
-$|I^-|=|I^+|=s$, and the next $\Delta$ supports are fresh, with $n^{0.99}\le s,\Delta$, $s\le n/L$, and $\Delta\le n/L^2$.
+$|I^-|=|I^+|=s$, and the next $\Delta$ supports are fresh, with $n^{0.99}\le s\le n/L$ and $n^{0.99}\le\Delta\le n/L^2$.
 We claim that, conditionally on the history through $K$, with probability $1-o(1/L)$ both: (1) at least $s/2$ vertices of each
 of $I^-,I^+$ are untouched in the block; and (2) there are at least $c_0\Delta(s/n)^2$ block columns $t$ with
 $|S_t\cap I^-|=|S_t\cap I^+|=1$ whose two chosen vertices appear in no other block column, for an absolute $c_0>0$.
@@ -36,10 +36,21 @@ $|S_t\cap I^-|=|S_t\cap I^+|=1$ whose two chosen vertices appear in no other blo
 For (1): for $i\in I^\pm$ let $Z_i=\1[i\text{ untouched}]$, so $\E Z_i=(1-d/n)^\Delta=1-o(1)$ (as $d\Delta/n\le d/L^2=o(1)$),
 and for $i\ne i'$, $\E[Z_iZ_{i'}]=\mu^2(1+\Oh(d\Delta/n^2))$; hence $\Var(\sum_{I^\pm}Z_i)\le s+\Oh(s^2 d\Delta/n^2)=o(s^2)$
 and Chebyshev gives $\Pr(\sum Z_i<s/2)=\Oh(1/s+d\Delta/n^2)=o(1/L)$. For (2): for a column $t$ let $Y_t$ indicate it is an
-isolated bridge; counting gives $\E Y_t=(1+o(1))d(d-1)(s/n)^2\ge(s/n)^2$ (using $ds/n,d\Delta/n=o(1)$), so $\E W\ge\Delta(s/n)^2$
-for $W=\sum_t Y_t$, and a second-moment count yields $\Var W/(\E W)^2=\Oh(1/(\Delta(s/n)^2)+1/s+d^2\Delta/n^2)=o(1/L)$;
-Chebyshev gives $W\ge\tfrac12\E W$ with probability $1-o(1/L)$. Neither estimate inspects the chosen steps; both use only
-fresh-support independence.
+isolated bridge; counting gives $\E Y_t=(1+o(1))d(d-1)(s/n)^2\ge(s/n)^2=:\nu$ (using $ds/n,d\Delta/n=o(1)$), so $\E W=\Delta\nu\ge\Delta(s/n)^2$
+for $W=\sum_t Y_t$. For the second moment, classify pairs of distinct block columns $t\ne t'$ by how their chosen endpoints
+and supports interact. (a) If the four endpoints $i_t^-,i_t^+,i_{t'}^-,i_{t'}^+$ are distinct and the two supports meet
+neither the others' endpoints nor $I^-\cup I^+$ again, the two events are almost independent: $\E[Y_tY_{t'}]=\nu^2(1+\Oh(d^2\Delta/n^2))$,
+the correction being the chance that one of the $\le d$ further slots of $S_t$ or $S_{t'}$ lands in the $\Oh(s)$ relevant
+coordinates. (b) If $t,t'$ share an endpoint (probability $\Oh(1/s)$ given both are bridges, since the shared vertex is one of
+$\asymp s$ equally likely choices), the contribution is $\Oh(\nu^2/s)$ after summing. There is no contribution from a column
+hitting $I^\pm$ twice, as that is excluded by the isolation requirement. Summing over the $\Delta(\Delta-1)$ ordered pairs and
+adding the diagonal $\E W$,
+\[
+  \Var W\ =\ \E W+\sum_{t\ne t'}\big(\E[Y_tY_{t'}]-\nu^2\big)\ \le\ \E W+\Delta^2\nu^2\,\Oh\!\Big(\tfrac1s+\tfrac{d^2\Delta}{n^2}\Big),
+\]
+so $\Var W/(\E W)^2\le 1/\E W+\Oh(1/s+d^2\Delta/n^2)=\Oh\big(1/(\Delta(s/n)^2)+1/s+d^2\Delta/n^2\big)=o(1/L)$, and Chebyshev
+gives $W\ge\tfrac12\E W$ with probability $1-o(1/L)$. Neither estimate inspects the chosen steps; both use only fresh-support
+independence.
 
 \emph{Real-valued spreads.} Say the process has an \emph{$(\ell,r)$-spread of size $s$} at time $K$ if there are disjoint
 $I^-,I^+$ of size $s$ with $D_i(K)=\ell\le0$ for $i\in I^-$ and $D_i(K)=r\ge0$ for $i\in I^+$ ($\ell,r\in\R$). Set $C=8$,
@@ -153,8 +164,8 @@ $\rangeop_i(t)=\max_c x_{i,c}(t)-\min_c x_{i,c}(t)$, and $\widetilde x,\widetild
 $E_t=\{i:\max_{s\le t}\rangeop_i(s)\ge 64\Hscale\}$.
 
 \begin{lemma}[Range-repair transfer]\label{lem:transfer}
-Assume $T\le\tau_+n$, $2\le d\le\Hscale^2/\log\Hscale$, $2\le k\le d$, the seed tail \eqref{eq:seed-tail}, and that $S_t$ is a
-uniform $d$-subset independent of the past given $\mathcal F_{t-1}$. Assume every non-seed assignment names a repaired
+Assume $T\le\tau_+n$, $2\le d\le\Hscale^2/\log\Hscale$, $k\ge2$, the seed tail \eqref{eq:seed-tail}, and that $S_t$ is a
+uniform $d$-subset independent of the past given $\mathcal F_{t-1}$. (The proof uses no upper bound on $k$.) Assume every non-seed assignment names a repaired
 coordinate $i_t^*\in S_t\cap E_{t-1}$, and:
 \begin{itemize}
   \item[\textnormal{(R1)}] $\rangeop_{i_t^*}(t)\le\rangeop_{i_t^*}(t-1)$;
@@ -230,5 +241,6 @@ applies and $\max_{t,i}\rangeop_i<80\Hscale$ \whp, completing \Cref{lem:online-u
 Condition (R1) is not used in the proof of \Cref{lem:transfer} beyond verifying (R3) for the concrete rule; (R2) drives the
 exceptional-set sparsity and (R3) drives the level recursion. Nothing in the proof inspects which of the $k$ colors is used:
 the count $D_i$, the contact count $N_i$, and the helper condition are all about which arrivals touch which coordinates, so
-the bound holds for every $2\le k\le d$ with no dependence on $k$.
+the bound holds for every $k\ge2$ for which the seed tail \eqref{eq:seed-tail} holds, with no dependence on $k$. Since the
+seed tail holds for every $k\le d$ and every fixed $k$, so does \Cref{lem:online-upper}.
 \end{remark}

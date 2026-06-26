@@ -75,18 +75,15 @@ The two endpoints of this bracket can be far apart, and which of the two floors 
 relative to $\loglog n$. The lower bound is the maximum of two terms of very different origin. The term $\Psifn(\lam,\log k)$
 is the offline floor: it is a price that even an all-seeing colorer must pay, inherited from \Cref{thm:offline}. The term
 $\loglog n/k$ is online-specific: it is the cost the doubly logarithmic branching imposes on any column-by-column rule, and
-it has no offline counterpart. For small $k$ the online-specific term $\loglog n/k$ is the larger of the two and strictly
-exceeds the offline floor $\Psifn$, so online coloring is genuinely worse than offline coloring in that range, which is the
-qualitative content of the separation extended past fixed $k$. As $k$ grows the online-specific term decays like $1/k$,
-while the offline floor $\Psifn$ grows with its $\log k$ argument, so the two must cross.
-
-The two floors cross. The online-specific floor $\loglog n/k$ decreases in $k$, while the occupancy floor
-$\Psifn(\lam,\log k)$ increases in $k$ once the palette is large: in the bounded-occupancy corner $\lam=\Th(1)$ (that is
-$k=\Th(d)$), \eqref{eq:Psi-regimes} gives $\Psifn=\Th(\log k/\loglog k)$, which grows, while at the other end small $k$ keeps
-$\Psifn$ at $\Th(\sqrt d)$ and $\loglog n/k$ near $\loglog n$. So for small $k$ the online-specific floor $\loglog n/k$ is the
-larger of the two and strictly exceeds $\Psifn$, the separation persisting past fixed $k$; for $k$ approaching $d$ the
-occupancy floor $\Psifn$ takes over. The crossover happens at an intermediate palette where $k\,\Psifn(\lam,\log k)\asymp\loglog n$;
-its exact location depends on $d$ through $\lam=\Th(d/k)$, and inside the resulting window the bracket leaves a genuine gap
+it has no offline counterpart. The two floors are not ordered a priori. Both \emph{decrease} as $k$ grows: the online-specific term as $1/k$, and the
+offline floor because more colors help, so $\Psifn(\lam,\log k)$ falls from $\Th(\sqrt d)$ toward $\Th(\log d/\loglog d)$
+(\Cref{cor:offline-mono}; note $\lam=\Th(d/k)$ drops as $k$ grows, which is why $\Psifn$ does not simply increase with its
+$\log k$ argument). Which floor dominates depends on both $d$ and $k$: the online-specific floor $\loglog n/k$ exceeds the
+offline floor exactly when $k\,\Psifn(\lam,\log k)<\loglog n$, and online coloring is then genuinely worse than offline, the
+qualitative content of the separation past fixed $k$. The two balance at $k\,\Psifn(\lam,\log k)\asymp\loglog n$. Whether
+this balance point falls inside the range $C_0\log^5(dk)\le k\le d$ depends on $d$: for some $d$ the offline floor already
+dominates at the left end (no crossover in range), while for others the online-specific floor dominates until $k$ approaches
+$d$. Wherever neither dominates, the bracket leaves a genuine gap
 between the lower and upper bounds. Pinning the exact growing-$k$ order in that gap is the subject of \Cref{sec:open}.
 
 Two consequences are worth stating. First, the gap is of strictly larger order across the whole sparse range

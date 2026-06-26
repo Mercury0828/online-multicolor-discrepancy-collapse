@@ -57,10 +57,10 @@ and they are the reusable methodological output of the construction.
 
 \subsection{What the online transplant does and does not use}\label{sec:disc-online}
 
-The online upper bound is deliberately a thin layer over \cite{AT2025}. The point of isolating properties (i) and (ii) of the
-repair rule (\Cref{sec:online}) is that they are the \emph{entire} interface between the algorithm and the
-Altschuler--Tikhomirov analysis: any online rule satisfying them, with any number of colors, inherits the
-$\Oh(\loglog n)$ bound. This is what makes the multicolor upper bound short, and it also explains why the online value cannot
+The online upper bound is deliberately a thin, self-contained layer. The point of isolating the three properties (R1)--(R3)
+of the repair rule (\Cref{lem:transfer}) is that they are the \emph{entire} interface needed: any online rule satisfying
+them, with any number of colors, has $\max_{t,i}\rangeop_i=\Oh(\loglog n)$, with (R2) driving exceptional-set sparsity and
+(R3) driving the level recursion. This is what makes the multicolor upper bound short, and it also explains why the online value cannot
 drop below the two-color barrier: the lower bound projects $k$ colors onto two by a zero-sum signing, and the projection is a
 legitimate online two-coloring whose discrepancy is at most $(k/2)\ondisc_k$. The barrier is therefore not an artifact of the
 algorithm but a feature of the model: the irrevocable commitment is what freezes $\Th(\loglog n)$, and no palette unfreezes

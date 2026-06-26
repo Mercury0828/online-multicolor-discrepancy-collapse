@@ -19,8 +19,9 @@ classical two-color value. The role of the hypothesis is worth stating plainly. 
 the $k^T$ offline colorings, and a coloring survives only if its per-coordinate spread is atypically small. The spread is a
 sum of $n$ nearly independent per-coordinate contributions, so its lower tail is exponentially small in $n$, while the union
 runs over $e^{\Th(n\log k)}$ colorings. The fifth power of $\log(dk)$ is the slack we need for the per-coordinate
-concentration to dominate this entropy with room to spare; once $k$ is below that threshold the entropy can win and the
-$\Psifn$ prediction need not hold, which is exactly what happens at $k=2$.
+concentration to dominate this entropy with room to spare; once $k$ is below that threshold the entropy can overwhelm the
+concentration and the first-moment argument no longer goes through. This is a limitation of the proof, not of the formula:
+as noted above, $\Psifn$ still gives the correct $\Th(\sqrt d)$ at $k=2$.
 
 The matching upper and lower bounds are \Cref{lem:offline-lower,lem:offline-upper}. The value
 $\Psifn(\lam,\log k)$ is the spread of $k$ independent $\Pois(\lam)$ loads at a coordinate: the lower bound says a

@@ -186,20 +186,24 @@ $K^2/(16b)\ge B$. Both summands are then at most $e^{-B\ell_s}$, so $\E Y_i\le 2
 factor $2\le e^{\ell_s}$ is absorbed by lowering the exponent by one (valid since $\ell_s\ge 1$, hence $2\le e\le e^{\ell_s}$).
 
 \emph{Sparse case $\mu_s<\ell_s$.} Here the relevant overload scale is the additive deviation $\Psifn(\mu_s,\ell_s)$, so we
-use a hard threshold. Let $Y_i=\1[r_i>K\Psifn(\mu_s,\ell_s)]$, again nondecreasing in $r_i$. Its expectation is precisely
-the probability that the binomial load $r_i\sim\Bin(s,d/n)$ exceeds $t=K\Psifn(\mu_s,\ell_s)$. We invert this uniformly,
-through the convexity of the rate, with no split into sub-regimes. Let $I(t)=\mu_s\,h\!\big((t-\mu_s)/\mu_s\big)$ be the
-Cram\'er rate (so Bennett's inequality reads $\Pr(r_i\ge t)\le e^{-I(t)}$, valid for the binomial up to the standing
-$p(\mu_s+\ell_s^2)=o(1)$ in this model). Let $t_*=t_*(\mu_s,\ell_s)=\Th(\Psifn(\mu_s,\ell_s))$ be the deviation at which the
-rate equals $\ell_s$, as computed in \Cref{app:offline-lower-full}; thus $I(c_1 t_*)\ge\ell_s$ for an absolute $c_1\le1$.
-Because $I$ is convex with $I(\mu_s)=0$, the map $\theta\mapsto I(\mu_s+\theta)$ is convex through the origin, so
-$I(\mu_s+\lambda\theta)\ge\lambda\,I(\mu_s+\theta)$ for $\lambda\ge1$. Apply this with $\theta=c_1 t_*-\mu_s$ (nonnegative,
-as $t_*\ge\mu_s$) and $\lambda=K$: since $t=K\Psifn\ge K c_1 t_*\ge\mu_s+K(c_1 t_*-\mu_s)$,
-\[
-  I(t)\ \ge\ I\big(\mu_s+K(c_1 t_*-\mu_s)\big)\ \ge\ K\,I(c_1 t_*)\ \ge\ K\ell_s\ \ge\ B\ell_s
-\]
-once $K\ge B$. The additive ``$1$'' in $\Psifn$ keeps $t\ge K$, so the bound stays meaningful as $\mu_s\to0$. Hence
-$\E Y_i=\Pr(r_i>K\Psifn)\le e^{-B\ell_s}$, uniformly in $\mu_s<\ell_s$.
+use a hard threshold $Y_i=\1[r_i>K\Psifn(\mu_s,\ell_s)]$, nondecreasing in $r_i$, whose expectation is
+$\Pr(r_i> t)$ with $t=K\Psifn(\mu_s,\ell_s)$ and $r_i\sim\Bin(s,d/n)$, $\mu_s=sd/n$. We prove a self-contained inverse-Bennett
+estimate: with $h(u)=(1+u)\log(1+u)-u$ and the Bennett bound $\Pr(r_i\ge\mu_s+x)\le e^{-\mu_s h(x/\mu_s)}$,
+\begin{equation}\label{eq:inv-bennett}
+  \mu_s\,h\!\Big(\frac{K\Psifn(\mu_s,\ell_s)-\mu_s}{\mu_s}\Big)\ \ge\ B\ell_s\qquad\text{for all }\mu_s<\ell_s,\ K\ge K_0(B),
+\end{equation}
+where $K_0(B)$ is absolute. Fix the cutoff $C=4$ and split on $\ell_s/\mu_s$. Since $\ell_s>\mu_s$ and $\Psifn\ge\sqrt{\mu_s\ell_s}$,
+in either case $t\ge K\sqrt{\mu_s\ell_s}\ge K\mu_s$, so $x:=t-\mu_s\ge(1-1/K)t\ge t/2$ for $K\ge2$, and $x/\mu_s\ge t/(2\mu_s)\ge K/2\ge1$,
+putting us on the branch $h(u)\ge\tfrac12 u\log(1+u)$ ($u\ge1$). Thus
+$\mu_s h(x/\mu_s)\ge\tfrac12 x\log(1+x/\mu_s)\ge\tfrac14 t\log(1+t/(2\mu_s))$.
+\emph{If $\ell_s/\mu_s\le C$:} then $\Psifn\ge\sqrt{\mu_s\ell_s}\ge\ell_s/\sqrt C$, so $t\ge K\ell_s/\sqrt C$ and
+$\mu_s h(x/\mu_s)\ge\tfrac14 t\ge\tfrac{K}{4\sqrt C}\ell_s\ge B\ell_s$ for $K\ge 4\sqrt C\,B$.
+\emph{If $\ell_s/\mu_s>C$:} then $\Psifn\ge\ell_s/\log(e+\ell_s/\mu_s)$, so $t\ge K\ell_s/\log(e+\ell_s/\mu_s)$, and
+$t/\mu_s\ge K(\ell_s/\mu_s)/\log(e+\ell_s/\mu_s)\ge K\sqrt{\ell_s/\mu_s}$ (as $z/\log(e+z)\ge\sqrt z$ for $z>C=4$), so
+$\log(1+t/(2\mu_s))\ge\tfrac12\log(\ell_s/\mu_s)\ge\tfrac12\log(e+\ell_s/\mu_s)-\Oh(1)$; hence
+$\mu_s h(x/\mu_s)\ge\tfrac14 t\cdot\tfrac12\log(\ell_s/\mu_s)\ge\tfrac{K}{8}\cdot\frac{\ell_s}{\log(e+\ell_s/\mu_s)}\cdot\log(\ell_s/\mu_s)\ge\tfrac{K}{16}\ell_s\ge B\ell_s$
+for $K\ge16B$. This proves \eqref{eq:inv-bennett}; the additive ``$1$'' in $\Psifn$ keeps $t\ge K$, so the bound is
+meaningful as $\mu_s\to0$. Hence $\E Y_i=\Pr(r_i>K\Psifn)\le e^{-B\ell_s}$, uniformly in $\mu_s<\ell_s$.
 
 \paragraph{From expectation to high probability, and the union.}
 We now turn the per-row expectation bound into control of the number of overloaded rows, and then pay for all subsets. In
@@ -371,13 +375,15 @@ the geometric tail summing to a constant multiple of the largest term. Multiplyi
 square-root term is $\Oh(\sqrt{\lam\Lscale})$.
 
 \emph{Bennett term.} We must bound $\sum_q \ell_q/\big(q\,\log(e+\ell_q/(\lam q))\big)$. We first record the geometric sum
-that appears repeatedly: by the same substitution $q=k/2^j$ used above, $\sum_{q\le Q}\ell_q/q$ is dominated by its
-largest-$j$ (smallest-$q$) term, where $\ell_q=\Th(\log(k/q))$ peaks and $1/q$ peaks, so for any cutoff $Q$,
+that appears repeatedly. Along the path $q$ runs through $k,k/2,\dots,2$, doubling between consecutive nodes, and
+$\ell_q/q$ is \emph{decreasing} in $q$ (both $\ell_q=\Th(1+\log(k/q))$ and $1/q$ decrease as $q$ grows). Hence a path sum over
+$q\ge q_0$ is a geometric series dominated by its \emph{smallest} index $q_0$:
 \[
-  \sum_{q\le Q}\frac{\ell_q}{q}\ \le\ C\,\frac{\ell_Q}{Q}\cdot\frac{1}{1-1/2}\ =\ \Oh\!\Big(\frac{\ell_Q}{Q}\Big),
-  \qquad\text{and in particular}\qquad \sum_{q}\frac{\ell_q}{q}\ =\ \Oh(\Lscale)
+  \sum_{q\ge q_0,\ q\text{ on path}}\frac{\ell_q}{q}\ \le\ C\,\frac{\ell_{q_0}}{q_0}.
 \]
-taking $Q=2$ at the small-$q$ end where $\ell_q=\Th(\log k)=\Th(\Lscale)$ and $1/q=\Th(1)$. Now split into cases.
+In particular the full path sum, $q_0=2$, is $\Oh(\ell_2/2)=\Oh(\Lscale)$ since $\ell_2=\Th(\log k)=\Th(\Lscale)$; and a tail
+sum from $q_0=\sqrt A$ is $\Oh(\ell_{\sqrt A}/\sqrt A)=\Oh(\Lscale/\sqrt A)$ since $\ell_{\sqrt A}=\Th(\Lscale)$ when
+$\sqrt A\le\sqrt k$. Now split into cases.
 
 If $\lam\ge\Lscale$, then for every $q\ge1$ we have $\ell_q/(\lam q)\le\ell_q/\lam\le\Lscale/\lam\le 1$, so the denominator
 $\log(e+\ell_q/(\lam q))\ge\log e=1$, and dropping it,
