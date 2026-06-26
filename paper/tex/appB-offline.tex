@@ -309,15 +309,16 @@ growth of the square root), so summing it over the discrete halving stages is bo
 geometric factor, giving $\sum_{\text{dense}}\sqrt{\mu_A\ell_A}\le C\sqrt{\mu_0\ell_0}$. The geometric decay is what
 prevents a factor of the number of stages from appearing. For the sparse thresholds, what we need is
 $\sup_{\text{sparse}}\Psifn(\mu_A,\ell_A)\le C\Psifn(\mu_0,\ell_0)$, since a released row's contribution is $\Oh$ of a single
-such threshold. In the sparse phase $\mu_A<\ell_A$, so $\Psifn(\mu_A,\ell_A)=\Th\big(1+\ell_A/\log(e+\ell_A/\mu_A)\big)$. Along
-the recursion $\mu(u)=\mu_0 e^{-u}$ and $\ell(u)=\ell_0+u$, so $\ell(u)/\mu(u)=(\ell_0+u)e^{u}/\mu_0$ and, with $c:=\log(\ell_0/\mu_0)\ge0$,
+such threshold. In the sparse phase $\mu_A<\ell_A$, so $\Psifn(\mu_A,\ell_A)=\Th\big(1+\ell_A/\log(e+\ell_A/\mu_A)\big)$. Along the recursion
+$\mu(u)=\mu_0 e^{-u}$ and $\ell(u)=\ell_0+u$, so $\ell(u)/\mu(u)=(\ell_0+u)e^{u}/\mu_0\ge e^{u}(\ell_0/\mu_0)$. Hence, with
+$c:=\log(\ell_0/\mu_0)\ge0$, the denominator obeys $\log(e+\ell(u)/\mu(u))\ge\max\{1,\,u+c\}\ge\tfrac12(1+u+c)$, so
 \[
-  \frac{\ell(u)}{\log(e+\ell(u)/\mu(u))}\ \le\ \frac{\ell_0+u}{\,u+c\,}.
+  \frac{\ell(u)}{\log(e+\ell(u)/\mu(u))}\ \le\ \frac{2(\ell_0+u)}{\,1+u+c\,}.
 \]
-This ratio is \emph{not} monotone-decreasing in general; the correct bound is that $u\mapsto(\ell_0+u)/(u+c)$ is monotone
-(its derivative has the constant sign of $c-\ell_0$), so its supremum over $u\ge0$ is $\max\{\ell_0/c,\,1\}$, attained at
-$u=0$ or as $u\to\infty$. Since $\ell_0/c=\ell_0/\log(\ell_0/\mu_0)=\Th(\Psifn(\mu_0,\ell_0))$ and $\Psifn\ge1$, this gives
-$\sup_{\text{sparse}}\Psifn(\mu_A,\ell_A)\le C\,\Psifn(\mu_0,\ell_0)$. If instead $\mu_0>\ell_0$, the recursion begins dense
+The map $u\mapsto(\ell_0+u)/(1+u+c)$ is monotone (its derivative has the constant sign of $1+c-\ell_0$), so its supremum over
+$u\ge0$ is $\max\{\ell_0/(1+c),\,1\}$, attained at $u=0$ or as $u\to\infty$. The $1+c$ in the denominator never vanishes (so
+there is no blow-up at the seam $\mu_0\approx\ell_0$, where $c=0$), and $\ell_0/(1+c)=\ell_0/(1+\log(\ell_0/\mu_0))=\Th(\ell_0/\log(e+\ell_0/\mu_0))=\Th(\Psifn(\mu_0,\ell_0))$.
+Since $\Psifn\ge1$, this gives $\sup_{\text{sparse}}\Psifn(\mu_A,\ell_A)\le C\,\Psifn(\mu_0,\ell_0)$. If instead $\mu_0>\ell_0$, the recursion begins dense
 and enters the sparse phase at the first stage $u_*$ with $\mu(u_*)\le\ell(u_*)$; there $\ell_{*}=\Oh(\sqrt{\mu_0\ell_0})\le
 C\Psifn(\mu_0,\ell_0)$, and the same bound applies with the start rebased to $u_*$. The recursion stops once $\Oh(1)$ variables remain alive, at which point the residual
 coloring is found by brute force at cost $\Oh(1)$ per row; this constant is absorbed by the additive ``$1$'' inside

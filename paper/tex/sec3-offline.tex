@@ -12,9 +12,10 @@ with $\lam=Td/(nk)$ and $\Psifn$ as in \eqref{eq:Psi}. (Here $\offdisc_k$ is the
 occupancy condition $\lam\ge1$ is equivalent to $k\le Td/n$ and holds for all $k\le d$ once $T\ge n$.)
 \end{theorem}
 
-The hypothesis $k\ge C_0\log^5(dk)$ is what lets the per-coordinate spread beat the union over the $k^T$ colorings; it holds
-for all but the smallest $k$ in the range, and excludes $k=2$, consistent with the two-color value being $\Th(\sqrt d)$
-and not $\Th(\Psifn)$. The role of the hypothesis is worth stating plainly. The lower bound is a first-moment argument over
+The hypothesis $k\ge C_0\log^5(dk)$ is what the \emph{first-moment lower bound} needs to beat the union over the $k^T$
+colorings; it is a requirement of this proof, and not a threshold at which the occupancy formula fails. Indeed the formula
+extends to small $k$: at $k=2$, $\lam=\Th(d)$ and $\log k=\Th(1)$, so $\Psifn(\lam,\log k)=\Th(\sqrt d)$, agreeing with the
+classical two-color value. The role of the hypothesis is worth stating plainly. The lower bound is a first-moment argument over
 the $k^T$ offline colorings, and a coloring survives only if its per-coordinate spread is atypically small. The spread is a
 sum of $n$ nearly independent per-coordinate contributions, so its lower tail is exponentially small in $n$, while the union
 runs over $e^{\Th(n\log k)}$ colorings. The fifth power of $\log(dk)$ is the slack we need for the per-coordinate

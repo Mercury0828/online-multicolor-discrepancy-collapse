@@ -50,12 +50,12 @@ smaller order than $\loglog n$, with the ratio $\offdisc_k/\loglog n=\Oh(1/\sqrt
 smaller. Therefore $\offdisc_k=\Oh(\sqrt d)=o(\loglog n)=o(\ondisc_k)$, which is exactly the displayed chain of the theorem.
 \end{proof}
 
-A word on why the offline value here is quoted from the classical random-set-system bounds and not read off from
-\Cref{thm:offline}. \Cref{thm:offline} is proved in the growing-palette regime $k\to\infty$, where its hypotheses are in
-force, so it does not directly cover a fixed $k$. The two descriptions agree on the overlap of their ranges: the offline
-formula $\Psifn(\lam,\log k)$ of \Cref{thm:offline} collapses to $\Th(\sqrt d)$ when $k$ is held constant, because the
-$\log k$ argument is then a bounded constant and $\Psifn$ reduces to its Gaussian-spread regime. So the two routes give the
-same offline order on the common domain, and we use whichever is licensed by its hypotheses.
+A word on which bound we use. \Cref{thm:offline} pairs the construction of \Cref{lem:offline-upper}, valid on the event of
+\Cref{lem:structural} for every $k\le d$, with a first-moment lower bound (\Cref{lem:offline-lower}) that needs
+$k\ge C_0\log^5(dk)$. The separation uses only the upper half, so it applies to every fixed $k$ with no lower bound on $k$;
+this is why we read $\offdisc_k=\Oh(\sqrt d)$ off \Cref{lem:offline-upper} and not off the full \Cref{thm:offline}. At $k=2$
+the resulting $\Oh(\sqrt d)$ matches the classical two-color value $\Th(\sqrt d)$ of a random sparse set system
+\cite{BansalMeka2019,EzraLovett2016,HobergRothvoss2019}.
 
 For growing $k$ the online value is no longer pinned to a single power of $\loglog n$, and the clean separation above gives
 way to a two-sided estimate. Combining \Cref{thm:offline} (through the trivial inequality $\ondisc_k\ge\offdisc_k$, since any

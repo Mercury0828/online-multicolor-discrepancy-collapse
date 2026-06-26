@@ -24,12 +24,23 @@ Instead take $\xi\equiv1$ on a part $P_+$ of size $a+1$ and $\xi\equiv-\tfrac{a+
 weight is $(a+1)\cdot1+a\cdot(-\tfrac{a+1}{a})=0$, so the signing is again zero-sum and the same range argument bounds the
 signed discrepancy by a constant times $\rangeop_i$. After rescaling so that the positive step has size $+1$, the induced
 online process takes step sizes in $\{+1,-\rho\}$ with $\rho=a/(a+1)\in[\tfrac12,1]$, an unbalanced but still online
-two-coloring. The two-color lower bound of \cite{AT2025} is driven by a recurrence on the spread that runs for
-$\Th(\loglog n)$ stages and grows by a constant amount at each stage. That per-stage growth does not depend on the exact step
-ratio as long as it stays in the band $[\tfrac12,1]$, because both step sizes are within a factor $2$ of one another and the
-recurrence only uses that the two steps are comparable. The only effect of $\rho\ne1$ is to change the number of stages by a
-constant factor at most $2$. Hence the $\Om(\loglog n)$ bound persists for the projected process, and
-$\ondisc_k\ge\Om(\loglog n/k)$ for odd $k$ as well. \qed
+two-coloring. The two-color lower bound of \cite{AT2025} is driven by a spread recurrence: at each of its $\Th(\loglog n)$
+stages, a fresh column that hits both a low-group and a high-group representative forces the signed spread outward by a fixed
+amount, no matter which step the rule chooses. With real-valued endpoints, choosing $+1$ moves the high end out by $1$ and
+choosing $-\rho$ moves the low end out by $\rho$, so the spread grows by at least $\min\{1,\rho\}=\rho\ge\tfrac12$ at every
+stage; the support-set counts, the second-moment estimate, and the surviving-rows argument of \cite{AT2025} are unchanged,
+since they depend only on which arrivals hit which coordinates and not on the step sizes. After $\Th(\loglog n)$ stages this
+gives spread $\Om(\loglog n)$, so the $\Om(\loglog n)$ bound persists for the projected process and
+$\ondisc_k\ge\Om(\loglog n/k)$ for odd $k$. We give the full induction, rebuilt for the two-action $\{+1,-\rho\}$ process, in
+\Cref{lem:asym-online} below.
+
+\begin{lemma}[Asymmetric two-action online lower bound]\label{lem:asym-online}
+Fix $\rho\in[\tfrac12,1]$. In the model $\mu_{d,n}$, every online rule assigning each arrival a step in $\{+1,-\rho\}$
+produces a coordinate whose prefix imbalance reaches $\Om(\loglog n)$ \whp, with the constant uniform in $\rho$.
+\end{lemma}
+
+\noindent\emph{(The proof re-runs the spread induction of \cite{AT2025} with the per-stage increment $\ge\rho\ge\tfrac12$
+above; the probabilistic estimates are those of \cite{AT2025}.)} \qed
 
 \subsection{The upper bound (\Cref{lem:online-upper})}\label{app:online-upper-full}
 
@@ -84,21 +95,23 @@ so a union bound over the at most $k^2$ pairs gives
   \Pr\big(\max_t\widetilde R_i\ge 32\Hscale\big)\ \le\ k^2\exp\!\Big(-\frac{512\Hscale^2}{V+\Oh(\Hscale)}\Big),
   \qquad 512\Hscale^2=\frac{(32\Hscale)^2}{2}.
 \]
-It remains to check that this bound clears $d^{-28}$, and crucially that the union prefactor $k^2$ does not overturn the
-shrinking exponent as $k$ grows. With $T=\Th(n)$, $V=2Td/(nk)=\Th(d/k)$, so the exponent is
-$\Th(\Hscale^2/V)=\Th(\Hscale^2 k/d)$, which grows \emph{linearly} in $k$, while the prefactor is only $k^2$. Hence
-$k^2\exp(-\Th(\Hscale^2 k/d))$ is decreasing in $k$ for $k\ge2$: its logarithmic derivative $2/k-\Th(\Hscale^2/d)$ is
-negative because $\Hscale^2/d\ge\log\Hscale\gg1$ under the sparsity cap. The maximum over $k$ is therefore at $k=2$, and
-larger $k$ only helps. At $k=2$ and the densest $d=\Hscale^2/\log\Hscale$ (the overall worst case), $V=\Hscale^2/\log\Hscale$
-dominates the $\Oh(\Hscale)$ term in the denominator, the exponent is
-\[
-  \frac{512\Hscale^2}{V+\Oh(\Hscale)}\ =\ (1-o(1))\,\frac{512\Hscale^2}{\Hscale^2/\log\Hscale}\ =\ (512-o(1))\log\Hscale,
-\]
-and the prefactor $k^2=4$ is absorbed into the $o(1)$, so the bound is $\Hscale^{-512+o(1)}$. Since $d^{-28}=\Hscale^{-56+o(1)}$
-at this $d$, the bound clears $d^{-28}$ with a factor-$9$ margin in the exponent, uniformly over $2\le k\le d$.
-Since $d=\Hscale^2/\log\Hscale=\Hscale^{2-o(1)}$ gives $d^{-28}=\Hscale^{-56+o(1)}$, the tail $\Hscale^{-512+o(1)}$ is
-comfortably below $d^{-28}$, with a factor of roughly $512/56\approx9$ to spare in the exponent. Increasing $k$ only lowers
-$V$ and makes the exponent larger, hence the tail smaller, so the bound holds for every $k$. Thus
+It remains to check that this bound clears $d^{-28}$ for the relevant $(k,d)$. The subtlety is that the Freedman denominator
+is $V+\Oh(\Hscale)$, so the exponent does not grow without bound: with $T=\Th(n)$, $V=2Td/(nk)=\Th(d/k)$, the exponent is
+$\Th(\Hscale^2/(V+\Hscale))$, which equals $\Th(\Hscale^2/V)=\Th(\Hscale^2 k/d)$ only while $V\gtrsim\Hscale$, and
+\emph{saturates} at $\Th(\Hscale)$ once $V\lesssim\Hscale$. We split on this.
+
+\emph{Regime $d/k\ge\Hscale$ (so $V\gtrsim\Hscale$).} The exponent is $\Th(\Hscale^2 k/d)$, growing linearly in $k$, while the
+prefactor is only $k^2$; so $k^2\exp(-\Th(\Hscale^2 k/d))$ is decreasing in $k$ (log-derivative $2/k-\Th(\Hscale^2/d)<0$ since
+$\Hscale^2/d\ge\log\Hscale\gg1$). Its maximum is at the smallest $k$, and at $k=2$, $d=\Hscale^2/\log\Hscale$ the exponent is
+$\frac{512\Hscale^2}{V+\Oh(\Hscale)}=(512-o(1))\log\Hscale$, giving $\Hscale^{-512+o(1)}$. Since $d^{-28}=\Hscale^{-56+o(1)}$
+here, this clears $d^{-28}$ with a factor-$9$ margin.
+
+\emph{Regime $d/k<\Hscale$ (so $V\lesssim\Hscale$).} The exponent saturates at $\Th(512\Hscale^2/\Hscale)=\Th(\Hscale)$, so
+the bound is $k^2 e^{-\Th(\Hscale)}$. For $k\le d$ this is $\le d^2 e^{-\Th(\Hscale)}=\Hscale^{\Oh(1)}(\log n)^{-\Th(1)}=o(d^{-28})$,
+using $d^2\le\Hscale^{4+o(1)}$ and $e^{-\Th(\Hscale)}=(\log n)^{-\Th(1)}$. For a \emph{fixed} $k$ (any $d$), $k^2=\Oh(1)$ and
+the same $e^{-\Th(\Hscale)}=(\log n)^{-\Th(1)}\le d^{-28}$ holds for large $n$ since $d^{-28}=\Om(1)$ when $d=\Oh(1)$.
+
+So the seed tail is $\le d^{-28}$ for every $k\le d$ and every fixed $k$, which is the range of \Cref{lem:online-upper}. Thus
 \begin{equation}\label{eq:seed-tail}
   \Pr(\max_t\widetilde R_i\ge 32\Hscale)\ \le\ d^{-28}.
 \end{equation}
@@ -110,21 +123,26 @@ point of this paper is that we do not have to redo them: they go through unchang
 repair rule are in place. We invoke them as a black box. Their analysis applies to any online algorithm built from a random
 seed coloring together with a deterministic repair rule satisfying:
 \begin{itemize}
-  \item[(i)] the repair never raises the range of the coordinate it repairs; and
+  \item[(i)] the repair never raises the range of the coordinate it repairs;
   \item[(ii)] the assigned color differs from the seed only on arrivals whose support contains a coordinate already at range
-  $\ge 64\Hscale$.
+  $\ge 64\Hscale$; and
+  \item[(iii)] whenever an already-exceptional coordinate (range $\ge 64\Hscale$) has its range increased on an arrival, the
+  support contains another coordinate whose range is at least as large.
 \end{itemize}
-Under (i)--(ii) and the seed tail \eqref{eq:seed-tail}, \cite[exceptional-set lemma]{AT2025} gives $|E_T|\le n d^{-5}$ \whp,
+Condition (iii) is the one that the pure-seed coloring (which trivially satisfies (i)--(ii) by never repairing) fails, and it
+is exactly what the level-set recurrence needs: a coordinate climbing a high level must always exhibit a co-present helper at
+least as high, which is what makes the level sets shrink. Under (i)--(iii) and the seed tail \eqref{eq:seed-tail},
+\cite[exceptional-set lemma]{AT2025} gives $|E_T|\le n d^{-5}$ \whp,
 and \cite[level-set lemma]{AT2025} gives, for $M(t,r)=\{i:\max_{s\le t}\rangeop_i(s)\ge 65\Hscale+3r\}$,
 $|M(T,r)|\le n(\log n)^{-2\cdot 2^r}$. This bound shrinks doubly exponentially in $r$, so the level set is empty once
 $r=\lceil 2\Hscale\rceil$, and at that point no coordinate has range $\ge 65\Hscale+3\cdot 2\Hscale$; in particular
 $\max_{t,i}\rangeop_i<80\Hscale$. The reason both lemmas transfer is that they only ever use the independence of future
-supports, the seed tail \eqref{eq:seed-tail}, and properties (i)--(ii); at no point do they look at how many colors there
+supports, the seed tail \eqref{eq:seed-tail}, and properties (i)--(iii); at no point do they look at how many colors there
 are. The category construction in \cite{AT2025} indexes its depth by arrivals, not by colors, and the level-set recurrence
-counts, for each coordinate that climbs a level, an exceptional helper that was co-present in the same arrival. Both
-mechanisms are about which arrivals touch which coordinates, so the color count enters nowhere.
+counts, for each coordinate that climbs a level, the co-present helper supplied by (iii). Both mechanisms are about which
+arrivals touch which coordinates, so the color count enters nowhere.
 
-It remains to check that our $k$-color algorithm satisfies (i)--(ii).
+It remains to check that our $k$-color algorithm satisfies (i)--(iii).
 
 For (i): the repair acts only on an \emph{exceptional} coordinate $i^*\in E_{t-1}$, whose range is already
 $\ge 64\Hscale\ge 1$, so its current range is strictly positive. The repair increments a minimum-load color $c^\star$ with
@@ -142,8 +160,16 @@ $S_t\cap E_{t-1}\ne\varnothing$, that is when the support $S_t$ contains a coord
 $\ge 64\Hscale$ by the definition of the exceptional set $E_{t-1}$. So every arrival on which the color differs from the seed
 has a co-present coordinate at range $\ge 64\Hscale$, which is exactly (ii).
 
-Both properties are statements about the algorithm's control flow and the range function, with no dependence on the number
-$k$ of colors. Hence the two lemmas of \cite{AT2025} apply verbatim, and $\max_{t,i}\rangeop_i<80\Hscale$ \whp. \qed
+For (iii): suppose an exceptional coordinate $j$ (range $\ge 64\Hscale$) has its range increased on arrival $t$. Then
+$j\in S_t$ and $j$ was not the repaired coordinate, since the repair assigns a minimum-load color, which by (i) does not raise
+the range; so $j$ took the seed. By definition the repair fires on the \emph{unique} coordinate of $S_t\cap E_{t-1}$ whose
+range strictly exceeds that of every other coordinate of $S_t$. As $j\in S_t\cap E_{t-1}$ was not repaired, $j$ is not that
+unique strict maximum, so some other coordinate $j'\in S_t$ has $\rangeop_{j'}\ge\rangeop_j$. Since
+$\rangeop_{j'}\ge\rangeop_j\ge 64\Hscale$, this $j'$ is itself exceptional and is the co-present helper required by (iii).
+
+All three properties are statements about the algorithm's control flow and the range function, with no dependence on the
+number $k$ of colors. Hence the category and level-set analysis of \cite{AT2025} applies to our algorithm, and
+$\max_{t,i}\rangeop_i<80\Hscale$ \whp. \qed
 
 \begin{remark}
 The reduction is the natural one: the only place the number of colors could matter is the repair, and a minimum-load repair

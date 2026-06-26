@@ -62,8 +62,9 @@ online order is bracketed (\Cref{sec:open}).}\label{tab:results}
 
 For growing $k$ the online value is bracketed but not pinned: under the hypotheses of \Cref{cor:bracket}
 ($C_0\log^5(dk)\le k\le d$, $\lam\ge1$), $\max\{\Psifn(\lam,\log k),\loglog n/k\}\le\ondisc_k\le\loglog n$. The online-specific
-term $\loglog n/k$ exceeds the offline floor for small $k$, while the floor $\Psifn$ takes over as $k$ approaches $d$. We reduce the exact order to one high-probability lemma about an asymmetric
-online rule, and show that a natural symmetric, permutation-invariant potential loses a $\log k$ factor (\Cref{sec:open}). We conjecture
+term $\loglog n/k$ exceeds the offline floor for small $k$, while the floor $\Psifn$ takes over as $k$ approaches $d$. We
+identify a sufficient high-probability lemma about an asymmetric online rule whose truth would pin the order, and show that a
+natural symmetric, permutation-invariant potential loses a $\log k$ factor (\Cref{sec:open}). We conjecture
 $\ondisc_k=\Th(\max\{\Psifn(\lam,\log k),\loglog n/k\})$.
 
 \subsection{Techniques}\label{sec:intro-techniques}
@@ -82,10 +83,9 @@ Poisson loads.
 \paragraph{The online upper bound.}
 The fixed-$k$ upper bound extends the seed-and-repair scheme of \cite{AT2025} to $k$ colors. The algorithm colors by a random
 seed, repairing only the uniquely largest exceptional coordinate of each arrival by a minimum-load color, which never raises
-its own range. The category and double-exponential machinery of the two-color analysis uses only independence of future
-arrivals, sparsity of the seed-exceptional set, and the implication ``the chosen color differs from the seed only when an
-already-exceptional coordinate is present''. None of this refers to the number of colors, so it carries over verbatim, which
-we make precise in \Cref{app:online}.
+that (positive-range) coordinate's range. We isolate a three-property interface on the repair rule under which the category
+and double-exponential machinery of the two-color analysis applies in the range language, with the number of colors entering
+nowhere; we state the interface and verify our algorithm meets it in \Cref{app:online}.
 
 \subsection{Related work}\label{sec:intro-related}
 

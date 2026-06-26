@@ -76,3 +76,25 @@ their proofs, that is acceptable — but we need the interface and the verificat
 Two short notes: (1) the asymmetric `{+1,−ρ}` online lower-bound lemma with proof (or a constant-cost reduction to `±1`);
 (2) the abstract seed-and-repair transfer lemma with the AT category/level-set argument re-run in the range language. We will
 typeset them into the online section (replacing the current "verbatim" assertions and the odd-`k` hand-wave).
+
+---
+
+## ADDENDUM (round-2 referee) — refinements to the two gaps
+
+**GAP 1 is now stated as `lem:asym-online`** in appC: "Fix ρ∈[1/2,1]; every online {+1,−ρ}-rule on μ_{d,n} produces a
+coordinate with prefix imbalance Ω(loglog n) whp, uniform in ρ." We typeset the NEW part (per-stage spread increment
+≥ min{1,ρ}=ρ≥1/2 with real-valued endpoints). **We still need you to supply the full induction**: re-run AT's spread
+recurrence (support-set counts, second-moment, surviving-rows) for the two-action {+1,−ρ} process and confirm the
+probabilistic estimates are AT's unchanged.
+
+**GAP 2 interface now has THREE conditions** (the referee showed (i),(ii) are insufficient — the pure-seed coloring
+satisfies them but does not get the level-set bound). The transfer lemma's hypotheses are now:
+ (i) repair never raises the range of the coordinate it repairs;
+ (ii) the color differs from the seed only when the support holds a coordinate already at range ≥ 64H;
+ (iii) whenever an already-exceptional coordinate's range increases on an arrival, the support holds another coordinate of
+       at least its range (the "co-present helper" the level-set recurrence needs).
+We verify our minimum-load algorithm satisfies (iii) (an exceptional non-repaired coordinate is not the unique strict
+range-max of its support, so a co-present helper of ≥ range exists). **We still need you to formalize the transfer lemma**:
+state it for any seed+range-repair rule satisfying (i)–(iii) + future-support independence + seed tail, and re-run AT's
+category (exceptional-set sparsity) and level-set (double-exp decay) arguments in the range-`R_i` language, confirming
+(iii) is exactly what the level-set step uses.

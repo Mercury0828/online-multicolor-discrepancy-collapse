@@ -46,3 +46,44 @@ Triage below; "FIXED" = done in this pass, "RELAY" = sent to GPT-5.5-Pro (`round
 40pp, compiles clean (0 undefined), 0 style violations. The outright errors are fixed; the two load-bearing missing proofs
 (odd-k lower bound, formal transfer lemma) are with GPT-5.5-Pro. After those return and the TODO writeup pass, this addresses
 the referee's blocking items.
+
+---
+
+# Round-2 referee (Weak Reject near Borderline, 4.5–5/10) — triage
+
+Referee confirmed the round-1 fixes and found that some were still imperfect, plus one important new gap. All fixed this
+pass except the two relayed proofs.
+
+## Fixed this pass
+- **Thm 2 vs Lemma 7 parameter-range gap (theorem-level)**: lem:online-upper restated for "every `k≤d` and every fixed `k`"
+  (covers fixed `k=5,d=2`). (sec4)
+- **Seed-tail "worst case k=2" still wrong** (exponent saturates at `Θ(H)` when `V≲H`, not `Θ(H²k/d)`): rewritten as a
+  correct two-regime argument (`d/k≥H`: decreasing in `k`, max at `k=2`; `d/k<H`: saturated `Θ(H)`, `k²e^{-Θ(H)}≤d^{-28}`).
+  Covers `k≤d` and all fixed `k`. (appC)
+- **Transfer-lemma interface (i),(ii) INSUFFICIENT** (pure-seed coloring satisfies them but fails the conclusion): added the
+  third condition (iii) "an exceptional coordinate's range rises only with a co-present helper of ≥ range", and verified our
+  min-load algorithm satisfies it. Updated overview/intro/sec4 sketches. (appC, sec4, sec1)
+- **Splitting sparse-stage seam `μ₀≈ℓ₀` (c=0 division)**: fixed with `log(e+ℓ/μ)≥½(1+u+c)`, sup `=max{ℓ₀/(1+c),1}`, no
+  blow-up at the seam. (appB)
+- **Corollary 2 monotonicity unprovable**: replaced with the endpoint statement (`offdisc_k=O(√d)`, `=Θ(log d/loglog d)` at
+  `k=Θ(d)`); no monotonicity-requiring calculus. (sec7)
+- **Internal inconsistencies**: the "Thm 1 excludes k=2 because two-color is √d not Ψ" sentence is FALSE (Ψ at k=2 IS Θ(√d));
+  reworded to "the hypothesis is what the first-moment lower bound needs, not where the formula fails". Removed the leftover
+  Thm 3 "offline value quoted from classical bounds" paragraph (now correctly attributes to lem:offline-upper). Replaced the
+  load-bearing "verbatim" uses with the interface language. Softened "reduce the exact order to one lemma" → "identify a
+  sufficient high-probability lemma". (sec3, sec5, sec1, sec4, abstract)
+- **odd-k**: now a stated `lem:asym-online` with the explicit per-stage increment `≥ρ≥1/2` (referee's argument); full
+  AT-induction re-run still RELAYED.
+
+## Still RELAYED to GPT-5.5-Pro (the two things the referee says would flip to Weak Accept)
+- GAP 1: full induction for `lem:asym-online` (AT spread recurrence for the `{+1,−ρ}` process).
+- GAP 2: formal transfer lemma under (i)–(iii), AT category/level-set re-run in the range language.
+
+## Still TODO (writeup, my job)
+- 2.6c structural sparse Bennett uniform inversion (single cutoff, uniform constant).
+- §7/appD demotion to "Discussion and open problems"; define rank-greedy/forbidden-set/cover-certificate/principal-token or
+  mark the conveyor a heuristic; formalize the excluded symmetric potential class.
+- Writing: cut ~25% repetition; invert length allocation; trim classical related-work.
+
+41pp, compiles clean (0 undefined), 0 style violations. Referee's verdict: fix GAP 1 + GAP 2 + the param-range/tail/calculus
+(latter three now done) ⟹ Weak Accept.

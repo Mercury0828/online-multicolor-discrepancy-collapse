@@ -17,24 +17,23 @@ falls to $\Th(\Psifn(\lam,\log k))$ while the online value stays at most $\loglo
 $\kappa_k\le\Oh(\loglog n/\Psifn(\lam,\log k))$. The qualitative conclusion is robust: more colors are a genuine resource
 offline and an illusory one online, and the gap between the two behaviours is the content of the separation.
 
-\begin{corollary}[Offline monotonicity]\label{cor:offline-mono}
-For $C_0\log^5(dk)\le k\le d$ with $d,k=(\log n)^{o(1)}$ and $\lam\ge1$, $\offdisc_k=\Th(\Psifn(\lam,\log k))$ is
-nonincreasing in $k$ up to constants, and reaches its smallest value $\Th(\log k/\loglog k)$ at the bounded-occupancy end
-$\lam=\Th(1)$, i.e.\ $k=\Th(d)$.
+\begin{corollary}[Offline endpoints]\label{cor:offline-mono}
+For $C_0\log^5(dk)\le k\le d$ with $d,k=(\log n)^{o(1)}$ and $\lam\ge1$, $\offdisc_k=\Th(\Psifn(\lam,\log k))=\Oh(\sqrt d)$,
+and at the bounded-occupancy end $\lam=\Th(1)$ (that is $k=\Th(d)$) it equals $\Th(\log k/\loglog k)=\Th(\log d/\loglog d)$.
 \end{corollary}
 
 \begin{proof}
-$\Psifn(\lam,\log k)$ with $\lam=\Th(d/k)$ is nonincreasing in $k$ in each of its three regimes of \eqref{eq:Psi-regimes}: the
-Gaussian term $\sqrt{\lam\log k}=\Th(\sqrt{(d/k)\log k})$ decreases once $k\ge\log k$, and the two large-deviation terms are
-bounded by $\log k/\loglog k$. At $k=\Th(d)$, $\lam=\Th(1)$ and the bounded-occupancy term $\log k/\loglog k$ governs, by
-\Cref{thm:offline}.
+For $\lam=\Th(d/k)$, the Gaussian term of $\Psifn$ is $\sqrt{\lam\log k}=\Th(\sqrt{(d/k)\log k})\le\Th(\sqrt{d\log k/k})\le
+\Oh(\sqrt d)$, and the two large-deviation terms are at most $\log k/\loglog k=o(\sqrt d)$ in the stated range; so
+$\Psifn(\lam,\log k)=\Oh(\sqrt d)$. At $k=\Th(d)$, $\lam=\Th(1)$ and \eqref{eq:Psi-regimes} gives
+$\Psifn=\Th(\log k/\loglog k)$. The values are then \Cref{thm:offline}.
 \end{proof}
 
-At constant $k$ the offline value is the larger $\Th(\sqrt d)$ of the classical regime (\Cref{thm:separation}), so across the
-whole palette the offline discrepancy decreases from $\Th(\sqrt d)$ down to the balls-into-bins value
-$\Th(\log k/\loglog k)$. The bottoming-out point is the occupancy regime $\lam=\Th(1)$, where each color sees $\Th(1)$
-arrivals per coordinate and the discrepancy is the maximum occupancy $\Th(\log d/\loglog d)$, the same law that governs the
-longest hash-probe sequence \cite{Gonnet1981}. Within the studied range $k\le d$ this is the smallest the offline value
+At constant $k$ the offline value is the larger $\Th(\sqrt d)$ of the classical regime (\Cref{thm:separation}), so from
+constant $k$ to $k=\Th(d)$ the offline discrepancy ranges between $\Th(\sqrt d)$ and the balls-into-bins value
+$\Th(\log k/\loglog k)$. At the occupancy end $\lam=\Th(1)$ each color sees $\Th(1)$ arrivals per coordinate and the
+discrepancy is the maximum occupancy $\Th(\log d/\loglog d)$, the same law that governs the longest hash-probe sequence
+\cite{Gonnet1981}. Within the studied range $k\le d$ this $\Th(\log d/\loglog d)$ is the smallest the offline value
 gets.
 
 \subsection{Why the recursion loses no logarithm}\label{sec:disc-technique}
