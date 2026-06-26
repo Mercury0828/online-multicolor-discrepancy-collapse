@@ -3,44 +3,72 @@
 
 \subsection{The lower bound (\Cref{lem:online-lower})}\label{app:online-lower-full}
 
-The goal is to transfer the known two-color online lower bound to $k$ colors with only a $1/k$ loss, by collapsing the $k$
-colors onto two through a fixed signing and showing that the collapsed process is a legitimate two-color online problem. Fix a
-signing $\xi:[k]\to\R$ with $\sum_c\xi(c)=0$ and apply it coordinatewise to an online $k$-coloring: at each step the sign
-assigned to the arrival is $\xi(\chi(t))$, which is a function of the online color $\chi(t)$ and is therefore itself an online
-decision, made with no view of the future. The resulting signed sum at coordinate $i$ is $\sum_c\xi(c)x_{i,c}$, a linear
-image of the load vector. Because $\xi$ is zero-sum this signed sum measures only how unevenly the loads are spread, not
-their common level, which is exactly what the range controls.
+We transfer the two-color online lower bound to $k$ colors by projecting the colors onto two through a fixed zero-sum signing,
+and prove the resulting two-action lower bound from scratch, so the online lower bound is self-contained.
 
-For the even split ($\xi=\pm1$ on equal halves), $\sum_c\xi(c)x_{i,c}$ is the difference between a sum of $k/2$ loads and
-another sum of $k/2$ loads. Each of the $k$ loads lies within $\rangeop_i$ of every other, so pairing up the positive and
-negative terms bounds the difference termwise and gives $|\sum_c\xi(c)x_{i,c}|\le(k/2)\rangeop_i$. The signed process is a
-valid online $\pm1$-balancing of the same arrivals, which form a uniform $d$-sparse stream of exactly the kind the two-color
-bound is stated for. The two-color online lower bound $\Om(\loglog n)$ of \cite{AT2025} therefore applies to it and forces
-the signed discrepancy to be $\Om(\loglog n)$; combined with the inequality above this yields
-$(k/2)\max_{t,i}\rangeop_i\ge\Om(\loglog n)$, that is $\ondisc_k\ge\Om(\loglog n/k)$.
-
-For odd $k=2a+1$ the colors cannot be split into two equal halves, so an exactly balanced $\pm1$ signing is unavailable.
-Instead take $\xi\equiv1$ on a part $P_+$ of size $a+1$ and $\xi\equiv-\tfrac{a+1}{a}$ on a part $P_-$ of size $a$; the total
-weight is $(a+1)\cdot1+a\cdot(-\tfrac{a+1}{a})=0$, so the signing is again zero-sum and the same range argument bounds the
-signed discrepancy by a constant times $\rangeop_i$. After rescaling so that the positive step has size $+1$, the induced
-online process takes step sizes in $\{+1,-\rho\}$ with $\rho=a/(a+1)\in[\tfrac12,1]$, an unbalanced but still online
-two-coloring. The two-color lower bound of \cite{AT2025} is driven by a spread recurrence: at each of its $\Th(\loglog n)$
-stages, a fresh column that hits both a low-group and a high-group representative forces the signed spread outward by a fixed
-amount, no matter which step the rule chooses. With real-valued endpoints, choosing $+1$ moves the high end out by $1$ and
-choosing $-\rho$ moves the low end out by $\rho$, so the spread grows by at least $\min\{1,\rho\}=\rho\ge\tfrac12$ at every
-stage; the support-set counts, the second-moment estimate, and the surviving-rows argument of \cite{AT2025} are unchanged,
-since they depend only on which arrivals hit which coordinates and not on the step sizes. After $\Th(\loglog n)$ stages this
-gives spread $\Om(\loglog n)$, so the $\Om(\loglog n)$ bound persists for the projected process and
-$\ondisc_k\ge\Om(\loglog n/k)$ for odd $k$. We give the full induction, rebuilt for the two-action $\{+1,-\rho\}$ process, in
-\Cref{lem:asym-online} below.
+\paragraph{Projection.}
+Fix a signing $\xi:[k]\to\R$ with $\sum_c\xi(c)=0$ and apply it coordinatewise to an online $k$-coloring: the value
+$\xi(\chi(t))$ is a function of the online color $\chi(t)$, hence itself an online decision. The signed sum at coordinate $i$
+is $D_i(t)=\sum_{s\le t:\,i\in S_s}\xi(\chi(s))=\sum_c\xi(c)x_{i,c}(t)$. For even $k$ split $[k]$ into two halves with
+$\xi\equiv+1$ and $\xi\equiv-1$; for odd $k=2a+1$ put $\xi\equiv+1$ on a part of size $a$ and $\xi\equiv-\tfrac{a}{a+1}$ on a
+part of size $a+1$. In both cases the total positive weight equals the total negative weight, call it $w$ (with $w\le k/2$),
+so pairing positive against negative terms gives $|D_i(t)|\le w\,\rangeop_i(t)$; and the induced online process takes steps in
+$\{+1,-\rho\}$ with $\rho=1$ for even $k$ and $\rho=\tfrac{a}{a+1}\in[\tfrac12,1]$ for odd $k$. The lower bound follows from
+the next lemma, applied to the projected process.
 
 \begin{lemma}[Asymmetric two-action online lower bound]\label{lem:asym-online}
-Fix $\rho\in[\tfrac12,1]$. In the model $\mu_{d,n}$, every online rule assigning each arrival a step in $\{+1,-\rho\}$
-produces a coordinate whose prefix imbalance reaches $\Om(\loglog n)$ \whp, with the constant uniform in $\rho$.
+Fix $\rho\in[\tfrac12,1]$. Let $S_1,\dots,S_T$ be i.i.d.\ uniform $d$-subsets of $[n]$ with $\tau_-n\le T\le\tau_+n$ and
+$2\le d\le\Hscale^2/\log\Hscale$. For any online rule choosing $\eta_t\in\{+1,-\rho\}$ from $S_t$ and the past, set
+$D_i(t)=\sum_{s\le t:\,i\in S_s}\eta_s$. Then $\Pr\big(\max_{t\le T,\,i\le n}|D_i(t)|\ge c\,\Hscale\big)=1-o(1)$ for an
+absolute $c>0$, uniformly in $\rho\in[\tfrac12,1]$.
 \end{lemma}
 
-\noindent\emph{(The proof re-runs the spread induction of \cite{AT2025} with the per-stage increment $\ge\rho\ge\tfrac12$
-above; the probabilistic estimates are those of \cite{AT2025}.)} \qed
+\begin{proof}
+Conditioning on the rule's auxiliary randomness, we may assume it is deterministic and adapted to the revealed supports.
+Write $L=\log n$.
+
+\emph{Fresh-block bridge estimate.} Suppose at a history-measurable time $K$ there are disjoint $I^-,I^+\subseteq[n]$ with
+$|I^-|=|I^+|=s$, and the next $\Delta$ supports are fresh, with $n^{0.99}\le s,\Delta$, $s\le n/L$, and $\Delta\le n/L^2$.
+We claim that, conditionally on the history through $K$, with probability $1-o(1/L)$ both: (1) at least $s/2$ vertices of each
+of $I^-,I^+$ are untouched in the block; and (2) there are at least $c_0\Delta(s/n)^2$ block columns $t$ with
+$|S_t\cap I^-|=|S_t\cap I^+|=1$ whose two chosen vertices appear in no other block column, for an absolute $c_0>0$.
+
+For (1): for $i\in I^\pm$ let $Z_i=\1[i\text{ untouched}]$, so $\E Z_i=(1-d/n)^\Delta=1-o(1)$ (as $d\Delta/n\le d/L^2=o(1)$),
+and for $i\ne i'$, $\E[Z_iZ_{i'}]=\mu^2(1+\Oh(d\Delta/n^2))$; hence $\Var(\sum_{I^\pm}Z_i)\le s+\Oh(s^2 d\Delta/n^2)=o(s^2)$
+and Chebyshev gives $\Pr(\sum Z_i<s/2)=\Oh(1/s+d\Delta/n^2)=o(1/L)$. For (2): for a column $t$ let $Y_t$ indicate it is an
+isolated bridge; counting gives $\E Y_t=(1+o(1))d(d-1)(s/n)^2\ge(s/n)^2$ (using $ds/n,d\Delta/n=o(1)$), so $\E W\ge\Delta(s/n)^2$
+for $W=\sum_t Y_t$, and a second-moment count yields $\Var W/(\E W)^2=\Oh(1/(\Delta(s/n)^2)+1/s+d^2\Delta/n^2)=o(1/L)$;
+Chebyshev gives $W\ge\tfrac12\E W$ with probability $1-o(1/L)$. Neither estimate inspects the chosen steps; both use only
+fresh-support independence.
+
+\emph{Real-valued spreads.} Say the process has an \emph{$(\ell,r)$-spread of size $s$} at time $K$ if there are disjoint
+$I^-,I^+$ of size $s$ with $D_i(K)=\ell\le0$ for $i\in I^-$ and $D_i(K)=r\ge0$ for $i\in I^+$ ($\ell,r\in\R$). Set $C=8$,
+\[
+  q_*=\Big\lfloor\tfrac{\Hscale}{2\log C}\Big\rfloor,\quad
+  s_q=\big\lfloor n/L^{C^q}\big\rfloor,\quad
+  \Delta_q=\big\lfloor n/L^{2q}\big\rfloor,\quad K_q=\sum_{u\le q}\Delta_u .
+\]
+Then $K_{q_*}\le 2n/L^2=o(n)$, so $K_{q_*}\le T$, and for $q\le q_*$ one has $C^{q_*}\le\sqrt L$, whence $s_q,\Delta_q\ge n^{0.99}$.
+We show inductively that with probability $1-o(1)$, for every $0\le q\le q_*$ there is an $(\ell_q,r_q)$-spread of size
+$\ge s_q$ at time $K_q$ with
+\begin{equation}\label{eq:spread-grow}
+  r_q-\ell_q\ \ge\ q\rho .
+\end{equation}
+At $q=0$, take any two disjoint $s_0$-sets; all values are $0$, so \eqref{eq:spread-grow} holds with $\ell_0=r_0=0$. Assume it
+at $q-1$, on sets $I^-,I^+$ of size $s=s_{q-1}$. Apply the fresh-block estimate to the next $\Delta_q$ columns; let $J$ be the
+isolated bridges, so $|J|\ge c_0\Delta_q(s/n)^2$ on its good event. For $t\in J$ with endpoints $i_t^-\in I^-$, $i_t^+\in I^+$,
+exactly one of $\eta_t=+1$ (then $D_{i_t^+}(K_q)=r+1$) or $\eta_t=-\rho$ (then $D_{i_t^-}(K_q)=\ell-\rho$) holds. At least
+$|J|/2$ bridges share the same alternative. If $\ge|J|/2$ choose $+1$, pair their high endpoints (at $r+1$) with untouched low
+vertices (at $\ell$): the new gap is $(r+1)-\ell\ge(r-\ell)+\rho$. If $\ge|J|/2$ choose $-\rho$, pair their low endpoints (at
+$\ell-\rho$) with untouched high vertices (at $r$): the new gap is $r-(\ell-\rho)=(r-\ell)+\rho$. Either way the gap grows by
+$\ge\min\{1,\rho\}=\rho$. The new spread has size $\ge\min\{s/2,|J|/2\}\ge s_q$, since $s/2\ge s_q$ and
+$|J|/2\ge c\,nL^{-2C^{q-1}-2q}\ge nL^{-C^q}\ge s_q$ as $C^q-2C^{q-1}-2q=6C^{q-1}-2q\ge4$. Each stage fails with probability
+$o(1/L)$, and $q_*=\Oh(\Hscale)$, so a union bound completes the induction. At $q_*$, $r_{q_*}-\ell_{q_*}\ge\rho q_*$ and
+$\ell_{q_*}\le0\le r_{q_*}$, so $\max_i|D_i(K_{q_*})|\ge\rho q_*/2\ge\Hscale/(16\log 8)$. This proves the lemma.
+\end{proof}
+
+Applying \Cref{lem:asym-online} to the projected process: $w\,\max_{t,i}\rangeop_i\ge\max_{t,i}|D_i(t)|\ge c\Hscale$ \whp,
+and $w\le k/2$, so $\ondisc_k\ge\Om(\loglog n/k)$, for even and odd $k$ alike. For fixed $k$ this is $\Om(\loglog n)$.
 
 \subsection{The upper bound (\Cref{lem:online-upper})}\label{app:online-upper-full}
 
@@ -116,68 +144,91 @@ So the seed tail is $\le d^{-28}$ for every $k\le d$ and every fixed $k$, which 
   \Pr(\max_t\widetilde R_i\ge 32\Hscale)\ \le\ d^{-28}.
 \end{equation}
 
-\paragraph{Parts 2--3: exceptional set and decay, by reduction to the two-color analysis.}
+\paragraph{Part 2: a self-contained range-repair transfer lemma.}
 With the seed under control, the remaining work is to show that the exceptional coordinates stay sparse and that their ranges
-cannot pile up much beyond $64\Hscale$. These are exactly the category and level-set analysis of \cite{AT2025}, and the key
-point of this paper is that we do not have to redo them: they go through unchanged once two structural properties of the
-repair rule are in place. We invoke them as a black box. Their analysis applies to any online algorithm built from a random
-seed coloring together with a deterministic repair rule satisfying:
+cannot pile up much beyond $64\Hscale$. We isolate this as a transfer lemma for any seed-and-repair rule meeting an explicit
+interface, and prove it from scratch (so the upper bound does not rest on the two-color analysis as a black box). Let
+$U_t\in[k]$ be the independent uniform seed colors and $C_t\in[k]$ the actual colors; $x_{i,c}(t)=\#\{s\le t:i\in S_s,C_s=c\}$,
+$\rangeop_i(t)=\max_c x_{i,c}(t)-\min_c x_{i,c}(t)$, and $\widetilde x,\widetilde R$ the analogous seed quantities. Let
+$E_t=\{i:\max_{s\le t}\rangeop_i(s)\ge 64\Hscale\}$.
+
+\begin{lemma}[Range-repair transfer]\label{lem:transfer}
+Assume $T\le\tau_+n$, $2\le d\le\Hscale^2/\log\Hscale$, $2\le k\le d$, the seed tail \eqref{eq:seed-tail}, and that $S_t$ is a
+uniform $d$-subset independent of the past given $\mathcal F_{t-1}$. Assume every non-seed assignment names a repaired
+coordinate $i_t^*\in S_t\cap E_{t-1}$, and:
 \begin{itemize}
-  \item[(i)] the repair never raises the range of the coordinate it repairs;
-  \item[(ii)] the assigned color differs from the seed only on arrivals whose support contains a coordinate already at range
-  $\ge 64\Hscale$; and
-  \item[(iii)] whenever an already-exceptional coordinate (range $\ge 64\Hscale$) has its range increased on an arrival, the
-  support contains another coordinate whose range is at least as large.
+  \item[\textnormal{(R1)}] $\rangeop_{i_t^*}(t)\le\rangeop_{i_t^*}(t-1)$;
+  \item[\textnormal{(R2)}] $C_t\ne U_t\ \Rightarrow\ S_t\cap E_{t-1}\ne\varnothing$;
+  \item[\textnormal{(R3)}] if $i\in S_t\cap E_{t-1}$ and $\rangeop_i(t)>\rangeop_i(t-1)$, there is a distinct $j\in S_t$ with
+  $\rangeop_j(t-1)\ge\rangeop_i(t-1)$.
 \end{itemize}
-Condition (iii) is the one that the pure-seed coloring (which trivially satisfies (i)--(ii) by never repairing) fails, and it
-is exactly what the level-set recurrence needs: a coordinate climbing a high level must always exhibit a co-present helper at
-least as high, which is what makes the level sets shrink. Under (i)--(iii) and the seed tail \eqref{eq:seed-tail},
-\cite[exceptional-set lemma]{AT2025} gives $|E_T|\le n d^{-5}$ \whp,
-and \cite[level-set lemma]{AT2025} gives, for $M(t,r)=\{i:\max_{s\le t}\rangeop_i(s)\ge 65\Hscale+3r\}$,
-$|M(T,r)|\le n(\log n)^{-2\cdot 2^r}$. This bound shrinks doubly exponentially in $r$, so the level set is empty once
-$r=\lceil 2\Hscale\rceil$, and at that point no coordinate has range $\ge 65\Hscale+3\cdot 2\Hscale$; in particular
-$\max_{t,i}\rangeop_i<80\Hscale$. The reason both lemmas transfer is that they only ever use the independence of future
-supports, the seed tail \eqref{eq:seed-tail}, and properties (i)--(iii); at no point do they look at how many colors there
-are. The category construction in \cite{AT2025} indexes its depth by arrivals, not by colors, and the level-set recurrence
-counts, for each coordinate that climbs a level, the co-present helper supplied by (iii). Both mechanisms are about which
-arrivals touch which coordinates, so the color count enters nowhere.
+Then $\Pr\big(\max_{t\le T,\,i\le n}\rangeop_i(t)<80\Hscale\big)=1-o(1)$.
+\end{lemma}
 
-It remains to check that our $k$-color algorithm satisfies (i)--(iii).
+\begin{proof}
+\emph{Range calculus.} For $y\in\Z_{\ge0}^k$, $\operatorname{rng}(y)=\max_c y_c-\min_c y_c$ satisfies
+$|\operatorname{rng}(y+e_c)-\operatorname{rng}(y)|\le 1$ (an arrival raises any range by $\le1$) and
+$|\operatorname{rng}(y)-\operatorname{rng}(z)|\le 2\|y-z\|_\infty$. Let $D_i(t)=\#\{s\le t:i\in S_s,\,C_s\ne U_s\}$; each
+deviation shifts $x_i-\widetilde x_i$ by $e_{C_s}-e_{U_s}$, so $\|x_i(t)-\widetilde x_i(t)\|_\infty\le D_i(t)$ and
+\begin{equation}\label{eq:range-dev}
+  |\rangeop_i(t)-\widetilde R_i(t)|\le 2D_i(t).
+\end{equation}
+Finally, for any past-measurable $Q\subseteq[n]$ and fixed $i$,
+\begin{equation}\label{eq:incidence}
+  \Pr\big(i\in S_t,\ (S_t\setminus\{i\})\cap Q\ne\varnothing\,\big|\,\mathcal F_{t-1}\big)\ \le\ \frac dn\cdot\frac{(d-1)|Q|}{n-1}\ \le\ \frac{2d^2|Q|}{n^2}.
+\end{equation}
 
-For (i): the repair acts only on an \emph{exceptional} coordinate $i^*\in E_{t-1}$, whose range is already
-$\ge 64\Hscale\ge 1$, so its current range is strictly positive. The repair increments a minimum-load color $c^\star$ with
-$x_{i^*,c^\star}(t-1)=\min_c x_{i^*,c}(t-1)=:\mathrm m$; write $\mathrm M=\max_c x_{i^*,c}(t-1)$, so $\mathrm M-\mathrm m\ge 1$
-as the loads are integers and the range is positive. After incrementing, the load at $c^\star$ is $\mathrm m+1\le\mathrm M$,
-so the maximum stays $\mathrm M$, while the minimum can only rise (it becomes the minimum of the remaining loads, each
-$\ge\mathrm m$). Hence $\rangeop_{i^*}=\mathrm M-\min_c x_{i^*,c}$ does not increase. This holds for every $k$, and when
-several colors tie for the minimum, incrementing any one of them moves a coordinate that was at the minimum, so the same
-comparison applies. (Incrementing a minimum-load color of a coordinate of range $0$ would raise the range to $1$; the repair
-never does this, because it fires only on exceptional coordinates, where the range is $\ge 64\Hscale$.)
+\emph{Exceptional-set sparsity.} Let $M=nd^{-5}$ and $B_0=\{i:\max_{t\le T}\widetilde R_i(t)\ge 32\Hscale\}$. By
+\eqref{eq:seed-tail}, $\E|B_0|\le nd^{-28}$. Since $|B_0|$ depends on the independent pairs $(S_t,U_t)$ and changing one pair
+alters membership for at most $2d$ coordinates, McDiarmid's inequality \cite{McDiarmid1989} gives
+\begin{equation}\label{eq:B0}
+  \Pr(|B_0|>M/2)\le\exp(-c\,nd^{-12}).
+\end{equation}
+Let $\tau=\min\{t:|E_t|>M\}$ ($=T+1$ if never). For coordinate $i$ let $N_i$ count times $t\le T$ with $|E_{t-1}|\le M$,
+$i\in S_t$, and $(S_t\setminus\{i\})\cap E_{t-1}\ne\varnothing$. Conditioning repeatedly and using \eqref{eq:incidence} with
+$Q=E_{t-1}$ ($|Q|\le M$), for any $m$ prescribed times the chance all satisfy this is $\le(2d^2M/n^2)^m$, so
+\begin{equation}\label{eq:Ni}
+  \Pr(N_i\ge m)\le\binom Tm\Big(\frac{2d^2M}{n^2}\Big)^m\le\Big(\frac{C}{m d^3}\Big)^m .
+\end{equation}
+Take $m=\lfloor 15\Hscale\rfloor$ and $B_1=\{i:N_i\ge m\}$; by \eqref{eq:Ni} and Markov,
+$\Pr(|B_1|>M/2)\le 2d^5(C/(md^3))^m=(\log n)^{-\omega(1)}$. Now if $\tau\le T$ and $i\in E_\tau\setminus B_0$, let $t_i\le\tau$
+be its first exceptional time: $\widetilde R_i(t_i)<32\Hscale$ while $\rangeop_i(t_i)\ge 64\Hscale$, so $D_i(t_i)\ge 16\Hscale\ge m$
+by \eqref{eq:range-dev}. Each of those $\ge m$ deviation-times has $i\in S_s$, $C_s\ne U_s$, hence (by (R2)) a co-present
+member of $E_{s-1}$ distinct from $i$ (as $t_i$ is $i$'s first exceptional time), and $|E_{s-1}|\le M$; so $N_i\ge m$ and
+$i\in B_1$. Thus $E_\tau\subseteq B_0\cup B_1$, contradicting $|E_\tau|>M$ on $\{|B_0|\le M/2,|B_1|\le M/2\}$. Hence
+\begin{equation}\label{eq:Esparse}
+  \Pr(|E_T|>nd^{-5})\le e^{-c\,nd^{-12}}+(\log n)^{-\omega(1)}.
+\end{equation}
 
-For (ii): the assigned color equals the seed $\widetilde\chi_t$ unless the repair branch fires, and that branch fires only
-when there is a (unique strict maximum) coordinate $i^*\in S_t\cap E_{t-1}$ to repair. In particular it fires only when
-$S_t\cap E_{t-1}\ne\varnothing$, that is when the support $S_t$ contains a coordinate $i^*\in E_{t-1}$ already at range
-$\ge 64\Hscale$ by the definition of the exceptional set $E_{t-1}$. So every arrival on which the color differs from the seed
-has a co-present coordinate at range $\ge 64\Hscale$, which is exactly (ii).
+\emph{Level recursion.} Work on $\mathcal G=\{|E_T|\le nd^{-5}\}$. For $r\ge0$ set the strict level sets
+$\mathcal M_r(t)=\{i:\max_{s\le t}\rangeop_i(s)>65\Hscale+3r\}$; since ranges are integers, climbing from level $r-1$ to $r$
+forces three genuine upward steps above the previous threshold. \emph{Base.} If $i\in\mathcal M_0(T)$, then between its last
+visit below $64\Hscale$ and first exceeding $65\Hscale$ there are $\ge m_0:=\lfloor\Hscale/2\rfloor$ arrivals at which
+$\rangeop_i$ increases with pre-arrival range $\ge 64\Hscale$, so $i\in E_{t-1}$ and (R3) supplies a co-present helper. On
+$\mathcal G$, \eqref{eq:incidence} with $|Q|\le nd^{-5}$ gives $\Pr(i\in\mathcal M_0(T),\mathcal G)\le\binom{T}{m_0}(2d^2\cdot nd^{-5}/n^2)^{m_0}\le(C/(m_0 d^3))^{m_0}$,
+so with $a_0=(\log n)^{-2}$, $\Pr(|\mathcal M_0(T)|>na_0,\mathcal G)\le(\log n)^2(C/(m_0d^3))^{m_0}=(\log n)^{-\omega(1)}$.
+\emph{Induction.} Put $a_r=(\log n)^{-2\cdot2^r}$, so $a_r=a_{r-1}^2$. If $i\in\mathcal M_r(T)$ then it has three increase-times
+$t_u$ with pre-arrival range $>65\Hscale+3(r-1)$, each (by (R3)) with a helper $j_u\in S_{t_u}\setminus\{i\}$ of range
+$>65\Hscale+3(r-1)$, i.e.\ $j_u\in\mathcal M_{r-1}(t_u-1)$. On $\{|\mathcal M_{r-1}(T)|\le na_{r-1}\}$, a union over ordered
+time-triples with \eqref{eq:incidence} ($|Q|\le na_{r-1}$) gives $\Pr(i\in\mathcal M_r(T),\,|\mathcal M_{r-1}(T)|\le na_{r-1})\le C d^6 a_{r-1}^3$,
+so by Markov $\Pr(|\mathcal M_r(T)|>na_r,\,|\mathcal M_{r-1}(T)|\le na_{r-1})\le Cd^6 a_{r-1}^3/a_r=Cd^6 a_{r-1}$. Summing for
+$1\le r\le r_*:=\lceil 2\Hscale\rceil$ gives $\sum_r Cd^6 a_{r-1}\le CHd^6/(\log n)^2=o(1)$. Finally
+$na_{r_*}=\exp(\log n-2^{r_*+1}\Hscale)<1$, so $\mathcal M_{r_*}(T)=\varnothing$ \whp; as $65\Hscale+3r_*\le 71\Hscale+3<80\Hscale$,
+$\max_{t,i}\rangeop_i<80\Hscale$. Combining \eqref{eq:Esparse} with the level bounds proves the lemma.
+\end{proof}
 
-For (iii): suppose an exceptional coordinate $j$ (range $\ge 64\Hscale$) has its range increased on arrival $t$. Then
-$j\in S_t$ and $j$ was not the repaired coordinate, since the repair assigns a minimum-load color, which by (i) does not raise
-the range; so $j$ took the seed. By definition the repair fires on the \emph{unique} coordinate of $S_t\cap E_{t-1}$ whose
-range strictly exceeds that of every other coordinate of $S_t$. As $j\in S_t\cap E_{t-1}$ was not repaired, $j$ is not that
-unique strict maximum, so some other coordinate $j'\in S_t$ has $\rangeop_{j'}\ge\rangeop_j$. Since
-$\rangeop_{j'}\ge\rangeop_j\ge 64\Hscale$, this $j'$ is itself exceptional and is the co-present helper required by (iii).
-
-All three properties are statements about the algorithm's control flow and the range function, with no dependence on the
-number $k$ of colors. Hence the category and level-set analysis of \cite{AT2025} applies to our algorithm, and
-$\max_{t,i}\rangeop_i<80\Hscale$ \whp. \qed
+\paragraph{Our algorithm meets the interface.}
+The minimum-load repair satisfies (R1)--(R3). \emph{(R1):} the repaired $i^*$ is exceptional, so $\rangeop_{i^*}(t-1)\ge 64\Hscale\ge1$;
+incrementing a minimum-load color makes the new load $\min_c+1\le\max_c$, so the maximum is unchanged and the minimum can only
+rise, hence the range does not increase. \emph{(R2):} the color differs from the seed only when the repair fires, which
+requires $i^*\in S_t\cap E_{t-1}$, so $S_t\cap E_{t-1}\ne\varnothing$. \emph{(R3):} if an exceptional $i\in S_t\cap E_{t-1}$
+has its range increase, it was not repaired (the repair is range-non-increasing by (R1)), so $i$ is not the unique strict
+range-maximum of $S_t$; hence some $j\in S_t\setminus\{i\}$ has $\rangeop_j(t-1)\ge\rangeop_i(t-1)$. Thus \Cref{lem:transfer}
+applies and $\max_{t,i}\rangeop_i<80\Hscale$ \whp, completing \Cref{lem:online-upper}. \qed
 
 \begin{remark}
-The reduction is the natural one: the only place the number of colors could matter is the repair, and a minimum-load repair
-is range-non-increasing for every $k$. It is worth saying why the modified-incidence charging is insensitive to $k$. The
-category recursion of \cite{AT2025} needs to pay for every place where the actual coloring deviates from the seed, and it
-pays by charging each such deviation to a coordinate that was already exceptional and present in the same arrival. By
-property (ii), every deviation comes with such a co-present exceptional coordinate, so the charge always has somewhere to
-land. What the charging looks at is purely the binary event ``actual color $\ne$ seed''; it never asks which of the $k$
-colors was actually used, so replacing two colors by $k$ colors leaves the count, and the recursion built on it, exactly the
-same.
+Condition (R1) is not used in the proof of \Cref{lem:transfer} beyond verifying (R3) for the concrete rule; (R2) drives the
+exceptional-set sparsity and (R3) drives the level recursion. Nothing in the proof inspects which of the $k$ colors is used:
+the count $D_i$, the contact count $N_i$, and the helper condition are all about which arrivals touch which coordinates, so
+the bound holds for every $2\le k\le d$ with no dependence on $k$.
 \end{remark}

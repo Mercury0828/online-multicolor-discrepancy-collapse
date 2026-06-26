@@ -38,11 +38,11 @@ $k$-coloring induces, through $\xi$, an online two-coloring whose discrepancy is
 bound $\Om(\loglog n)$ applies to this induced coloring and forces $(k/2)\,\rangeop_i\ge\Om(\loglog n)$, that is
 $\rangeop_i\ge\Om(\loglog n/k)$. For odd $k=2a+1$ an equal split is impossible, so we use the asymmetric zero-sum weighting
 $\xi\equiv 1$ on the size-$(a+1)$ part and $\xi\equiv -(a+1)/a$ on the size-$a$ part, which still has $\sum_c\xi(c)=0$. After
-rescaling so that the positive step is $+1$, the action set is $\{+1,-\rho\}$ with $\rho=a/(a+1)\in[\tfrac12,1]$. The
-two-color recurrence of \cite{AT2025} drives its lower bound through $\Th(\loglog n)$ stages, and each stage grows by a fixed
-amount that does not depend on the exact step ratio as long as it stays in the band $[\tfrac12,1]$; the only effect of
-$\rho\ne 1$ is a constant factor at most $2$ in the number of stages. So the same $\Om(\loglog n)$ bound follows for odd $k$
-as well (\Cref{app:online-lower-full}).
+rescaling so that the positive step is $+1$, the action set is $\{+1,-\rho\}$ with $\rho=a/(a+1)\in[\tfrac12,1]$. We prove a
+self-contained lower bound for any online $\{+1,-\rho\}$-rule (\Cref{lem:asym-online}): a fresh-block bridge argument grows a
+real-valued spread by $\ge\min\{1,\rho\}=\rho\ge\tfrac12$ at each of $\Th(\loglog n)$ stages, reaching imbalance
+$\Om(\loglog n)$. Applied to the projection this gives $\ondisc_k\ge\Om(\loglog n/k)$ for even and odd $k$ alike
+(\Cref{app:online-lower-full}).
 
 \subsection{The upper bound}\label{sec:online-upper}
 
@@ -79,13 +79,15 @@ argument needs, and it holds for every $k$. The proof has three parts (\Cref{app
 seed alone: a maximal Bernstein bound shows the seed-only range exceeds $32\Hscale$ with probability at most $d^{-28}$. The
 relevant martingale has predictable variance $\Th(d/k)$, and a short two-regime calculation (\Cref{app:online-upper-full})
 checks that the $k^2$-pair union is dominated by the exponent, so the bound holds for every $k\le d$ and every fixed $k$.
-Parts~2 and~3 are the category and level-set arguments of \cite{AT2025}, which we apply through an explicit interface: any
-seed-and-repair rule for which (i) the repair does not raise the range of the coordinate it repairs, (ii) the color differs
-from the seed only when the support holds a coordinate already at range $\ge 64\Hscale$, and (iii) an exceptional
-coordinate's range increases only when the support holds another coordinate of at least its range, inherits the
-$\Oh(\loglog n)$ bound. Property (iii) is the one the pure-seed coloring lacks, and our minimum-load repair supplies it. None
-of (i)--(iii) mentions the number of colors, so the analysis applies for all $k\le d$. It shows the exceptional set has size at most
-$n d^{-5}$. A double-exponential recurrence on the level sets $M(t,r)=\{i:\max_{s\le t}\rangeop_i(s)\ge 65\Hscale+3r\}$ then
+Part~2 is a self-contained transfer lemma (\Cref{lem:transfer}): any seed-and-repair rule for which (i) the repair does not
+raise the range of the coordinate it repairs, (ii) the color differs from the seed only when the support holds a coordinate
+already at range $\ge 64\Hscale$, and (iii) an exceptional coordinate's range increases only when the support holds another
+coordinate of at least its range, has $\max_{t,i}\rangeop_i<80\Hscale$ \whp. Property (iii) is the one the pure-seed coloring
+lacks, and our minimum-load repair supplies it. None of (i)--(iii) mentions the number of colors, so the bound holds for all
+$k\le d$. The proof bounds the exceptional set $\{i:\rangeop_i\ge 64\Hscale\}$ by a stopped contact count
+(it stays of size $\le n d^{-5}$), then runs a double-exponential recurrence on the strict level sets
+$\mathcal M_r(t)=\{i:\max_{s\le t}\rangeop_i(s)>65\Hscale+3r\}$, where (iii) supplies the co-present helper that each climbing
+coordinate is charged to. The recurrence
 collapses the count to zero by $r=2\Hscale$, giving $\max_{t,i}\rangeop_i<80\Hscale$ and hence $\Oh(\loglog n)$.
 
 \medskip

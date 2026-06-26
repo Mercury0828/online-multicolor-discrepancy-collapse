@@ -61,15 +61,17 @@ For the online direction we extend the seed-and-repair scheme of Altschuler and 
 algorithm assigns a random seed sign and then, on each arrival, \emph{repairs} only the single most exceptional coordinate by
 flipping toward its minority. We replace the sign by a $k$-coloring: color each arrival by a random seed color, and repair the
 uniquely-largest exceptional coordinate of the arrival by assigning it a \emph{minimum-load} color. The conceptual point is
-that two properties of this rule are \emph{independent of the number of colors}: a minimum-load assignment never raises the
-range of the coordinate it repairs (which is exceptional, hence of positive range, for any $k$), and the assigned color
-differs from the seed only when the arrival already contains an exceptional coordinate. These are exactly the two hypotheses under which the Altschuler--Tikhomirov category and level-set
-analysis runs, so we invoke that analysis as a black box (\Cref{sec:online}) and verify only the transplant. The one genuinely
-$k$-dependent estimate is the seed tail, the probability that a random $k$-coloring leaves a coordinate exceptional; we bound
-it directly by a maximal Bernstein inequality whose variance $2Td/(nk)$ only shrinks as $k$ grows, so the bound holds for all
-$k$ with the worst case at $k=2$. Hence the upper bound $\Oh(\loglog n)$ holds for all $k$. The lower bound $\Om(\loglog n)$
-for fixed $k$ projects the two-color lower bound through a balanced or, for odd $k$, asymmetric zero-sum signing of the
-colors.
+that three properties of this rule are \emph{independent of the number of colors}: a minimum-load assignment never raises the
+range of the coordinate it repairs (which is exceptional, hence of positive range, for any $k$), the assigned color differs
+from the seed only when the arrival already contains an exceptional coordinate, and an exceptional coordinate's range rises
+only with a co-present helper of at least its range. We package these into a self-contained transfer lemma (\Cref{lem:transfer})
+that proves $\max_{t,i}\rangeop_i=\Oh(\loglog n)$ for any rule meeting the interface, by a stopped contact count for the
+exceptional set and a double-exponential level recursion; the number of colors enters nowhere. The one genuinely
+$k$-dependent estimate is the seed tail, the probability that a random $k$-coloring leaves a coordinate exceptional, which we
+bound by a maximal Bernstein inequality whose variance $2Td/(nk)$ shrinks as $k$ grows; a two-regime calculation gives the
+bound for all $k\le d$ and all fixed $k$, so the upper bound $\Oh(\loglog n)$ holds throughout. The lower bound
+$\Om(\loglog n)$ for fixed $k$ projects the colors onto two by a zero-sum signing and applies a self-contained two-action
+lower bound (\Cref{lem:asym-online}); for odd $k$ the signing is asymmetric, with steps in $\{+1,-\rho\}$, $\rho\in[\tfrac12,1]$.
 
 \subsection{The separation and the growing-$k$ frontier}\label{sec:ov-sep}
 
