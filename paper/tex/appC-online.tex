@@ -84,17 +84,18 @@ so a union bound over the at most $k^2$ pairs gives
   \Pr\big(\max_t\widetilde R_i\ge 32\Hscale\big)\ \le\ k^2\exp\!\Big(-\frac{512\Hscale^2}{V+\Oh(\Hscale)}\Big),
   \qquad 512\Hscale^2=\frac{(32\Hscale)^2}{2}.
 \]
-It remains to check that the worst case still clears the target. The variance $V=2Td/(nk)$ is largest when $k$ is smallest
-and $d$ is largest, so take $k=2$ and $d=\Hscale^2/\log\Hscale$ (with $T=n$): then
+It remains to check that this bound clears $d^{-28}$, and crucially that the union prefactor $k^2$ does not overturn the
+shrinking exponent as $k$ grows. With $T=\Th(n)$, $V=2Td/(nk)=\Th(d/k)$, so the exponent is
+$\Th(\Hscale^2/V)=\Th(\Hscale^2 k/d)$, which grows \emph{linearly} in $k$, while the prefactor is only $k^2$. Hence
+$k^2\exp(-\Th(\Hscale^2 k/d))$ is decreasing in $k$ for $k\ge2$: its logarithmic derivative $2/k-\Th(\Hscale^2/d)$ is
+negative because $\Hscale^2/d\ge\log\Hscale\gg1$ under the sparsity cap. The maximum over $k$ is therefore at $k=2$, and
+larger $k$ only helps. At $k=2$ and the densest $d=\Hscale^2/\log\Hscale$ (the overall worst case), $V=\Hscale^2/\log\Hscale$
+dominates the $\Oh(\Hscale)$ term in the denominator, the exponent is
 \[
-  V\ =\ \frac{2\cdot n\cdot(\Hscale^2/\log\Hscale)}{n\cdot2}\ =\ \frac{\Hscale^2}{\log\Hscale},
+  \frac{512\Hscale^2}{V+\Oh(\Hscale)}\ =\ (1-o(1))\,\frac{512\Hscale^2}{\Hscale^2/\log\Hscale}\ =\ (512-o(1))\log\Hscale,
 \]
-which dominates the $\Oh(\Hscale)$ term in the denominator (since $\Hscale^2/\log\Hscale\gg\Hscale$), so $V+\Oh(\Hscale)=
-(1+o(1))V$ and the exponent is
-\[
-  \frac{512\Hscale^2}{V+\Oh(\Hscale)}\ =\ (1-o(1))\,\frac{512\Hscale^2}{\Hscale^2/\log\Hscale}\ =\ (512-o(1))\log\Hscale.
-\]
-The factor $k^2=4$ is absorbed into the $o(1)$, so the bound becomes $\exp(-(512-o(1))\log\Hscale)=\Hscale^{-512+o(1)}$.
+and the prefactor $k^2=4$ is absorbed into the $o(1)$, so the bound is $\Hscale^{-512+o(1)}$. Since $d^{-28}=\Hscale^{-56+o(1)}$
+at this $d$, the bound clears $d^{-28}$ with a factor-$9$ margin in the exponent, uniformly over $2\le k\le d$.
 Since $d=\Hscale^2/\log\Hscale=\Hscale^{2-o(1)}$ gives $d^{-28}=\Hscale^{-56+o(1)}$, the tail $\Hscale^{-512+o(1)}$ is
 comfortably below $d^{-28}$, with a factor of roughly $512/56\approx9$ to spare in the exponent. Increasing $k$ only lowers
 $V$ and makes the exponent larger, hence the tail smaller, so the bound holds for every $k$. Thus
@@ -125,16 +126,15 @@ mechanisms are about which arrivals touch which coordinates, so the color count 
 
 It remains to check that our $k$-color algorithm satisfies (i)--(ii).
 
-For (i): the repair increments a minimum-load color of $i^*$, that is a color $c^\star$ with
-$x_{i^*,c^\star}(t-1)=\min_c x_{i^*,c}(t-1)=:\mathrm m$. Write $\mathrm M=\max_c x_{i^*,c}(t-1)$ for the maximum before the
-step. After incrementing $c^\star$ the new load there is $\mathrm m+1$. We compare the range before and after. The new
-maximum is $\max(\mathrm M,\mathrm m+1)$; since the range $\mathrm M-\mathrm m\ge0$ is an integer, either $\mathrm m+1\le
-\mathrm M$, in which case the maximum is unchanged at $\mathrm M$, or $\mathrm m+1=\mathrm M+1>\mathrm M$ only when
-$\mathrm M=\mathrm m$, i.e.\ all loads were already equal and the range was $0$ and stays $0$. In the first case the maximum
-stays $\mathrm M$ while the minimum can only rise (it becomes $\min$ of the remaining loads, each $\ge\mathrm m$), so the
-range $\mathrm M-\min_c x_{i^*,c}(t)$ does not increase. Either way $\max_c x_{i^*,c}-\min_c x_{i^*,c}$ does not increase.
-This holds for every $k$, and when several colors tie for the minimum, incrementing any one of them moves a coordinate that
-was at the minimum, so the same comparison applies.
+For (i): the repair acts only on an \emph{exceptional} coordinate $i^*\in E_{t-1}$, whose range is already
+$\ge 64\Hscale\ge 1$, so its current range is strictly positive. The repair increments a minimum-load color $c^\star$ with
+$x_{i^*,c^\star}(t-1)=\min_c x_{i^*,c}(t-1)=:\mathrm m$; write $\mathrm M=\max_c x_{i^*,c}(t-1)$, so $\mathrm M-\mathrm m\ge 1$
+as the loads are integers and the range is positive. After incrementing, the load at $c^\star$ is $\mathrm m+1\le\mathrm M$,
+so the maximum stays $\mathrm M$, while the minimum can only rise (it becomes the minimum of the remaining loads, each
+$\ge\mathrm m$). Hence $\rangeop_{i^*}=\mathrm M-\min_c x_{i^*,c}$ does not increase. This holds for every $k$, and when
+several colors tie for the minimum, incrementing any one of them moves a coordinate that was at the minimum, so the same
+comparison applies. (Incrementing a minimum-load color of a coordinate of range $0$ would raise the range to $1$; the repair
+never does this, because it fires only on exceptional coordinates, where the range is $\ge 64\Hscale$.)
 
 For (ii): the assigned color equals the seed $\widetilde\chi_t$ unless the repair branch fires, and that branch fires only
 when there is a (unique strict maximum) coordinate $i^*\in S_t\cap E_{t-1}$ to repair. In particular it fires only when

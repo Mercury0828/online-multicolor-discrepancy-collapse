@@ -12,14 +12,14 @@ algorithm cannot use the extra colors to push the discrepancy below the two-colo
 For every fixed $k\ge 2$, $\ondisc_k=\Th(\loglog n)$ \whp, independent of $d$ in the range $2\le d\le\Hscale^2/\log\Hscale$.
 \end{theorem}
 
-The two bounds are proved separately and then combined. The lower bound is \Cref{lem:online-lower} and holds for all $k$;
-the upper bound is \Cref{lem:online-upper} and also holds for all $k$. Together they pin the online value at
-$\ondisc_k=\Th(\loglog n)$ once $k$ is constant, with no dependence on the sparsity $d$ across the whole range
+The two bounds are proved separately and then combined. The lower bound is \Cref{lem:online-lower} ($\Om(\loglog n/k)$, for
+all $k$); the upper bound is \Cref{lem:online-upper} ($\Oh(\loglog n)$, for $2\le k\le d$). Together they pin the online value
+at $\ondisc_k=\Th(\loglog n)$ once $k$ is constant, with no dependence on the sparsity $d$ across the whole range
 $2\le d\le\Hscale^2/\log\Hscale$. The two-color case $k=2$ is the theorem of Altschuler and Tikhomirov~\cite{AT2025}. Our
-contribution is that both bounds extend to every $k$: the lower bound by a signing that projects $k$ colors onto two, and the
-upper bound by a $k$-color seed-and-repair algorithm whose analysis reduces, color count and all, to the two-color analysis
-of \cite{AT2025}. In particular the upper bound stays $\Oh(\loglog n)$ even as $k$ grows, so adding colors never raises the
-online value.
+contribution is that both bounds extend across the palette range: the lower bound by a signing that projects $k$ colors onto
+two, and the upper bound by a $k$-color seed-and-repair algorithm whose analysis reduces, color count and all, to the
+two-color analysis of \cite{AT2025}. In particular the upper bound stays $\Oh(\loglog n)$ as $k$ grows up to $d$, so within
+this range adding colors does not raise the online order.
 
 \subsection{The lower bound}\label{sec:online-lower}
 
@@ -47,8 +47,8 @@ as well (\Cref{app:online-lower-full}).
 \subsection{The upper bound}\label{sec:online-upper}
 
 \begin{lemma}[Online upper bound]\label{lem:online-upper}
-For all $k$, there is an online $k$-coloring with $\max_{t,i}\rangeop_i(t)\le 80\,\loglog n$ \whp\ (when $T=n$; for
-$T=\Th(n)$ the constant changes only).
+For all $k$ with $2\le k\le d$, there is an online $k$-coloring with $\max_{t,i}\rangeop_i(t)\le 80\,\loglog n$ \whp\ (when
+$T=n$; for $T=\Th(n)$ the constant changes only).
 \end{lemma}
 
 \paragraph{The algorithm.}
@@ -63,9 +63,10 @@ already exceptional and the clear leader of its support: if there is a \emph{uni
 whose range strictly exceeds that of every other $j\in S_t$, assign $i^*$ a color that attains the minimum load
 $\min_c x_{i^*,c}(t-1)$ at that coordinate. In every other case (no exceptional coordinate in the support, or no unique
 strict maximum) assign the seed color $\widetilde\chi_t$ and leave the seed coloring untouched. The point of the
-minimum-load assignment is that incrementing a least-loaded color cannot raise the spread between the largest and smallest
-loads, so the repair never increases the range of the coordinate it repairs, for any $k$: the new load is at most the old
-maximum, so the maximum does not move, and the minimum can only rise. A coordinate can therefore cross to a higher range
+minimum-load assignment is that, at a coordinate whose range is already positive, incrementing a least-loaded color cannot
+raise the spread between the largest and smallest loads, so the repair never increases the range of the coordinate it
+repairs, for any $k$: the repaired coordinate is exceptional, hence of range $\ge 64\Hscale\ge1$, so the new load
+$\min_c+1$ is at most the old maximum, the maximum does not move, and the minimum can only rise. A coordinate can therefore cross to a higher range
 level only on an arrival where it is \emph{not} the unique strict maximum of its support, which means some other
 already-exceptional coordinate is present in the same arrival to absorb the blame.
 
@@ -89,7 +90,7 @@ collapses the count to zero by $r=2\Hscale$, giving $\max_{t,i}\rangeop_i<80\Hsc
 \Cref{thm:online} follows by combining \Cref{lem:online-lower,lem:online-upper}.
 
 \begin{remark}\label{rem:online-upper-allk}
-\Cref{lem:online-upper} holds for \emph{all} $k$, so $\ondisc_k=\Oh(\loglog n)$ throughout. The online value is therefore
-$d$-independent, in contrast with the $d$-dependent offline threshold $\Psifn$ of \Cref{thm:offline}. For growing $k$ the
-upper bound $\loglog n$ need not be tight; see \Cref{sec:separation,sec:open}.
+\Cref{lem:online-upper} holds for every $k$ in the studied range $2\le k\le d$, so $\ondisc_k=\Oh(\loglog n)$ throughout. The
+online upper bound is therefore $d$-independent, in contrast with the $d$-dependent offline threshold $\Psifn$ of
+\Cref{thm:offline}. For growing $k$ the upper bound $\loglog n$ need not be tight; see \Cref{sec:separation,sec:open}.
 \end{remark}

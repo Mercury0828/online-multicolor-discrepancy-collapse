@@ -62,8 +62,8 @@ algorithm assigns a random seed sign and then, on each arrival, \emph{repairs} o
 flipping toward its minority. We replace the sign by a $k$-coloring: color each arrival by a random seed color, and repair the
 uniquely-largest exceptional coordinate of the arrival by assigning it a \emph{minimum-load} color. The conceptual point is
 that two properties of this rule are \emph{independent of the number of colors}: a minimum-load assignment never raises the
-repaired coordinate's range (for any $k$), and the assigned color differs from the seed only when the arrival already contains
-an exceptional coordinate. These are exactly the two hypotheses under which the Altschuler--Tikhomirov category and level-set
+range of the coordinate it repairs (which is exceptional, hence of positive range, for any $k$), and the assigned color
+differs from the seed only when the arrival already contains an exceptional coordinate. These are exactly the two hypotheses under which the Altschuler--Tikhomirov category and level-set
 analysis runs, so we invoke that analysis as a black box (\Cref{sec:online}) and verify only the transplant. The one genuinely
 $k$-dependent estimate is the seed tail, the probability that a random $k$-coloring leaves a coordinate exceptional; we bound
 it directly by a maximal Bernstein inequality whose variance $2Td/(nk)$ only shrinks as $k$ grows, so the bound holds for all
@@ -77,7 +77,7 @@ colors.
 offline value collapses to $\Th(\sqrt d)=o(\loglog n)$ under the sparsity cap. For growing $k$ the two endpoints
 $\max\{\Psifn(\lam,\log k),\loglog n/k\}$ and $\loglog n$ no longer coincide, and pinning the exact order is open. We reduce it
 to a single high-probability lemma about an asymmetric online rule and show (\Cref{sec:open}) that the natural symmetric,
-permutation-invariant approach provably cannot reach it: a phase-conveyor construction refutes the expectation-level tail that
-a symmetric potential would need. The obstruction is the same staggered-Fibonacci mechanism that separates \emph{Always-Go-Left}
+permutation-invariant potential loses a $\log k$ factor and so cannot reach it: a phase-conveyor construction refutes the
+expectation-level tail that such a potential would need. The obstruction is the same staggered-Fibonacci mechanism that separates \emph{Always-Go-Left}
 from greedy load balancing \cite{Vocking2003}, which is why we conjecture the answer is
 $\Th(\max\{\Psifn(\lam,\log k),\loglog n/k\})$ and that reaching it requires an asymmetric rule.

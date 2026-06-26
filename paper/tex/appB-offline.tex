@@ -17,7 +17,7 @@ $t=c\,\Lscale/\log(e+\Lscale/\mu)$ and $z=\Lscale/\mu\ge 1$ gives $t\log(1+t/\mu
 Fix a coloring with means $\mu_c=m_c d/n$, $\sum_c\mu_c=k\lam$. The loads are independent with $\E Y_c=\mu_c$ and
 $\Var Y_c=\mu_c(1-d/n)=\Th(\mu_c)$. We do not assume balance; instead we lower-bound the range by a dichotomy on the means.
 Throughout, $t^*=t^*(\lam,\log k)=\Th(\Psifn(\lam,\log k))$ is the deviation of the Poisson inversion above, and
-$t^*\ge 4\sqrt{\lam\log k}$ (since $\Psifn\ge\sqrt{\lam\log k}$ and $\log k$ is large).
+$t^*\ge\sqrt{\lam\log k}$ and $t^*\ge1$ (by the definition of $\Psifn$).
 
 \paragraph{Step 2: Poissonization.}
 Let $B$ be the $n\times T$ matrix with i.i.d.\ $\Bin(1,p)$ entries, $p=d/n$. Conditioning each column of $B$ on having
@@ -309,12 +309,17 @@ growth of the square root), so summing it over the discrete halving stages is bo
 geometric factor, giving $\sum_{\text{dense}}\sqrt{\mu_A\ell_A}\le C\sqrt{\mu_0\ell_0}$. The geometric decay is what
 prevents a factor of the number of stages from appearing. For the sparse thresholds, what we need is
 $\sup_{\text{sparse}}\Psifn(\mu_A,\ell_A)\le C\Psifn(\mu_0,\ell_0)$, since a released row's contribution is $\Oh$ of a single
-such threshold. If $\mu_0\le\ell_0$ then the whole recursion is sparse and $\Psifn(\mu_A,\ell_A)$ is monotone in the stage,
-so the supremum is attained at the start and equals $\Psifn(\mu_0,\ell_0)$. If $\mu_0>\ell_0$, the recursion begins dense
-and only enters the sparse phase once $\mu(u)$ has dropped below $\ell(u)$, which happens at some stage
-$u_*\le\log(\mu_0/\ell_0)$; at that point $\ell_*=\ell_0+u_*\le\ell_0+\log(\mu_0/\ell_0)\le C\sqrt{\mu_0\ell_0}$, so the
-sparse phase effectively restarts from a budget already controlled by $\sqrt{\mu_0\ell_0}\le C\Psifn(\mu_0,\ell_0)$, and we
-rebase the sparse bound there. The recursion stops once $\Oh(1)$ variables remain alive, at which point the residual
+such threshold. In the sparse phase $\mu_A<\ell_A$, so $\Psifn(\mu_A,\ell_A)=\Th\big(1+\ell_A/\log(e+\ell_A/\mu_A)\big)$. Along
+the recursion $\mu(u)=\mu_0 e^{-u}$ and $\ell(u)=\ell_0+u$, so $\ell(u)/\mu(u)=(\ell_0+u)e^{u}/\mu_0$ and, with $c:=\log(\ell_0/\mu_0)\ge0$,
+\[
+  \frac{\ell(u)}{\log(e+\ell(u)/\mu(u))}\ \le\ \frac{\ell_0+u}{\,u+c\,}.
+\]
+This ratio is \emph{not} monotone-decreasing in general; the correct bound is that $u\mapsto(\ell_0+u)/(u+c)$ is monotone
+(its derivative has the constant sign of $c-\ell_0$), so its supremum over $u\ge0$ is $\max\{\ell_0/c,\,1\}$, attained at
+$u=0$ or as $u\to\infty$. Since $\ell_0/c=\ell_0/\log(\ell_0/\mu_0)=\Th(\Psifn(\mu_0,\ell_0))$ and $\Psifn\ge1$, this gives
+$\sup_{\text{sparse}}\Psifn(\mu_A,\ell_A)\le C\,\Psifn(\mu_0,\ell_0)$. If instead $\mu_0>\ell_0$, the recursion begins dense
+and enters the sparse phase at the first stage $u_*$ with $\mu(u_*)\le\ell(u_*)$; there $\ell_{*}=\Oh(\sqrt{\mu_0\ell_0})\le
+C\Psifn(\mu_0,\ell_0)$, and the same bound applies with the start rebased to $u_*$. The recursion stops once $\Oh(1)$ variables remain alive, at which point the residual
 coloring is found by brute force at cost $\Oh(1)$ per row; this constant is absorbed by the additive ``$1$'' inside
 $\Psifn$. Finally, the cardinality is exact up to an $\Oh(1)$ cleanup swap to repair any unit imbalance, and such a swap
 changes each $r_i(Y)$ by at most $1\le\Psifn$. Dividing the resulting signed discrepancy by $2$ converts the symmetric

@@ -25,13 +25,19 @@ spread below order $\loglog n$, because a coloring committed column by column dr
 logarithmic rate forced by the self-similar branching of the allocation (\Cref{lem:online-lower}). The matching upper bound
 (\Cref{lem:online-upper}) keeps the spread at $\Oh(\loglog n)$, so the online order is pinned at $\Th(\loglog n)$.
 
-The offline value is $\Oh(\sqrt d)$. This needs only the trivial monotonicity $\offdisc_k\le\offdisc_2$: any $2$-coloring is
-a $k$-coloring that leaves $k-2$ colors empty, so the optimal $k$-colorer does at least as well as the optimal $2$-colorer.
-The two-color value is the classical discrepancy of a random sparse set system, $\offdisc_2=\Th(\sqrt d)$
-\cite{BansalMeka2019,EzraLovett2016,HobergRothvoss2019}. Hence $\offdisc_k\le\offdisc_2=\Oh(\sqrt d)$ for every fixed $k$,
-which is all the separation needs. (More colors in fact \emph{help}, and \Cref{thm:offline} pins the value at the smaller
-$\Th(\Psifn(\lam,\log k))$ once $k$ grows past $C_0\log^5(dk)$; for fixed $k$ the $\log k$ argument is bounded and $\Psifn$ is
-of order $\sqrt d$, consistent with the $\Oh(\sqrt d)$ here.)
+The offline value is $\Oh(\sqrt d)$. The offline construction of \Cref{lem:offline-upper} holds on the high-probability event
+of \Cref{lem:structural} for \emph{every} $k\le d$; its proof exhibits a $k$-coloring of final discrepancy
+$\Oh(\Psifn(\lam,\log k))$ and uses no lower bound on $k$ (the hypothesis $k\ge C_0\log^5(dk)$ enters only in the matching
+lower bound \Cref{lem:offline-lower}). For a fixed $k$ the parameters are $\lam=Td/(nk)=\Th(d)$ and $\log k=\Th(1)$, so
+\[
+  \Psifn(\lam,\log k)\ =\ 1+\sqrt{\lam\log k}+\frac{\log k}{\log(e+\log k/\lam)}\ =\ \Th(\sqrt d),
+\]
+the Gaussian term $\sqrt{\lam\log k}=\Th(\sqrt d)$ dominating. Hence $\offdisc_k=\Oh(\sqrt d)$ for every fixed $k$, which is
+all the separation needs. At $k=2$ this is the classical two-color value $\Th(\sqrt d)$ of a random sparse set system
+\cite{BansalMeka2019,EzraLovett2016,HobergRothvoss2019}; more colors only lower the offline value further once $k$ grows past
+$C_0\log^5(dk)$, by \Cref{thm:offline}. (We use \Cref{lem:offline-upper} and not the embedding ``ignore $k-2$ colors'': in
+the range $\max_c-\min_c$, an unused color sits at load $0$ and would inflate the range, so the value is not monotone in $k$
+by that embedding.)
 
 It remains to compare the two scales. Under the sparsity cap $d\le\Hscale^2/\log\Hscale$ we may take square roots, and since
 $d\mapsto\sqrt d$ is increasing this gives

@@ -34,9 +34,14 @@ We use two discrepancy quantities, following the online/offline split of~\cite{A
   \qquad
   \offdisc_k(\mu_{d,n})\ :=\ \min_{\text{offline }\chi}\ \max_{i}\ \rangeop_i(T),
 \]
-each understood \whp\ (and, where stated, in expectation). We abbreviate $\ondisc_k=\ondisc_k(\mu_{d,n})$ and
-$\offdisc_k=\offdisc_k(\mu_{d,n})$. The online prefix discrepancy dominates the online final discrepancy, which in turn
-dominates the offline final discrepancy, so $\ondisc_k\ge\offdisc_k$ always.
+We abbreviate $\ondisc_k=\ondisc_k(\mu_{d,n})$ and $\offdisc_k=\offdisc_k(\mu_{d,n})$. These are read as threshold sequences
+in $n$, with the quantifiers fixed as follows. The offline quantity $\min_{\text{offline}\,\chi}\max_i\rangeop_i(T)$ is a
+function of the random instance, and a claim $\offdisc_k=\Th(f)$ means $cf\le\offdisc_k\le Cf$ with probability $1-o(1)$. The
+online quantity is a worst-case-over-algorithms threshold: $\ondisc_k\le D$ means \emph{some} online $\chi$ keeps
+$\max_{t\le T,i}\rangeop_i(t)\le D$ with probability $1-o(1)$, and $\ondisc_k\ge D$ means \emph{every} online $\chi$ has
+$\max_{t\le T,i}\rangeop_i(t)\ge D$ with probability $1-o(1)$; the displayed minima abbreviate these. The online prefix
+discrepancy dominates the online final discrepancy, which in turn dominates the offline final discrepancy, so
+$\ondisc_k\ge\offdisc_k$ always.
 
 \subsection{Scales and the threshold function}\label{sec:scales}
 

@@ -1,13 +1,15 @@
 % sec0-abstract.tex -- written last. Single takeaway; scope; no formulas or specific constants.
 We study how the number of colors affects discrepancy in the average-case online vector-balancing model of Altschuler and
 Tikhomirov, where i.i.d.\ uniform sparse $0/1$ vectors are colored to keep every color load balanced at every coordinate
-and every prefix. Altschuler and Tikhomirov determined the two-color online value; we determine the multicolor value in two
-of the three regimes of the color count and reduce the third to a single high-probability lemma.
+and every prefix. Altschuler and Tikhomirov determined the two-color online value; we determine the offline value for a
+growing number of colors and the online value for every fixed number, and reduce the remaining growing-palette online case
+to a single high-probability lemma.
 
-Offline, more colors help: the optimal discrepancy of a $k$-coloring drops from its two-color value to a balls-into-bins
-occupancy threshold, which we identify exactly and match by an explicit coloring built from a negative-association
-structural estimate, a density-sensitive partial-coloring step, and a recursive color tree. Online, more colors do not help
-for any fixed number of them: the doubly-logarithmic barrier of the two-color case persists, by an extension of the
-seed-and-repair scheme to many colors. Together these give a multicolor online--offline separation. For a growing number of
-colors the online value is bracketed by the two, and we show the exact order reduces to one lemma about an asymmetric online
-rule, while the symmetric approach provably cannot reach it.
+Offline, more colors help: in the growing-palette regime the optimal discrepancy of a $k$-coloring drops from its two-color
+value to a balls-into-bins occupancy threshold, which we pin down up to constants and match by an explicit coloring built
+from a negative-association structural estimate, a density-sensitive partial-coloring step, and a recursive color tree.
+Online, more colors do not change the order for any fixed number of them: the doubly-logarithmic barrier of the two-color
+case persists, by an extension of the seed-and-repair scheme to many colors. Together these give a multicolor
+online--offline separation. For a growing number of colors the online value is bracketed by the two; we reduce its exact
+order to one lemma about an asymmetric online rule, and show that a natural symmetric, permutation-invariant potential loses
+a $\log k$ factor.
