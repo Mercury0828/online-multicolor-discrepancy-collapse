@@ -140,3 +140,39 @@ All blocking items from both referee rounds are addressed:
   Codex-verified. Online section now fully self-contained.
 - §6/appD demoted to an honest open-problem discussion.
 Per the round-2 referee's own criterion this clears to Weak Accept.
+
+---
+
+# Round-3 referee (Weak Accept, 6/10) — all items addressed
+
+Both gaps confirmed closed. The remaining list (clean fixes + version-merge leftovers) is now done.
+
+## Three named "fix-before-submission" items (referee says -> 6.5-7)
+1. **lem:transfer k<=d -> k>=2**: the proof never uses k<=d; hypothesis relaxed, Thm 2 quantifier now fully covered.
+2. **B.2 inverse-Bennett**: the convexity argument had a constant-closure gap (c1*t* - mu can be < 0 when t* ~ mu).
+   Replaced by a self-contained inverse-Bennett claim (eq:inv-bennett) proved by two FIXED cases ell/mu<=4 and >4, with
+   an explicit absolute floor K>=4. Codex-verified correct.
+3. **B.4 color-tree sum**: deleted the FALSE "sum_{q<=Q} ell_q/q = O(ell_Q/Q)" (the sum is dominated by the smallest q,
+   the leaf end). Stated the correct principle (sum over q>=q0 dominated by q0) and the two endpoint uses (full=O(L);
+   tail from sqrt A = O(L/sqrt A)). Codex-verified correct.
+
+## Version-merge inconsistencies
+- sec3 k=2: removed the self-contradicting "Psi prediction need not hold, exactly what happens at k=2" (Psi=Theta(sqrt d)
+  at k=2 is correct); reframed as a proof limitation.
+- sec7: "(i) and (ii) are the entire interface" -> the three properties (R1)-(R3), with R2->sparsity, R3->level recursion.
+- sec5 crossover: corrected -- BOTH floors decrease in k (lambda=d/k drops, so Psi falls, more colors help); the floors
+  need not cross; balance at k*Psi ~ loglog n, location depends on d.
+- sec5 sqrt-d "typo": checked -- the cap comparison already correctly reads sqrt d <= H/sqrt(log H); nothing to fix.
+- Intro "upper bound for all k": already scoped to "k<=d and every fixed k"; nothing to fix.
+
+## Lemma 11 second moment + nits
+- Expanded the isolated-bridge variance with an explicit pair classification (distinct vs shared endpoint). Codex-verified.
+- Fixed the s,Delta condition typesetting (n^{0.99}<=s<=n/L and n^{0.99}<=Delta<=n/L^2).
+
+## §7/appD positioning
+- lem:bc proof relabelled [Proof] (consistent with "proved in full"); the rank-greedy objects are now defined.
+- Abstract softened: "a concrete obstruction ... a natural symmetric moment hierarchy incurs a log k loss".
+
+Independent Codex (gpt-5.5) correctness pass on the three new derivations: ALL-CORRECT (one absolute-floor clarification
+applied). 42pp, compiles clean (0 undefined), 0 style violations. Per the referee's stated criterion this clears the three
+items they named, i.e. the 6.5-7 "Weak Accept leaning Accept" band.

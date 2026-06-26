@@ -194,8 +194,9 @@ estimate: with $h(u)=(1+u)\log(1+u)-u$ and the Bennett bound $\Pr(r_i\ge\mu_s+x)
 \end{equation}
 where $K_0(B)$ is absolute. Fix the cutoff $C=4$ and split on $\ell_s/\mu_s$. Since $\ell_s>\mu_s$ and $\Psifn\ge\sqrt{\mu_s\ell_s}$,
 in either case $t\ge K\sqrt{\mu_s\ell_s}\ge K\mu_s$, so $x:=t-\mu_s\ge(1-1/K)t\ge t/2$ for $K\ge2$, and $x/\mu_s\ge t/(2\mu_s)\ge K/2\ge1$,
-putting us on the branch $h(u)\ge\tfrac12 u\log(1+u)$ ($u\ge1$). Thus
-$\mu_s h(x/\mu_s)\ge\tfrac12 x\log(1+x/\mu_s)\ge\tfrac14 t\log(1+t/(2\mu_s))$.
+putting us on the branch $h(u)\ge\tfrac12 u\log(1+u)$ ($u\ge1$). Thus, taking also $K\ge4$ (so $t\ge K\mu_s\ge4\mu_s$ and
+$\log(1+t/(2\mu_s))\ge\log 3\ge1$),
+$\mu_s h(x/\mu_s)\ge\tfrac12 x\log(1+x/\mu_s)\ge\tfrac14 t\log(1+t/(2\mu_s))\ge\tfrac14 t$.
 \emph{If $\ell_s/\mu_s\le C$:} then $\Psifn\ge\sqrt{\mu_s\ell_s}\ge\ell_s/\sqrt C$, so $t\ge K\ell_s/\sqrt C$ and
 $\mu_s h(x/\mu_s)\ge\tfrac14 t\ge\tfrac{K}{4\sqrt C}\ell_s\ge B\ell_s$ for $K\ge 4\sqrt C\,B$.
 \emph{If $\ell_s/\mu_s>C$:} then $\Psifn\ge\ell_s/\log(e+\ell_s/\mu_s)$, so $t\ge K\ell_s/\log(e+\ell_s/\mu_s)$, and
