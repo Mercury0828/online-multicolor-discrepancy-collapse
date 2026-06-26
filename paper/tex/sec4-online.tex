@@ -1,12 +1,9 @@
 % sec4-online.tex -- Online fixed-k: P2 lower + multicolor A-T upper. Full proofs -> appC.
 \section{The online value for fixed $k$}\label{sec:online}
 
-Online, the picture is the opposite of \Cref{thm:offline}. In the offline setting extra colors give the algorithm more
-room to balance and the discrepancy drops as $k$ grows; online, the colors must be committed one arrival at a time with no
-view of the future, and this freedom evaporates. In the fixed-$k$ regime more colors do not help: the online value sits at
-$\Th(\loglog n)$ for every constant $k$, the same order it takes at $k=2$. The reason, made precise below, is that the
-adversary can fold the $k$ colors back down to two by a fixed signing and recover the two-color lower bound, while the
-algorithm cannot use the extra colors to push the discrepancy below the two-color barrier.
+Online, more colors do not change the order: the value sits at $\Th(\loglog n)$ for every fixed $k$, the same as at $k=2$.
+The lower bound folds the $k$ colors onto two by a fixed zero-sum signing and recovers the two-color barrier; the upper bound
+extends the seed-and-repair scheme to $k$ colors. Neither side uses the extra colors to break $\Th(\loglog n)$.
 
 \begin{theorem}[Online, fixed $k$]\label{thm:online}
 For every fixed $k\ge 2$, $\ondisc_k=\Th(\loglog n)$ \whp, independent of $d$ in the range $2\le d\le\Hscale^2/\log\Hscale$.

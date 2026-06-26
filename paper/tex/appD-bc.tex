@@ -6,8 +6,21 @@ statements are not used by \Cref{thm:offline,thm:online,thm:separation}. The two
 broadening-cost estimate, which is the positive input to the symmetric approach, and the deterministic phase conveyor, which
 is the obstruction that rules out the expectation-level version of the asymmetric approach. Together they explain precisely
 why the bracket of \Cref{sec:open} is hard to close from either side. We prove \Cref{lem:bc} in full, since it is a clean
-probabilistic estimate; \Cref{prop:conveyor} is a deterministic construction whose verification we sketch, because it serves
-only to delimit the open problem and not to support any theorem.
+probabilistic estimate; the phase conveyor is an informal deterministic construction whose verification we only sketch,
+because it serves only to delimit the open problem and not to support any theorem.
+
+\paragraph{The rank-greedy rule and its objects.}
+The symmetric route studies the \emph{rank-greedy rule}: on each arrival $t$ the online algorithm assigns the seed color to
+every coordinate except possibly one, which it repairs by the color minimizing that coordinate's rank $\rank$ of
+\eqref{eq:rank} (the symmetric counterpart of the offline color-tree, breaking ties arbitrarily). For a coordinate $i$ at
+rank $q$, its \emph{rank-$q$ forbidden set} is the set of colors whose use would not lower the rank below $q$ (the colors at
+or near the maximum load); a color outside the forbidden set is one the rule would prefer. A \emph{broadening} of $i$ at
+range $r$ is a step that increments a color one below the maximum, enlarging the argmax set and raising the rank by one
+without changing the range. The rule's \emph{cover certificate} is the bookkeeping that, whenever the rule is forced to
+broaden $i$ instead of using a cheaper out-of-forbidden-set color, names a distinct co-present coordinate $j$ in the support
+whose rank is at least as high as the rank that cheaper color would have produced; this is what charges each broadening to a
+coincidence of two high-range coordinates. These objects are internal to the symmetric analysis and are used only in
+\Cref{lem:bc} below.
 
 \paragraph{The broadening-cost lemma.}
 We first set up the stopped process the estimate lives on. Fix a range level $r\ge2$ and a density $\eta\in(0,1)$. Let
@@ -87,17 +100,19 @@ be the largest such gap over the current support. LeftGap picks the color $c$ th
 lexicographically, so it prefers colors with small maximum gap and breaks ties toward the lowest color index, the
 ``leftmost'' direction. To track how gaps propagate we encode the event $g_{i,c}\ge\ell$ as a token of phase
 $k(\ell-1)+c$, so that phases increase first through the color index $c$ within a fixed gap level $\ell$ and then jump to the
-next level. In a typical instance the number of coordinates reaching a high phase obeys the staggered-Fibonacci recurrence
-$F_k$, and the conjectured bound would follow from an expectation-level tail on the number of high-phase tokens. The
-proposition shows that no such expectation-level tail can hold.
+next level. A token of phase $u$ is \emph{principal} if it is the first coordinate to reach phase $u$ along the run, so that
+principal tokens are the ones a moment count over phases would track. In a typical instance the number of coordinates
+reaching a high phase obeys the staggered-Fibonacci recurrence $F_k$, and the conjectured bound would follow from an
+expectation-level tail on the number of high-phase tokens. The following construction shows, at the level of a sketch, that
+no such expectation-level tail can hold; we present it as an informal obstruction, not a proven proposition, since its
+verification is by inspection of one explicit schedule.
 
-\begin{proposition}[No expectation-level tail for LeftGap]\label{prop:conveyor}
+\paragraph{Construction (phase conveyor; informal).}
 For $k=d\ge3$ and every $q\ge1$ there is a deterministic sequence of $q$ exactly-$k$-sparse supports on which LeftGap creates
 a principal token of each phase $1,2,\dots,q$ on the successive arrivals, using $\Oh(kq)$ coordinates. Consequently, if
 $Z_u$ counts principal LeftGap tokens of phase $\ge u$, then $\E Z_u\ge\binom nk^{-\lceil u\rceil}$, which for
-$k=\lfloor\Hscale^2/(2\log\Hscale)\rfloor$ exceeds $e^{-cF_k(m)}$ at $u=kB+m$ for any fixed $m>\Hscale/\log2$. Hence no bound
-$\E Z_{kB+m}\le Cnd\,e^{-cF_k(m)}$ holds on a window reaching $m=\Th(\Hscale)$.
-\end{proposition}
+$k=\lfloor\Hscale^2/(2\log\Hscale)\rfloor$ exceeds $e^{-cF_k(m)}$ at $u=kB+m$ for any fixed $m>\Hscale/\log2$. So no bound
+$\E Z_{kB+m}\le Cnd\,e^{-cF_k(m)}$ can hold on a window reaching $m=\Th(\Hscale)$.
 
 The mechanism behind the proposition is a cycle invariant that lets a fixed set of coordinates be reused indefinitely. The
 conveyor keeps three core coordinates alive, an anchor $a$ and two carriers $b_1$ and $b_j$, and feeds in fresh filler

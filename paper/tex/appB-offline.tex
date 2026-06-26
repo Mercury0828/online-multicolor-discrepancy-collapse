@@ -187,28 +187,19 @@ factor $2\le e^{\ell_s}$ is absorbed by lowering the exponent by one (valid sinc
 
 \emph{Sparse case $\mu_s<\ell_s$.} Here the relevant overload scale is the additive deviation $\Psifn(\mu_s,\ell_s)$, so we
 use a hard threshold. Let $Y_i=\1[r_i>K\Psifn(\mu_s,\ell_s)]$, again nondecreasing in $r_i$. Its expectation is precisely
-the probability that the binomial load $r_i\sim\Bin(s,d/n)$ exceeds $t=K\Psifn(\mu_s,\ell_s)$. Bennett's inequality for a sum
-of independent indicators of mean $\mu_s$ states $\Pr(r_i\ge\mu_s+x)\le\exp(-\mu_s\,h(x/\mu_s))$ with
-$h(u)=(1+u)\log(1+u)-u$, and writing $x=t-\mu_s$ this is the upper tail at the deviation $t$ above the mean. Since
-$t=K\Psifn\ge K\sqrt{\mu_s\ell_s}\ge K\mu_s$ (using $\ell_s>\mu_s$ in this case), we have $x=t-\mu_s\ge t/2$ once $K\ge 2$,
-so the exponent is at least $\tfrac12\,\mu_s\,h(t/(2\mu_s))$ up to the relabelling $x\ge t/2$; we record the two sub-regimes
-governed by $\ell_s/\mu_s$ explicitly. There are two sub-regimes governed by $\ell_s/\mu_s$. When $\ell_s/\mu_s=\Oh(1)$ the
-deviation $t$ is comparable to $\sqrt{\mu_s\ell_s}$ (the first two summands of $\Psifn$ being of the same order there), so
-$t\lesssim\mu_s$ up to constants, the Gaussian branch $h(u)=\Th(u^2)$ of Bennett's exponent applies, and it contributes
+the probability that the binomial load $r_i\sim\Bin(s,d/n)$ exceeds $t=K\Psifn(\mu_s,\ell_s)$. We invert this uniformly,
+through the convexity of the rate, with no split into sub-regimes. Let $I(t)=\mu_s\,h\!\big((t-\mu_s)/\mu_s\big)$ be the
+Cram\'er rate (so Bennett's inequality reads $\Pr(r_i\ge t)\le e^{-I(t)}$, valid for the binomial up to the standing
+$p(\mu_s+\ell_s^2)=o(1)$ in this model). Let $t_*=t_*(\mu_s,\ell_s)=\Th(\Psifn(\mu_s,\ell_s))$ be the deviation at which the
+rate equals $\ell_s$, as computed in \Cref{app:offline-lower-full}; thus $I(c_1 t_*)\ge\ell_s$ for an absolute $c_1\le1$.
+Because $I$ is convex with $I(\mu_s)=0$, the map $\theta\mapsto I(\mu_s+\theta)$ is convex through the origin, so
+$I(\mu_s+\lambda\theta)\ge\lambda\,I(\mu_s+\theta)$ for $\lambda\ge1$. Apply this with $\theta=c_1 t_*-\mu_s$ (nonnegative,
+as $t_*\ge\mu_s$) and $\lambda=K$: since $t=K\Psifn\ge K c_1 t_*\ge\mu_s+K(c_1 t_*-\mu_s)$,
 \[
-  \mu_s\,h(t/\mu_s)\ \gtrsim\ \mu_s\cdot\frac{t^2}{\mu_s^2}\ =\ \frac{t^2}{\mu_s}\ \ge\ \frac{K^2\mu_s\ell_s}{\mu_s}\ =\ K^2\ell_s.
+  I(t)\ \ge\ I\big(\mu_s+K(c_1 t_*-\mu_s)\big)\ \ge\ K\,I(c_1 t_*)\ \ge\ K\ell_s\ \ge\ B\ell_s
 \]
-When $\ell_s/\mu_s\to\infty$ the threshold is dominated by the Poissonian summand $K\ell_s/\log(e+\ell_s/\mu_s)$ of $\Psifn$,
-so $t\gtrsim\mu_s$, the large-deviation branch $h(u)=\Th(u\log(1+u))$ applies, and
-\[
-  \mu_s\,h(t/\mu_s)\ \gtrsim\ \mu_s\cdot\frac{t}{\mu_s}\log\!\Big(1+\frac t{\mu_s}\Big)\ =\ t\,\log\!\Big(1+\frac t{\mu_s}\Big)
-  \ \gtrsim\ \frac{K\ell_s}{\log(e+\ell_s/\mu_s)}\cdot\log\!\Big(\frac t{\mu_s}\Big)\ \gtrsim\ K\ell_s,
-\]
-because $t/\mu_s\gtrsim(\ell_s/\mu_s)/\log(e+\ell_s/\mu_s)$ makes $\log(t/\mu_s)\asymp\log(\ell_s/\mu_s)\asymp\log(e+\ell_s/\mu_s)$,
-so the amplification $\log(t/\mu_s)$ is exactly cancelled by the denominator $\log(e+\ell_s/\mu_s)$ built into $\Psifn$; the
-additive ``$1$'' inside $\Psifn$ keeps $t\ge K$ and the bound meaningful as $\mu_s\to0$. In both sub-regimes the exponent is
-at least $B\ell_s$ once $K$ is large in terms of $B$ (take $K^2\ge B$ in the first and $cK\ge B$ in the second), so
-$\E Y_i=\Pr(r_i>K\Psifn)\le e^{-B\ell_s}$.
+once $K\ge B$. The additive ``$1$'' in $\Psifn$ keeps $t\ge K$, so the bound stays meaningful as $\mu_s\to0$. Hence
+$\E Y_i=\Pr(r_i>K\Psifn)\le e^{-B\ell_s}$, uniformly in $\mu_s<\ell_s$.
 
 \paragraph{From expectation to high probability, and the union.}
 We now turn the per-row expectation bound into control of the number of overloaded rows, and then pay for all subsets. In

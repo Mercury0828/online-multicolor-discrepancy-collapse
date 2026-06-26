@@ -114,3 +114,29 @@ items are already fixed. By the referee's own statement this clears the bar to *
 - Writing: cut ~25% repetition; invert length allocation (defer standard Bennett/NA to appendix).
 
 42pp, compiles clean (0 undefined), 0 style violations. Online section fully self-contained and Codex-verified.
+
+---
+
+# Remaining polish — DONE
+
+- **2.6c structural sparse Bennett inversion**: replaced the two narrative sub-regimes with a single uniform inversion via
+  convexity of the Cramer rate: `I` convex with `I(mu)=0` gives `I(mu+lambda*theta) >= lambda*I(mu+theta)`, so
+  `I(K*Psi) >= K*I(c1*t*) >= K*ell >= B*ell` for `K>=B`, uniformly in `mu_s<ell_s`. (appB)
+- **§6/appD demoted**: defined the previously-undefined objects (rank-greedy rule, rank-q forbidden set, cover certificate,
+  principal token); de-numbered `prop:conveyor` into an explicitly-informal "Construction (phase conveyor; informal)" with
+  the verification marked a sketch (it is off the critical path, not used by Thm 1-3). (appD)
+- **Repetition**: trimmed the §4 opening (it restated the §1-§3 "offline helps / online doesn't" contrast); also removed
+  residual "adversary" framing there (the model is i.i.d.). Remaining instances sit in protected slots (abstract takeaway,
+  §1 results, §2 overview) and SODA has no page limit, so left as is.
+
+42pp, compiles clean (0 undefined / 0 multiply-defined), 0 style violations, no leftover numbered Proposition.
+
+# OVERALL STATUS after two referee rounds
+All blocking items from both referee rounds are addressed:
+- Round-1 outright errors (false monotonicity, range-0 repair, t* constant, splitting monotonicity, seed-tail) FIXED.
+- Round-2 errors (param-range, two-regime seed tail, insufficient (i)(ii) interface, seam, Cor 2 monotonicity, internal
+  inconsistencies) FIXED.
+- The two load-bearing missing proofs (odd-k lower bound; formal transfer lemma) CLOSED with GPT-5.5-Pro proofs, typeset and
+  Codex-verified. Online section now fully self-contained.
+- §6/appD demoted to an honest open-problem discussion.
+Per the round-2 referee's own criterion this clears to Weak Accept.
