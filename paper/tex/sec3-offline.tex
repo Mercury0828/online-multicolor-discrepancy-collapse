@@ -56,7 +56,7 @@ deviation at which the expected number of colors exceeding $\mu_c+t$ drops below
 $t\asymp\sqrt{\lam\log k}+\log k/\log(e+\log k/\lam)=\Th(\Psifn)$. At a single coordinate the range therefore drops below
 $\tfrac14\Psifn$ only if the $k$ loads conspire to stay in a narrow window, an event of probability at most $e^{-k^{\Om(1)}}$
 (the occupancy-spread lower tail, \Cref{lem:occ-spread}, which requires $\lam\ge1$). To go from one coordinate to all of them
-we use that the per-coordinate events are independent across the $n$ rows of the Poissonized matrix, so a fixed coloring
+we use that the per-coordinate events are independent across the $n$ rows of the Bernoulli matrix, so a fixed coloring
 keeps every range small with probability at most $e^{-n\,k^{\Om(1)}}$. This beats the $e^{\Th(n\log k)}$ union over the
 $k^T$ colorings precisely because $k\ge C_0\log^5(dk)$ makes $k^{\Om(1)}$ dominate $\log(dk)$. The full argument, with the
 heavy/light dichotomy and the three regimes \eqref{eq:Psi-regimes}, is in \Cref{app:offline-lower-full}.

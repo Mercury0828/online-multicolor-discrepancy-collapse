@@ -79,9 +79,18 @@ From RW2 (sketches), 20 load-bearing intuition items:
        the proof ideas in the overview pp.4-5, so the merits are conveyed in the first ~5 pages; the formal
        restatements T2/T3 sit at p12/p14. If R3 wants the formal statements within p10, tighten §2/§3 prose
        (escalate-in-report; do not cut protect-list).
-- [~] 5. trim — LIGHT (no length pressure; SODA uncapped): abstract 190w (in range), caption within norm,
-       protect-list constrains cutting. Added sec4 "private randomness ... stays online" appositive (RW1 SF5).
-- [~] 6. exit gate: R3 Codex panel LAUNCHED (background). Joint fixed point pending its verdict.
+- [x] 5. trim — LIGHT (no length pressure; SODA uncapped): abstract 190w (in range), caption within norm,
+       protect-list intact (no intuition/sketch cut). Added sec4 "private randomness ... stays online" appositive.
+- [x] 6. EXIT GATE PASSED. R3 Codex panel: 2 trivial blockers (missing C_0 in table/intro; sec5 leftover
+       Θ(√d)→O(√d)) → FIXED; R3 re-confirm = **READY-FOR-SUBMISSION**, no regression. Front matter conveys
+       all merits (problem/model, table+related-work, T1/T2/T3/bracket, sketches); protect-list intact.
+
+## FINAL STATE (exit gate passed, 2026-06-25)
+- 40pp, compiles clean (0 undefined, 0 multiply-defined), 69 web-verified refs (1 page-number fix), 0 style
+  violations, anonymity clean. Self-contained: offline lower bound fully proved (λ≥1 hypothesis added);
+  separation offline = O(√d) self-contained; all hypotheses (k≤d, C₀log⁵(dk)≤k, λ≥1, sparsity cap) echoed
+  across abstract/theorems/table/discussion. Full proofs in appendix; merits in front matter.
+- R2 (RW1/RW2/RW3) + R3 cold-reader panels all via Codex gpt-5.5 xhigh (red-line honored; Codex never down).
 
 ## Step status
 - [x] 0. tracking file (this)

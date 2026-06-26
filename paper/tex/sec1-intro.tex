@@ -50,7 +50,7 @@ regime of $k$ & offline $\offdisc_k$ & online $\ondisc_k$ & where \\
 \hline
 $k=2$ & $\Th(\sqrt d)$ & $\Th(\loglog n)$ & \cite{AT2025}, \cite{BansalMeka2019} \\
 fixed $k\ge 2$ & $\Oh(\sqrt d)$ & $\Th(\loglog n)$ & \Cref{thm:separation} \\
-$\log^5(dk)\le k\le d,\ \lam\ge1$ & $\Th(\Psifn(\lam,\log k))$ & $[\max\{\Psifn(\lam,\log k),\tfrac{\loglog n}{k}\},\,\loglog n]$ & \Cref{thm:offline}, \Cref{cor:bracket} \\
+$C_0\log^5(dk)\le k\le d,\ \lam\ge1$ & $\Th(\Psifn(\lam,\log k))$ & $[\max\{\Psifn(\lam,\log k),\tfrac{\loglog n}{k}\},\,\loglog n]$ & \Cref{thm:offline}, \Cref{cor:bracket} \\
 \hline
 \end{tabular}
 \caption{The offline value collapses to the occupancy threshold $\Psifn(\lam,\log k)$ as $k$ grows, while the online value
@@ -61,7 +61,7 @@ online order is bracketed (\Cref{sec:open}).}\label{tab:results}
 \subsection{The growing-$k$ regime}\label{sec:intro-growing}
 
 For growing $k$ the online value is bracketed but not pinned: under the hypotheses of \Cref{cor:bracket}
-($\log^5(dk)\le k\le d$, $\lam\ge1$), $\max\{\Psifn(\lam,\log k),\loglog n/k\}\le\ondisc_k\le\loglog n$. The online-specific
+($C_0\log^5(dk)\le k\le d$, $\lam\ge1$), $\max\{\Psifn(\lam,\log k),\loglog n/k\}\le\ondisc_k\le\loglog n$. The online-specific
 term $\loglog n/k$ exceeds the offline floor for small $k$, while the floor $\Psifn$ takes over as $k$ approaches $d$. We reduce the exact order to one high-probability lemma about an asymmetric
 online rule, and show that the symmetric approach provably cannot reach it (\Cref{sec:open}). We conjecture
 $\ondisc_k=\Th(\max\{\Psifn(\lam,\log k),\loglog n/k\})$.
