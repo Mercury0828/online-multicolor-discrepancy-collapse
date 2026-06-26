@@ -33,7 +33,7 @@ Our second result determines the \emph{online} value for every fixed number of c
   \item[\textbf{(T2)}] (\Cref{thm:online}) For every fixed $k\ge2$, $\ondisc_k=\Th(\loglog n)$, independent of $d$.
 \end{itemize}
 Online, more colors do not help when $k$ is constant: the $\Th(\loglog n)$ barrier of \cite{AT2025} persists for all fixed
-$k$, and the upper bound $\Oh(\loglog n)$ in fact holds for all $k$.
+$k$, and the upper bound $\Oh(\loglog n)$ in fact holds for all $k\le d$ and for every fixed $k$.
 
 The two results give a multicolor online--offline separation.
 
@@ -70,7 +70,7 @@ $\ondisc_k=\Th(\max\{\Psifn(\lam,\log k),\loglog n/k\})$.
 \subsection{Techniques}\label{sec:intro-techniques}
 
 \paragraph{The offline upper bound.}
-The technical heart is producing, from a single draw of the incidence matrix, one $k$-coloring whose every coordinate
+The crux is producing, from a single draw of the incidence matrix, one $k$-coloring whose every coordinate
 range is $\Oh(\Psifn)$. Three ingredients combine (\Cref{sec:offline}). A structural lemma certifies that the matrix is
 simultaneously well behaved for \emph{every} column subset, using negative association so that an adaptive recursion never
 spends fresh randomness. A density-sensitive splitting lemma halves any column class into prescribed sizes with the

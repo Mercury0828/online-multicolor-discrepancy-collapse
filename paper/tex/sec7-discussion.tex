@@ -24,13 +24,14 @@ and at the bounded-occupancy end $\lam=\Th(1)$ (that is $k=\Th(d)$) it equals $\
 
 \begin{proof}
 For $\lam=\Th(d/k)$, the Gaussian term of $\Psifn$ is $\sqrt{\lam\log k}=\Th(\sqrt{(d/k)\log k})\le\Th(\sqrt{d\log k/k})\le
-\Oh(\sqrt d)$, and the two large-deviation terms are at most $\log k/\loglog k=o(\sqrt d)$ in the stated range; so
+\Oh(\sqrt d)$, and the two large-deviation terms are at most $\log k\le\sqrt k\le\sqrt d$ in the stated range (using $k\le d$); so
 $\Psifn(\lam,\log k)=\Oh(\sqrt d)$. At $k=\Th(d)$, $\lam=\Th(1)$ and \eqref{eq:Psi-regimes} gives
 $\Psifn=\Th(\log k/\loglog k)$. The values are then \Cref{thm:offline}.
 \end{proof}
 
-At constant $k$ the offline value is the larger $\Th(\sqrt d)$ of the classical regime (\Cref{thm:separation}), so from
-constant $k$ to $k=\Th(d)$ the offline discrepancy ranges between $\Th(\sqrt d)$ and the balls-into-bins value
+At $k=2$ the offline value is the classical $\Th(\sqrt d)$ of a random sparse set system
+\cite{BansalMeka2019,EzraLovett2016,HobergRothvoss2019} (our \Cref{thm:separation} uses only the upper half, $\Oh(\sqrt d)$);
+so from constant $k$ to $k=\Th(d)$ the offline discrepancy ranges from $\Th(\sqrt d)$ down to the balls-into-bins value
 $\Th(\log k/\loglog k)$. At the occupancy end $\lam=\Th(1)$ each color sees $\Th(1)$ arrivals per coordinate and the
 discrepancy is the maximum occupancy $\Th(\log d/\loglog d)$, the same law that governs the longest hash-probe sequence
 \cite{Gonnet1981}. Within the studied range $k\le d$ this $\Th(\log d/\loglog d)$ is the smallest the offline value

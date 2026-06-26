@@ -3,9 +3,12 @@
 
 \Cref{cor:bracket} leaves a gap between its lower and upper bounds for growing $k$. The purpose of this section is to say as
 precisely as possible what would be needed to close that gap, and to explain why two natural lines of attack, one symmetric
-and one asymmetric, each fall short for a concrete and identifiable reason. The result is a sharp map of where the open
-problem actually sits: not at a missing estimate that one could plausibly grind out, but at a specific structural obstacle
-that any successful argument must route around.
+and one asymmetric, each fall short for a concrete and identifiable reason. To keep the status of each statement clear, this
+section is organized as follows: the growing-$k$ \emph{bracket} of \Cref{cor:bracket} is \emph{proved}; the \emph{sufficient
+lemma} below that would close it is \emph{conditional} (we state it but do not prove it); the symmetric-route gap rests on a
+proved estimate (\Cref{lem:bc}) but its conclusion is an obstruction to a proof method, not a lower bound; and the
+phase-conveyor that blocks the asymmetric route is an \emph{informal} construction (\Cref{app:bc}). The \emph{exact}
+growing-$k$ value remains \emph{open}. Nothing in this section is used by \Cref{thm:offline,thm:online,thm:separation}.
 
 \paragraph{A sufficient lemma.}
 Everything funnels through the rank statistic $\rank$ of \eqref{eq:rank}. Recall how the two kinds of online move act on it.
@@ -38,9 +41,9 @@ is a factor of $k/\log k$, which is the $\log k$ gap: the symmetric recurrence o
 exponent. This gap is not a slack in the bookkeeping that a sharper inequality could remove. A deterministic ``skip''
 configuration, in which one coordinate per color is placed at the profile $(r,0,\dots,0)$, shows that the $k^{r}$ branching is
 forced: no permutation-invariant rule that sees only $(\rangeop,\maxmult)$ can distinguish the colors well enough to avoid
-it, because by symmetry it must treat all $k$ skip directions alike. So the symmetric route is genuinely obstructed. We
-stress that this is an obstruction to a particular proof method and not an online lower bound; it says the moment hierarchy
-in $(\rangeop,\maxmult)$ cannot prove the conjecture, and not that the conjecture is false.
+it, because by symmetry it must treat all $k$ skip directions alike. So the symmetric route faces a concrete obstruction. We
+stress that this is an obstruction to a particular proof method and not an online lower bound: it is evidence that the moment
+hierarchy in $(\rangeop,\maxmult)$ cannot prove the conjecture, and says nothing about whether the conjecture is true.
 
 The second approach is asymmetric: use a color-sensitive rule that breaks the symmetry the skip configuration exploits. Such
 a rule recovers the correct branching, which is not the symmetric $k^{r}$ but the slower ``staggered Fibonacci'' recurrence

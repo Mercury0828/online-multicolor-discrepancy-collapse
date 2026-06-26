@@ -176,3 +176,26 @@ Both gaps confirmed closed. The remaining list (clean fixes + version-merge left
 Independent Codex (gpt-5.5) correctness pass on the three new derivations: ALL-CORRECT (one absolute-floor clarification
 applied). 42pp, compiles clean (0 undefined), 0 style violations. Per the referee's stated criterion this clears the three
 items they named, i.e. the 6.5-7 "Weak Accept leaning Accept" band.
+
+---
+
+# Round-4 referee: ACCEPT (4/5) — camera-ready cleanup done
+
+The referee found no reject-level issues; recommendation Accept. The named camera-ready items:
+- (a) "upper bound holds for all k" -> "for all k<=d and every fixed k" (intro). (b) Cor 2 proof: the large-deviation
+  term is at most log k <= sqrt k <= sqrt d (not log k/loglog k, which fails in the dense regime). (c) fixed-k offline:
+  removed the Theta(sqrt d) attributed to Thm 3; now the classical Theta(sqrt d) at k=2 [cite], with Thm 3 using only the
+  O(sqrt d) upper half. (d) appA: the large-deviation matching lower tail is exponential tilting + Stirling (reverse Cramer,
+  lem:reverse-cramer), not the local CLT (which is only for t<~mu).
+- §7 wording: "genuinely obstructed" -> "faces a concrete obstruction ... evidence that the moment hierarchy cannot prove
+  the conjecture"; added an explicit proved / conditional / heuristic / open status list at the top of §6.
+- Reduced "technical heart" from 4 occurrences to 1.
+
+42pp, compiles clean (0 undefined), 0 style violations.
+
+# FINAL STATUS (four referee rounds)
+Trajectory: Reject-ish (3.5) -> Weak Reject (4.5-5) -> Weak Accept (6) -> ACCEPT (4/5 confidence).
+- All correctness errors across four rounds fixed; the two load-bearing online proofs closed by GPT-5.5-Pro, typeset, and
+  Codex-verified; offline upper/lower self-contained; §6/appD honestly demoted with an explicit status breakdown.
+Remaining (referee-noted, non-blocking, not a re-review item): optional ~15-25% prose compression of the repeated
+"offline helps / online doesn't" and seed-and-repair narration (mostly in protect-listed slots; SODA has no page limit).

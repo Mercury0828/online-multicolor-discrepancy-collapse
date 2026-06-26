@@ -65,7 +65,7 @@ heavy/light dichotomy and the three regimes \eqref{eq:Psi-regimes}, is in \Cref{
 
 \subsection{Overview of the upper bound}\label{sec:offline-overview}
 
-The upper bound is the technical heart. We must produce, from a single draw of the incidence matrix $A\in\{0,1\}^{n\times T}$,
+The upper bound is the harder direction. We must produce, from a single draw of the incidence matrix $A\in\{0,1\}^{n\times T}$,
 one offline $k$-coloring whose every coordinate range is $\Oh(\Psifn)$. Three ingredients combine.
 
 First, a \emph{structural lemma} (\Cref{lem:structural}) certifies that $A$ is simultaneously well behaved for
@@ -161,7 +161,7 @@ class of size $\Th(qT/k)$, so by the time the recursion has narrowed down to one
 $\Th(q)$. Because the densities along a root-to-leaf path are geometrically spaced and the $q$'s halve at each step, the
 attenuated per-node errors form a convergent series and not a growing sum, and the series totals exactly $\Psifn(\lam,\log k)$
 with no stray factor of $\log d$, $\sqrt{\log d}$, or $\loglog n$. This cancellation is the reason the offline value collapses
-to the clean Poisson spread, and it is the technical heart of the whole section.
+to the clean Poisson spread.
 
 \begin{lemma}[Upper bound]\label{lem:offline-upper}
 On the event of \Cref{lem:structural}, there is an offline $k$-coloring with final discrepancy

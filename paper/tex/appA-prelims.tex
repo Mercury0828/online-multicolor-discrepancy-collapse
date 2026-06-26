@@ -92,9 +92,11 @@ first term becomes $\mu(t/\mu)=t$, and the second becomes $\log(1+t/\mu)\,(\mu+t
 which is the rate function written out: $\mu\,h(t/\mu)=(\mu+t)\log(1+t/\mu)-t$.
 Thus $\Pr(X\ge\mu+t)\le\exp(-\mu\,h(t/\mu))$, which is the upper bound quoted in \eqref{eq:poisson-tail}. The function $h$ is
 nonnegative because $h(0)=0$ and $h'(u)=\log(1+u)\ge0$, so it is increasing on $[0,\infty)$. A matching lower bound of the
-same exponential order holds for $\mu\ge1$ and $t\le\mu^{2}$ by the local central limit theorem, which gives the Poisson
-point mass at $\mu+t$ up to polynomial factors and lets one sum the tail with no loss in the exponent; this is what makes the
-estimate tight and not merely an upper bound.
+same exponential order holds for $\mu\ge1$ by exponential tilting and Stirling's formula (the reverse-Cram\'er estimate of
+\Cref{lem:reverse-cramer}), which recovers the point mass at $\mu+t$ up to a factor polynomial in the deviation and lets one
+sum the tail with no loss in the exponent; this is what makes the estimate tight and not merely an upper bound. (For
+deviations $t\lesssim\mu$ the same point-mass estimate is the local central limit theorem; for the large deviations
+$t\gtrsim\mu$ it is the tilting argument, not a central-limit statement.)
 
 The two regimes of \eqref{eq:poisson-tail} are read off from the behavior of $h$. For small deviations, $u\le1$, a Taylor
 expansion of $h(u)=(1+u)\log(1+u)-u$ around $u=0$, using $\log(1+u)=u-\tfrac12u^2+\tfrac13u^3-\cdots$, gives
@@ -112,7 +114,7 @@ $\mu=mp$, the moment generating function is $\E[e^{\theta X}]=(1-p+pe^{\theta})^
 cumulant generating function is dominated by the Poisson one of the same mean, the optimization over $\theta$ goes through
 unchanged, and Bennett's inequality gives the identical $\exp(-\mu\,h(t/\mu))$ upper tail. This is the binomial-to-Poisson
 transfer: the binomial tail is never heavier than the Poisson tail of the matching mean. The matching lower bound of the same
-order holds once the variance is at least constant, $mp(1-p)\ge1$, so that the local central limit theorem applies and
-supplies the Poisson point mass at $\mu+t$ up to polynomial factors. This variance condition holds throughout our
+order holds once the variance is at least constant, $mp(1-p)\ge1$, by the same exponential tilting and Stirling estimate
+(\Cref{lem:reverse-cramer}), which supplies the point mass at $\mu+t$ up to a polynomial factor. This variance condition holds throughout our
 application, because the relevant binomial means are $\Th(\lam)=\Om(1)$ in the regime $k\le d$, and the success probabilities
 are bounded away from $1$, so $mp(1-p)=\Th(\lam)\ge1$.
