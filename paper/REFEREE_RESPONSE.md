@@ -87,3 +87,30 @@ pass except the two relayed proofs.
 
 41pp, compiles clean (0 undefined), 0 style violations. Referee's verdict: fix GAP 1 + GAP 2 + the param-range/tail/calculus
 (latter three now done) ⟹ Weak Accept.
+
+---
+
+# Both GAPS CLOSED (GPT-5.5-Pro proofs typeset + Codex-verified)
+
+GPT-5.5-Pro returned complete self-contained proofs for both relayed gaps; typeset into appC and verified by an independent
+Codex (gpt-5.5 xhigh) correctness pass.
+
+- **GAP 1 — `lem:asym-online`**: full asymmetric `{+1,-ρ}` online lower bound (fresh-block bridge estimate + real-valued
+  spread induction, per-stage increment `≥ρ≥1/2`, `C=8` stages). Even and odd `k` both follow by the zero-sum projection
+  → `ondisc_k ≥ Ω(loglog n / k)`. Codex verdict: correct (one transcription index `K_q=Σ_{u≤q}`→`Σ_{u=1}^q` fixed).
+- **GAP 2 — `lem:transfer`**: self-contained range-repair transfer lemma under interface (R1)–(R3) [the referee's missing
+  helper condition is (R3)]. Exceptional-set sparsity by a stopped contact count (McDiarmid + `N_i`), then a
+  double-exponential recurrence on STRICT level sets. The min-load algorithm is verified to meet (R1)–(R3). Codex verdict:
+  correct. **The online upper bound no longer cites AT as a black box — it is self-contained** (only the seed tail, which we
+  prove, is used).
+
+Net effect: the referee's two blocking proof gaps are closed, and (per round 2) the parameter-range / seed-tail / calculus
+items are already fixed. By the referee's own statement this clears the bar to **Weak Accept**.
+
+## Remaining polish (no new math; my next pass)
+- 2.6c: structural sparse Bennett uniform inversion (single cutoff, uniform constant).
+- §6/appD: demote to "Discussion and open problems"; define rank-greedy / forbidden-set / cover-certificate /
+  principal-token or mark the conveyor a heuristic; formalize the excluded symmetric potential class.
+- Writing: cut ~25% repetition; invert length allocation (defer standard Bennett/NA to appendix).
+
+42pp, compiles clean (0 undefined), 0 style violations. Online section fully self-contained and Codex-verified.

@@ -46,7 +46,7 @@ $I^-,I^+$ of size $s$ with $D_i(K)=\ell\le0$ for $i\in I^-$ and $D_i(K)=r\ge0$ f
 \[
   q_*=\Big\lfloor\tfrac{\Hscale}{2\log C}\Big\rfloor,\quad
   s_q=\big\lfloor n/L^{C^q}\big\rfloor,\quad
-  \Delta_q=\big\lfloor n/L^{2q}\big\rfloor,\quad K_q=\sum_{u\le q}\Delta_u .
+  \Delta_q=\big\lfloor n/L^{2q}\big\rfloor,\quad K_q=\sum_{u=1}^{q}\Delta_u\ \ (K_0=0).
 \]
 Then $K_{q_*}\le 2n/L^2=o(n)$, so $K_{q_*}\le T$, and for $q\le q_*$ one has $C^{q_*}\le\sqrt L$, whence $s_q,\Delta_q\ge n^{0.99}$.
 We show inductively that with probability $1-o(1)$, for every $0\le q\le q_*$ there is an $(\ell_q,r_q)$-spread of size
